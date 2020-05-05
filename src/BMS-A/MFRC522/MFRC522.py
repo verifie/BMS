@@ -382,6 +382,13 @@ class MFRC522:
       print ("  - Read backData [7]:      ", backData[7])
       print ("")
 
+      print (" Test element 8.  Is it 7?")
+      if backData[7] == 7:
+        print ("  7 FOUND!!")
+      else
+        print (" Magic number not found.")
+
+
       print ("  - Read backLen:           ", backLen)
     else:
         print (" Failed to read backData.")
