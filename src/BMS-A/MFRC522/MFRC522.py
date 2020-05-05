@@ -369,7 +369,7 @@ class MFRC522:
     
 
     print ("  - Read status:            ", status)
-    if backData[0]:
+    if backData:
       print ("  - Read backData:          ", backData)
       print ("")
       print ("  - Read backData [0]:      ", backData[0])
