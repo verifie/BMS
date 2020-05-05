@@ -356,13 +356,19 @@ class MFRC522:
     recvData = []
     recvData.append(self.PICC_READ)
     recvData.append(blockAddr)
+
     print (" Received data : [", recvData, "]")
     print ("  - Read Sector Number: [", blockAddr, "]")
-    print ("  - Read Sector Data: [", backData, "]")
+
     pOut = self.CalulateCRC(recvData)
+    print (" - Read pOut: [", pOut, "]")
+
     recvData.append(pOut[0])
     recvData.append(pOut[1])
     (status, backData, backLen) = self.MFRC522_ToCard(self.PCD_TRANSCEIVE, recvData)
+    
+    print ("  - Read Sector Data: [", backData, "]")
+
     if not(status == self.MI_OK):
       print ("Error while reading!")
     i = 0
