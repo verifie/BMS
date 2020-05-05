@@ -119,22 +119,14 @@ while continue_reading:
         # Check if authenticated
         if status == MIFAREReader.MI_OK:
 
-            print ("authenticated OK, now read 8")
-            set8 = MIFAREReader.MFRC522_Read(8)
-
-            print (" ")
-            print (" DATA IS: ", set8)
-            print (" ")
+            for i in range(8, 11)
+                print ("authenticated OK, now read sector [ ", i, " ]")
+                MIFAREReader.MFRC522_Read(i)
+                print (" ")
 
 
-            print ("now read 9")
-            MIFAREReader.MFRC522_Read(9)
-
-            print ("now read 10")
-            MIFAREReader.MFRC522_Read(10)
-
-            print ("now read 11")
-            MIFAREReader.MFRC522_Read(11)
+            #print ("now read 11")
+            #MIFAREReader.MFRC522_Read(11)
 
             #print ("stopcrypto")
             MIFAREReader.MFRC522_StopCrypto1()
