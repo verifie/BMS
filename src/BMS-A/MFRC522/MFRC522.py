@@ -373,8 +373,7 @@ class MFRC522:
       print ("  - Read backData:          ", backData)
       print ("")
 
-      backDataLen = backData(len)
-      for i in (0, backDataLen):
+      for i in (0, len(backData)):
       
         if backData[i] is not None:
           print ("  - Read backData [", i, "]:      ", backData[i])
