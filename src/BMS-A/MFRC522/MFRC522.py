@@ -370,6 +370,14 @@ class MFRC522:
 
     print ("  - Read status:            ", status)
     print ("  - Read backData:          ", backData)
+    print ("  - Read backData [0]:      ", backData[0])
+    print ("  - Read backData [1]:      ", backData[1])
+    print ("  - Read backData [2]:      ", backData[2])
+    print ("  - Read backData [3]:      ", backData[3])
+    print ("  - Read backData [4]:      ", backData[4])
+    print ("  - Read backData [5]:      ", backData[5])
+    print ("  - Read backData [6]:      ", backData[6])
+    print ("  - Read backData [7]:      ", backData[7])
     print ("  - Read backLen:           ", backLen)
 
     if not(status == self.MI_OK):
