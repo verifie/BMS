@@ -379,6 +379,7 @@ class MFRC522:
           print ("  - Read backData [", i, "]:      ", backData[i])
           print ("")
 
+          print ("  - Count of elements in this array: [", len(backData), "]")
       print ("  - Read backLen:           ", backLen)
 
     else:
