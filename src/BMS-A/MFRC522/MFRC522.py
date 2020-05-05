@@ -369,7 +369,7 @@ class MFRC522:
     
     print ("  - Read status:            ", status)
 
-    if backData[0] is not None:
+    if backData is not None:
       print ("  - Read backData:          ", backData)
       print ("")
 
