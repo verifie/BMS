@@ -1,7 +1,19 @@
-#!/usr/bin/env python
-# -*- coding: utf8 -*-
+#!/usr/bin/python3
 #
-#    Modified PME 20200425
+
+#########################################################################################################################################    
+# PWrite##.py
+# 
+# RFID Project
+# (c) 2020 Leighton Electronics
+# 
+# Description :         RFID Raspberry Pi / Python 3 / RFID-RC522 - Writer.
+#
+# Status :              25 - Start
+#
+# Version History
+# 2019/04/25 2211 V1.00 PME - Trial Code.
+#
 
 #
 #    Copyright 2014,2018 Mario Gomez <mario.gomez@teubi.co>
@@ -22,8 +34,26 @@
 #
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with MFRC522-Python.  If not, see <http://www.gnu.org/licenses/>.
-#
 
+# Simple print screen introduction
+print("")
+print("=============================================================================================================================================")
+print("")
+print(",------. ,------.,--.,------.   ")
+print("|  .--. '|  .---'|  ||  .-.  \  ")
+print("|  '--'.'|  `--, |  ||  |  \  : ")
+print("|  |\  \ |  |`   |  ||  '--'  /      W r i t e r .")
+print("`--' '--'`--'    `--'`-------'  ")
+print("                                ")
+print(" Copyright (c) Leighton Electronics 2020 Onwards. Patent Pending. NO UNAUTHORISED ACCESS PERMITTED. ")
+print(" www.LeightonElectronics.co.uk ")
+print("")
+print("=============================================================================================================================================")
+print("")
+print("")
+
+
+# Import Libraries.
 import RPi.GPIO as GPIO
 import MFRC522
 import signal

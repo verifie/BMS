@@ -1,5 +1,22 @@
-#!/usr/bin/env python
-# -*- coding: utf8 -*-
+#!/usr/bin/python3
+#
+
+#########################################################################################################################################    
+# RFIDTrialCode.py
+# 
+# RFID Project
+# (c) 2020 Leighton Electronics
+# 
+# Description :         RFID Raspberry Pi / Python 3 / RFID-RC522.
+#
+# Status :              25 - Start
+#
+# Version History
+# 2020/04/25 2211 V1.00 PME - Trial Code.
+# 2020/05/05 2023 v1.04 PME - Added GIT source code control.  Triggering actions from specific ID cards.
+#
+
+# FURTHER COPYRIGHT / LICENSE INFORMATION FROM MFRC522 NFC Example code.
 #
 #    Copyright 2014,2018 Mario Gomez <mario.gomez@teubi.co>
 #
@@ -21,13 +38,18 @@
 #    along with MFRC522-Python.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+
+# Import Libraries.
 import RPi.GPIO as GPIO
 import MFRC522
 import signal
 a = 0
 
+
+# Setup default variables.
 continue_reading = True
 
+# Cleanly exit on ctrl-c.
 # Capture SIGINT for cleanup when the script is aborted
 def end_read(signal,frame):
     global continue_reading
@@ -42,6 +64,22 @@ signal.signal(signal.SIGINT, end_read)
 MIFAREReader = MFRC522.MFRC522()
 
 # Welcome message
+# Simple print screen introduction
+print ("")
+print ("=============================================================================================================================================")
+print ("")
+print (",------. ,------.,--.,------.   ")
+print ("|  .--. '|  .---'|  ||  .-.  \  ")
+print ("|  '--'.'|  `--, |  ||  |  \  : ")
+print ("|  |\  \ |  |`   |  ||  '--'  /     R e a d e r . ")
+print ("`--' '--'`--'    `--'`-------'  ")
+print ("                                ")
+print (" Copyright (c) Leighton Electronics 2020 Onwards. Patent Pending. NO UNAUTHORISED ACCESS PERMITTED. ")
+print (" www.LeightonElectronics.co.uk ")
+print ("")
+print ("=============================================================================================================================================")
+print ("")
+print ("")
 print ("Welcome to the MFRC522 data read example")
 print ("Press Ctrl-C to stop.")
 
@@ -97,9 +135,10 @@ while continue_reading:
             print ("now read 11")
             MIFAREReader.MFRC522_Read(11)
 
-
-            print ("stopcrypto")
+            #print ("stopcrypto")
             MIFAREReader.MFRC522_StopCrypto1()
+
         else:
             print ("Authentication error")
 
+        print("End.")
