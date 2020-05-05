@@ -369,13 +369,13 @@ class MFRC522:
     
 
     print ("  - Read status:            ", status)
-    if backData not None:
+    if backData is not None:
       print ("  - Read backData:          ", backData)
       print ("")
 
       for i in (0, 10)
       
-        if backData[i] not None:
+        if backData[i] is not None:
           print ("  - Read backData [ ", i, "]:      ", backData[i])
           print ("")
 
