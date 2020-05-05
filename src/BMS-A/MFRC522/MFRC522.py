@@ -348,10 +348,15 @@ class MFRC522:
   def MFRC522_StopCrypto1(self):
     self.ClearBitMask(self.Status2Reg, 0x08)
 
+
+
+
+
   def MFRC522_Read(self, blockAddr):
     recvData = []
     recvData.append(self.PICC_READ)
     recvData.append(blockAddr)
+    print ("  - Read Block Data:", blockAddr)
     pOut = self.CalulateCRC(recvData)
     recvData.append(pOut[0])
     recvData.append(pOut[1])
@@ -362,6 +367,10 @@ class MFRC522:
     if len(backData) == 16:
       print ("Sector "+str(blockAddr)+" "+str(backData))
   
+
+
+
+
   def MFRC522_Write(self, blockAddr, writeData):
     buff = []
     buff.append(self.PICC_WRITE)
