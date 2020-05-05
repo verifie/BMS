@@ -126,6 +126,11 @@ while continue_reading:
             print ("authenticated OK, now read 8")
             set8 = MIFAREReader.MFRC522_Read(8)
 
+            print (" ")
+            print (" DATA IS: ", set8)
+            print (" ")
+
+
             print ("now read 9")
             MIFAREReader.MFRC522_Read(9)
 
