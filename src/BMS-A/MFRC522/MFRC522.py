@@ -374,6 +374,8 @@ class MFRC522:
       print ("")
 
       rangePeak = len(backData) - 1
+      print ("  - Data elements in array (+1): [", rangePeak, "]")
+
 
       for i in (0, rangePeak):
       
