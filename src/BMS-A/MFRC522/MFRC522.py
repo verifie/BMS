@@ -367,9 +367,9 @@ class MFRC522:
 
     (status, backData, backLen) = self.MFRC522_ToCard(self.PCD_TRANSCEIVE, recvData)
     
-
     print ("  - Read status:            ", status)
-    if backData is not None:
+
+    if backData[0] is not None:
       print ("  - Read backData:          ", backData)
       print ("")
 
