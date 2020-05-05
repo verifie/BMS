@@ -1,0 +1,6 @@
+
+
+NOTES:
+
+1. You have to run the python program in SUDO or you get the "No SPI.OPEN" error.
+2. I've modified MFRC to run on Python 3 - exchanged print statements to include parenthesis.
