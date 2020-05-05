@@ -356,7 +356,9 @@ class MFRC522:
     recvData = []
     recvData.append(self.PICC_READ)
     recvData.append(blockAddr)
-    print ("  - Read Block Data:", blockAddr)
+    print (" Received data : [", recvData, "]")
+    print ("  - Read Sector Number: [", blockAddr, "]")
+    print ("  - Read Sector Data: [", backData, "]")
     pOut = self.CalulateCRC(recvData)
     recvData.append(pOut[0])
     recvData.append(pOut[1])
