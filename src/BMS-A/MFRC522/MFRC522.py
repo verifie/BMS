@@ -373,35 +373,35 @@ class MFRC522:
       print ("  - Read backData:          ", backData)
     if backData[0]:
       print ("  - Read backData [0]:      ", backData[0])
-    else
+    else:
       print (" Read backData [0] - Not read!")
     if backData[1]:
       print ("  - Read backData [1]:      ", backData[1])
-    else
+    else:
       print (" Read backData [1] - Not read!")
     if backData[2]:
       print ("  - Read backData [2]:      ", backData[2])
-    else
+    else:
       print (" Read backData [2] - Not read!")
     if backData[3]:
       print ("  - Read backData [3]:      ", backData[3])
-    else
+    else:
       print (" Read backData [3] - Not read!")
     if backData[4]:
       print ("  - Read backData [4]:      ", backData[4])
-    else
+    else:
       print (" Read backData [4] - Not read!")
     if backData[5]:
       print ("  - Read backData [5]:      ", backData[5])
-    else
+    else:
       print (" Read backData [5] - Not read!")
     if backData[6]:
       print ("  - Read backData [6]:      ", backData[6])
-    else
+    else:
       print (" Read backData [6] - Not read!")
     if backData[7]:
       print ("  - Read backData [7]:      ", backData[7])
-    else
+    else:
       print (" Read backData [7] - Not read!")
 
     print ("  - Read backLen:           ", backLen)
