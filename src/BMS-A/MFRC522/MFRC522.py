@@ -385,7 +385,7 @@ class MFRC522:
       print (" Test element 8.  Is it 7?")
       if backData[7] == 7:
         print ("  7 FOUND!!")
-      else
+      else:
         print (" Magic number not found.")
 
 
