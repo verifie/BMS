@@ -124,7 +124,7 @@ while continue_reading:
         if status == MIFAREReader.MI_OK:
 
             print ("authenticated OK, now read 8")
-            MIFAREReader.MFRC522_Read(8)
+            set8 = MIFAREReader.MFRC522_Read(8)
 
             print ("now read 9")
             MIFAREReader.MFRC522_Read(9)
