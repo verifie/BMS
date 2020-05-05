@@ -82,7 +82,7 @@ print ("")
 print ("")
 print ("Welcome to the MFRC522 data read example")
 print ("Press Ctrl-C to stop.")
-
+print (" ")
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 while continue_reading:
     
@@ -141,4 +141,5 @@ while continue_reading:
         else:
             print ("Authentication error")
 
-        print("End.")
+        print(" ")
+        print(" ")
