@@ -373,7 +373,8 @@ class MFRC522:
       print ("  - Read backData:          ", backData)
       print ("")
 
-      if backData(len) > 0:
+      backDataLen = backData(len)
+      if backDataLen > 0:
         rangePeak = len(backData) - 1
 
       print ("  - Data elements in array (+1): [", rangePeak, "]")
