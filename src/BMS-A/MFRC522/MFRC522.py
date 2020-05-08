@@ -380,12 +380,12 @@ class MFRC522:
         if len(backData) > 0:
           rangePeak = len(backData) - 1
         else:
-          rangePeak = 0
+          rangePeak = 8
           
         print ("  - Data elements in array (+1): [", rangePeak, "]")
 
 
-        for i in (0, rangePeak):
+        for i in (8, rangePeak):
         
           if backData[i] is not None:
             print ("  - Read backData [", i, "]:      ", backData[i])
