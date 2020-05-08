@@ -369,18 +369,19 @@ class MFRC522:
     
     print ("  - Read status:            ", status)
 
-    if backData is not None:
+    if backData > 0 :
+    #if backData is not None:
       print ("  - Read backData:          ", backData)
       print ("")
 
       if not backData:
         print ("       No data found...")
-      #else:
-      #  if len(backData) > 0:
-      #    rangePeak = len(backData) - 1
-      #  else:
-        rangePeak = 20
-
+      else:
+        if len(backData) > 0:
+          rangePeak = len(backData) - 1
+        else:
+          rangePeak = 0
+          
         print ("  - Data elements in array (+1): [", rangePeak, "]")
 
 
