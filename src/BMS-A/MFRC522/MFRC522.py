@@ -375,12 +375,12 @@ class MFRC522:
 
       if not backData:
         print ("       No data found...")
-      else:
-        if len(backData) > 0:
-          rangePeak = len(backData) - 1
-        else:
-          rangePeak = 0
-          
+      #else:
+      #  if len(backData) > 0:
+      #    rangePeak = len(backData) - 1
+      #  else:
+        rangePeak = 20
+
         print ("  - Data elements in array (+1): [", rangePeak, "]")
 
 
