@@ -376,19 +376,21 @@ class MFRC522:
       if not backData:
         print ("       No data found...")
       else:
-        print ("       Data found...")
-      rangePeak = len(backData) - 1
+        if len(backData) > 0:
+          rangePeak = len(backData) - 1
+        else:
+          rangePeak = 0
+          
+        print ("  - Data elements in array (+1): [", rangePeak, "]")
 
-      print ("  - Data elements in array (+1): [", rangePeak, "]")
 
+        for i in (0, rangePeak):
+        
+          if backData[i] is not None:
+            print ("  - Read backData [", i, "]:      ", backData[i])
+            print ("")
 
-      for i in (0, rangePeak):
-      
-        if backData[i] is not None:
-          print ("  - Read backData [", i, "]:      ", backData[i])
-          print ("")
-
-          print ("  - Count of elements in this array: [", len(backData), "]")
+            print ("  - Count of elements in this array: [", len(backData), "]")
 
       print ("  - Read backLen:           ", backLen)
 
