@@ -399,7 +399,10 @@ class MFRC522:
       print ("")
       print ("")
   
-
+    if backDat[3] = 42:
+      print ("You found the card with 42 in Sector 3!")
+  else:
+      print ("42 not found in sector 3.")
 
 
 
