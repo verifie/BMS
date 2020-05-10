@@ -384,7 +384,7 @@ class MFRC522:
           
         print ("  - Data elements in array (+1): [", rangePeak, "]")
 
-        for i in (0, rangePeak, 1):
+        for i in range(0, rangePeak):
           print ("  - Read backData [", i, "]:      ", backData[i])
 
       print ("  - Read backLen:           ", backLen)
