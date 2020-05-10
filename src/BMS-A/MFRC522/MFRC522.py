@@ -380,16 +380,12 @@ class MFRC522:
         if len(backData) > 0:
           rangePeak = len(backData) - 1
         else:
-          rangePeak = 8
+          rangePeak = 16
           
         print ("  - Data elements in array (+1): [", rangePeak, "]")
 
-
         for i in (0, rangePeak):
           print ("  - Read backData [", i, "]:      ", backData[i])
-          print ("")
-
-          print ("  - Count of elements in this array: [", len(backData), "]")
 
       print ("  - Read backLen:           ", backLen)
 
