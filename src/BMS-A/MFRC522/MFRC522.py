@@ -377,10 +377,10 @@ class MFRC522:
       if not backData:
         print ("       No data found...")
       else:
-        rangePeak = len(backData) + 1
+        rangePeak = len(backData)
         
           
-        print ("  - Data elements in array (+1): [", rangePeak, "]")
+        print ("  - Data elements in array : [", rangePeak, "]")
 
         for i in range(0, rangePeak):
           print ("  - Read backData [", i, "]:      ", backData[i])
