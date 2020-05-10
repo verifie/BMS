@@ -79,7 +79,7 @@ while continue_reading:
         status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, key, uid)
 
         a = a + 1
-        print ("Scan:", a)
+        print ("Scan: ", a)
 
 
         # Check if authenticated
@@ -88,17 +88,16 @@ while continue_reading:
             print ("authenticated OK, now read 8")
             MIFAREReader.MFRC522_Read(8)
 
-            print ("now read 9")
+            #print ("now read 9")
             MIFAREReader.MFRC522_Read(9)
 
-            print ("now read 10")
+            #print ("now read 10")
             MIFAREReader.MFRC522_Read(10)
 
             print ("now read 11")
             MIFAREReader.MFRC522_Read(11)
 
-
-            print ("stopcrypto")
+            #print ("stopcrypto")
             MIFAREReader.MFRC522_StopCrypto1()
         else:
             print ("Authentication error")
