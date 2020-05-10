@@ -119,7 +119,7 @@ while continue_reading:
         # Check if authenticated
         if status == MIFAREReader.MI_OK:
 
-            for i in range(8, 12):
+            for i in range(12, 8, -1):
                 print ("authenticated OK, now read sector [ ", i, " ]")
                 MIFAREReader.MFRC522_Read(i)
                 print (" ")
