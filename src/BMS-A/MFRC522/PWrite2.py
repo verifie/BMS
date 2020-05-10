@@ -136,17 +136,17 @@ while continue_reading:
 
             print ("Sector 8 looked like this:")
             # Read block 8
-            MIFAREReader.MFRC522_Read(8)
+            MIFAREReader.MFRC522_Read(10)
             print ("\n")
 
             print ("Sector 8 will now be filled with 0xFF:")
             # Write the data
-            MIFAREReader.MFRC522_Write(8, data)
+            MIFAREReader.MFRC522_Write(10, data)
             print ("\n")
 
             print ("It now looks like this:")
             # Check to see if it was written
-            MIFAREReader.MFRC522_Read(8)
+            MIFAREReader.MFRC522_Read(10)
             print ("\n")
 
             #data = []
@@ -160,7 +160,7 @@ while continue_reading:
 
             print ("Card Read:")
             # Check to see if it was written
-            MIFAREReader.MFRC522_Read(8)
+            MIFAREReader.MFRC522_Read(10)
             print ("\n")
 
             # Stop
