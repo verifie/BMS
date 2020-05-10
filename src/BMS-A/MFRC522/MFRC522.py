@@ -378,7 +378,7 @@ class MFRC522:
         print ("       No data found...")
       else:
         if len(backData) > 0:
-          rangePeak = len(backData) - 1
+          rangePeak = len(backData) + 1
         else:
           rangePeak = 16
           
