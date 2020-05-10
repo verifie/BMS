@@ -24,8 +24,10 @@
 import RPi.GPIO as GPIO
 import MFRC522
 import signal
-a = 0
+import time
 
+# Set variables
+a = 0
 continue_reading = True
 
 # Capture SIGINT for cleanup when the script is aborted
@@ -89,13 +91,13 @@ while continue_reading:
             MIFAREReader.MFRC522_Read(8)
 
             #print ("now read 9")
-            MIFAREReader.MFRC522_Read(9)
+            #MIFAREReader.MFRC522_Read(9)
 
             #print ("now read 10")
-            MIFAREReader.MFRC522_Read(10)
+            #MIFAREReader.MFRC522_Read(10)
 
-            print ("now read 11")
-            MIFAREReader.MFRC522_Read(11)
+            #print ("now read 11")
+            #MIFAREReader.MFRC522_Read(11)
 
             #print ("stopcrypto")
             MIFAREReader.MFRC522_StopCrypto1()
