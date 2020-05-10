@@ -43,10 +43,10 @@
 import RPi.GPIO as GPIO
 import MFRC522
 import signal
-a = 0
-
+import time
 
 # Setup default variables.
+a = 0
 continue_reading = True
 
 # Cleanly exit on ctrl-c.
@@ -124,6 +124,7 @@ while continue_reading:
                 MIFAREReader.MFRC522_Read(i)
                 print (" ")
 
+            time.sleep (1)
 
             #print ("now read 11")
             #MIFAREReader.MFRC522_Read(11)

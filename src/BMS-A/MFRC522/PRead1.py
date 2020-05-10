@@ -26,7 +26,7 @@ import MFRC522
 import signal
 import time
 
-# Set variables
+# Setup default variables.
 a = 0
 continue_reading = True
 
