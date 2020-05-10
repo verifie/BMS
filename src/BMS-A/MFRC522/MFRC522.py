@@ -401,7 +401,7 @@ class MFRC522:
   
     if backDat[3] == 42:
       print ("CONGRATULATIONS... You found the card with 42 in element 3 of array / sector 8!")
-  else:
+    else:
       print ("42 not found in element 3.")
 
 
