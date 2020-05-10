@@ -12,7 +12,8 @@
 # Status :              25 - Start
 #
 # Version History
-# 2019/04/25 2211 V1.00 PME - Trial Code.
+# 2020/04/25 2211 V1.00 PME - Trial Code.
+# 2020/05/10 2133 v1.01 PME - Modifying write to numbers so all 255 except element 3
 #
 
 #
@@ -110,9 +111,27 @@ while continue_reading:
             data = []
 
             # Fill the data with 0xFF
-            for x in range(0,16):
-                data.append(0x2A)
+            #for x in range(0,16):
+            #    data.append(0x0A)
 
+
+            # PME MOD - Custom writes.
+            data.append(0xFF) # Data 01
+            data.append(0xFF) # Data 02
+            data.append(0xFF) # Data 03
+            data.append(0x2A) # Data 04
+            data.append(0xFF) # Data 05
+            data.append(0xFF) # Data 06
+            data.append(0xFF) # Data 07
+            data.append(0xFF) # Data 08
+            data.append(0xFF) # Data 09
+            data.append(0x0A) # Data 10
+            data.append(0x0A) # Data 11
+            data.append(0xFF) # Data 12
+            data.append(0xFF) # Data 13
+            data.append(0xFF) # Data 14
+            data.append(0xFF) # Data 15
+            data.append(0xFF) # Data 16
 
 
             print ("Sector 8 looked like this:")
