@@ -101,6 +101,9 @@ while continue_reading:
 
             #print ("stopcrypto")
             MIFAREReader.MFRC522_StopCrypto1()
+
+            time.sleep(1)
+
         else:
             print ("Authentication error")
 
