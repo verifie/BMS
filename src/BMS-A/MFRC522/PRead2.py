@@ -140,4 +140,4 @@ while continue_reading:
 
         # Increment run time scan counter.  NOTE this becomes reset to zero on each program run time stop and restart.
         scan_count = scan_count + 1
-        print ("Scan Count :", a, "/n/n")
+        print ("Scan Count :", scan_count, "/n/n")
