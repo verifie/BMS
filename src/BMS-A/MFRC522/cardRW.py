@@ -78,6 +78,8 @@ standard_data = 0x00
 for i in range (0,16):
     rfid_card_data[i] = standard_data
 
+print ("Standard data in rfid_card_data array (pre card read): ", rfid_card_data)
+
 
 # Capture SIGINT for cleanup when the script is aborted
 def end_read(signal,frame):
@@ -125,21 +127,18 @@ while continue_reading:
             rfid_card_data = MIFAREReader.MFRC522_Read(rfid_card_sector)
 
 
-            # Read existing RFID sector data into our rfid_card_data_xx fields.
+            # Read existing RFID sector data into our rfid_card_data_new fields.
             for i in range (0,16):
-                rfid_card_data[i] = rfid_card_data[i]
+                rfid_card_data_new[i] = rfid_card_data[i]
             
+            # Increment element 7 by 1
+            rfid_card_data[7] = rfid_card_data[7] + 1
+
             # Print card data.
             for i in range(0, 16):
                 print ("  - Show rfid_card_data [", i, "]:      ", rfid_card_data[i])
 
 
-
-            # Clear the variable for the data to write
-            #data = []
-
-            # PME MOD - Custom writes.
-            #data.append(rfid_card_data) # Data 01
 
 
 
