@@ -14,6 +14,7 @@
 # Version History
 # 2020/04/25 2211 V1.00 PME - Trial Code.
 # 2020/05/10 2133 v1.01 PME - Modifying write to numbers so all 255 except element 3
+# 2020/05/11 1443 v1.02 PME - Try to write beyong the 255 suggested limit on array elements.
 #
 
 #
@@ -130,7 +131,7 @@ while continue_reading:
             data.append(0xFF) # Data 12
             data.append(0xFF) # Data 13
             data.append(0xFF) # Data 14
-            data.append(0xFF) # Data 15
+            data.append(0x1A7) # Data 15
             data.append(0xFF) # Data 16
 
 
