@@ -140,9 +140,9 @@ while continue_reading:
 
 
 
-            print ("Sector ", rfid_card_sector, " will now be overwritten with data: [", rfid_card_data, "]")
+            print ("Sector ", rfid_card_sector, " will now be overwritten with data: [", rfid_card_data_new, "]")
             # Write the data
-            MIFAREReader.MFRC522_Write(rfid_card_sector, rfid_card_data)
+            MIFAREReader.MFRC522_Write(rfid_card_sector, rfid_card_data_new)
             print ("\n")
 
 
