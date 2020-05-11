@@ -72,23 +72,11 @@ data = []
 sstandard_data = hex(254)
 print("StandardData = ", sstandard_data)
 
-standard_data = 0xfe
-rfid_card_data_e00 = standard_data
-rfid_card_data_e01 = standard_data
-rfid_card_data_e02 = standard_data
-rfid_card_data_e03 = standard_data
-rfid_card_data_e04 = standard_data
-rfid_card_data_e05 = standard_data
-rfid_card_data_e06 = standard_data
-rfid_card_data_e07 = standard_data
-rfid_card_data_e08 = standard_data
-rfid_card_data_e09 = standard_data
-rfid_card_data_e10 = standard_data
-rfid_card_data_e11 = standard_data
-rfid_card_data_e12 = standard_data
-rfid_card_data_e13 = standard_data
-rfid_card_data_e14 = standard_data
-rfid_card_data_e15 = standard_data
+standard_data = 0x00
+
+# Read existing RFID sector data into our rfid_card_data_xx fields.
+for i in range (0,16):
+    rfid_card_data[i] = standard_data
 
 
 # Capture SIGINT for cleanup when the script is aborted
@@ -135,6 +123,11 @@ while continue_reading:
 
             print ("Authenticated OK, now read sector [ ", rfid_card_sector, " ]")
             rfid_card_data = MIFAREReader.MFRC522_Read(rfid_card_sector)
+
+
+            # Read existing RFID sector data into our rfid_card_data_xx fields.
+            for i in range (0,16):
+                rfid_card_data[i] = rfid_card_data[i]
             
             # Print card data.
             for i in range(0, 16):
@@ -146,23 +139,7 @@ while continue_reading:
             data = []
 
             # PME MOD - Custom writes.
-            data.append(rfid_card_data_e00) # Data 01
-            data.append(rfid_card_data_e01) # Data 02
-            data.append(rfid_card_data_e02) # Data 03
-            data.append(rfid_card_data_e03) # Data 04
-            data.append(rfid_card_data_e04) # Data 05
-            data.append(rfid_card_data_e05) # Data 06
-            data.append(rfid_card_data_e06) # Data 07
-            data.append(rfid_card_data_e07) # Data 08
-            data.append(rfid_card_data_e08) # Data 09
-            data.append(rfid_card_data_e09) # Data 10
-            data.append(rfid_card_data_e10) # Data 11
-            data.append(rfid_card_data_e11) # Data 12
-            data.append(rfid_card_data_e12) # Data 13
-            data.append(rfid_card_data_e13) # Data 14
-            data.append(rfid_card_data_e14) # Data 15
-            data.append(rfid_card_data_e15) # Data 16
-
+            data.append(rfid_card_data) # Data 01
 
 
 
@@ -199,3 +176,4 @@ while continue_reading:
         # Increment run time scan counter.  NOTE this becomes reset to zero on each program run time stop and restart.
         scan_count = scan_count + 1
         print ("Scan Count :", scan_count, "\n\n")
+        print ("---------------------------------------------------------------------------------------------------------------\n\n")
