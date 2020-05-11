@@ -57,6 +57,7 @@ print("")
 import RPi.GPIO as GPIO
 import MFRC522
 import signal
+import time
 
 # Setup default variables.
 continue_reading = True
