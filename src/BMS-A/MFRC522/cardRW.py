@@ -72,7 +72,7 @@ data = []
 sstandard_data = hex(254)
 print("StandardData = ", sstandard_data)
 
-standard_data = 0xFF
+standard_data = 0xfe
 rfid_card_data_e00 = standard_data
 rfid_card_data_e01 = standard_data
 rfid_card_data_e02 = standard_data
