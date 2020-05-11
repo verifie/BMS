@@ -63,7 +63,10 @@ import time
 continue_reading = True
 scan_count = 0
 scan_delay = 1
-rfid_card_data = [0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00]
+standard_data = 0x00
+rfid_card_data = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
+rfid_card_data_new = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
+
 rfid_card_sector = 8
 key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF] # This is the default key for authentication
 data = []
@@ -72,13 +75,6 @@ data = []
 sstandard_data = hex(254)
 print("StandardData = ", sstandard_data)
 
-standard_data = 0x00
-
-# Setup rfid_card_data and _new arrays.
-for i in range (0,16):
-    rfid_card_data[i] = standard_data
-for i in range (0,16):
-    rfid_card_data_new[i] = standard_data
 
 print ("Standard data in rfid_card_data array (pre card read): ", rfid_card_data)
 
