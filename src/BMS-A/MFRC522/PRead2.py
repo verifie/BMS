@@ -15,7 +15,7 @@
 # 2020/04/25 2211 V1.00 PME - Trial Code.
 # 2020/05/05 2023 v1.04 PME - Added GIT source code control.  Triggering actions from specific ID cards.
 # 2020/05/11 1431 v1.05 PME - Added commenting and more relevant variable names.
-# 2020/05/11 1528 v1.06 PME - Read data passed to local program rather than handled in pogram
+# 2020/05/11 1528 v1.06 PME - Read data passed to local program rather than handled in RFID library.
 #
 
 # FURTHER COPYRIGHT / LICENSE INFORMATION FROM MFRC522 NFC Example code.
@@ -52,6 +52,7 @@ continue_reading = True
 scan_count = 0
 scan_delay = 1
 rfid_card_data = False
+rfid_card_sector = 8
 
 # Cleanly exit on ctrl-c.
 # Capture SIGINT for cleanup when the script is aborted
@@ -122,17 +123,20 @@ while continue_reading:
         if status == MIFAREReader.MI_OK:
 
             # Read the sectors 8 to 11.  We do this in reverse order to show sector 8 last.
-            for i in range(11, 7, -1):
-                print ("authenticated OK, now read sector [ ", i, " ]")
-                rfid_card_data = MIFAREReader.MFRC522_Read(i)
+            #for i in range(11, 7, -1):
+            #    print ("authenticated OK, now read sector [ ", i, " ]")
+            #    rfid_card_data = MIFAREReader.MFRC522_Read(i)
 
+
+            print ("Authenticated OK, now read sector [ ", i, " ]")
+            rfid_card_data = MIFAREReader.MFRC522_Read(i)
             
             # Print card data.
-            for i in range(0, rangePeak):
-            print ("  - Read backData [", i, "]:      ", backData[i])
+            for i in range(0, 16):
+                print ("  - Show rfid_card_data [", i, "]:      ", rfid_card_data[i])
 
             # Check to see if 42 appears at the specified location.
-            if backData[3] == 42:
+            if rfid_card_data[3] == 42:
                 print ("CONGRATULATIONS... You found the card with 42 in element 3 of array / sector 8!")
             else:
                 print ("42 not found in element 3.")
