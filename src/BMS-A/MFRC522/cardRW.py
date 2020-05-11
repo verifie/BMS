@@ -69,7 +69,10 @@ key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF] # This is the default key for authenticati
 data = []
 
 # Define rfid elements.
-standard_data = hex(254)
+sstandard_data = hex(254)
+print("StandardData = ", sstandard_data)
+
+standard_data = 0xFF
 rfid_card_data_e00 = standard_data
 rfid_card_data_e01 = standard_data
 rfid_card_data_e02 = standard_data
