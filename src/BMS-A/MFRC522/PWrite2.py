@@ -140,7 +140,7 @@ while continue_reading:
             MIFAREReader.MFRC522_Read(10)
             print ("\n")
 
-            print ("Sector 10 will now be filled with data: [", data"")
+            print ("Sector 10 will now be filled with data: [", data, "]")
             # Write the data
             MIFAREReader.MFRC522_Write(10, data)
             print ("\n")
