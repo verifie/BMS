@@ -135,11 +135,11 @@ while continue_reading:
             for i in range(0, 16):
                 print ("  - Show rfid_card_data [", i, "]:      ", rfid_card_data[i])
 
-            # Check to see if 42 appears at the specified location.
+            # TEST Check to see if 42 appears at the specified location.
             if rfid_card_data[3] == 42:
-                print ("CONGRATULATIONS... You found the card with 42 in element 3 of array / sector 8!")
+                print ("\n\n CONGRATULATIONS... You found the card with 42 in element 3 of array / sector 8!")
             else:
-                print ("42 not found in element 3.")
+                print ("\n\n 42 not found in element 3.")
                 print (" ")
 
             # Add a time delay to avoid reading the same card tens of times on each presentation.  scan_delay is configured at the start of this program.
