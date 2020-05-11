@@ -63,7 +63,7 @@ import time
 continue_reading = True
 scan_count = 0
 scan_delay = 1
-rfid_card_data = False
+rfid_card_data = []
 rfid_card_sector = 8
 key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF] # This is the default key for authentication
 data = []
