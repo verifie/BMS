@@ -372,7 +372,6 @@ class MFRC522:
     if len(backData) > 0 :
     #if backData is not None:
       print ("  - Read backData:          ", backData)
-      print ("")
 
       if not backData:
         print ("       No data found...")
@@ -382,10 +381,12 @@ class MFRC522:
           
         print ("  - Data elements in array : [", rangePeak, "]")
 
+        print ("  - Read backLen:           ", backLen)
+        print ("")
+
         for i in range(0, rangePeak):
           print ("  - Read backData [", i, "]:      ", backData[i])
 
-      print ("  - Read backLen:           ", backLen)
 
     else:
         print (" Failed to read backData.")

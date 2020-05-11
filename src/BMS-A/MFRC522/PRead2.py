@@ -14,6 +14,7 @@
 # Version History
 # 2020/04/25 2211 V1.00 PME - Trial Code.
 # 2020/05/05 2023 v1.04 PME - Added GIT source code control.  Triggering actions from specific ID cards.
+# 2020/05/11 1431 v1.05 PME - Added commenting.
 #
 
 # FURTHER COPYRIGHT / LICENSE INFORMATION FROM MFRC522 NFC Example code.
@@ -46,8 +47,9 @@ import signal
 import time
 
 # Setup default variables.
-a = 0
 continue_reading = True
+scan_count = 0
+scan_delay = 1
 
 # Cleanly exit on ctrl-c.
 # Capture SIGINT for cleanup when the script is aborted
@@ -119,27 +121,23 @@ while continue_reading:
         # Check if authenticated
         if status == MIFAREReader.MI_OK:
 
+            # Read the sectors 8 to 11.  We do this in reverse order to show sector 8 last.
             for i in range(11, 7, -1):
                 print ("authenticated OK, now read sector [ ", i, " ]")
                 MIFAREReader.MFRC522_Read(i)
                 print (" ")
 
-            time.sleep (1)
-
-            #print ("now read 11")
-            #MIFAREReader.MFRC522_Read(11)
+            # Add a time delay to avoid reading the same card tens of times on each presentation.  scan_delay is configured at the start of this program.
+            time.sleep (scan_delay)
 
             #print ("stopcrypto")
             MIFAREReader.MFRC522_StopCrypto1()
 
         else:
-            print ("Authentication error")
+            print ("Authentication error!)
 
-        print(" ")
-        print(" ")
+        print("/n/n")
 
-        
-        a = a + 1
-        print ("Scan:", a)
-        
-        print(" ")
+        # Increment run time scan counter.  NOTE this becomes reset to zero on each program run time stop and restart.
+        scan_count = scan_count + 1
+        print ("Scan Count :", a, "/n/n")
