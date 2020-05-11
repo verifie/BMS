@@ -128,12 +128,12 @@ while continue_reading:
             #    rfid_card_data = MIFAREReader.MFRC522_Read(i)
 
 
-            print ("Authenticated OK, now read sector [ ", i, " ]")
-            rfid_card_data = MIFAREReader.MFRC522_Read(i)
+            print ("Authenticated OK, now read sector [ ", rfid_card_sector, " ]")
+            rfid_card_data = MIFAREReader.MFRC522_Read(rfid_card_sector)
             
             # Print card data.
             for i in range(0, 16):
-                print ("  - Show rfid_card_data [", rfid_card_sector, "]:      ", rfid_card_data[rfid_card_sector])
+                print ("  - Show rfid_card_data [", i, "]:      ", rfid_card_data[i])
 
             # Check to see if 42 appears at the specified location.
             if rfid_card_data[3] == 42:
