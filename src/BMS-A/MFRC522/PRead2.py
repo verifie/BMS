@@ -80,11 +80,9 @@ print (" Copyright (c) Leighton Electronics 2020 Onwards. Patent Pending. NO UNA
 print (" www.LeightonElectronics.co.uk ")
 print ("")
 print ("=============================================================================================================================================")
-print ("")
-print ("")
+print ("\n\n")
 print ("Welcome to the MFRC522 data read example")
 print ("Press Ctrl-C to stop.")
-print (" ")
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 while continue_reading:
     
@@ -136,8 +134,8 @@ while continue_reading:
         else:
             print ("Authentication error!")
 
-        print("/n/n")
+        print("\n\n")
 
         # Increment run time scan counter.  NOTE this becomes reset to zero on each program run time stop and restart.
         scan_count = scan_count + 1
-        print ("Scan Count :", scan_count, "/n/n")
+        print ("Scan Count :", scan_count, "\n\n")
