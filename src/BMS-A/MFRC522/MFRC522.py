@@ -384,9 +384,9 @@ class MFRC522:
         print ("  - Read backLen:           ", backLen)
         print ("")
 
+        # Print card data.
         for i in range(0, rangePeak):
           print ("  - Read backData [", i, "]:      ", backData[i])
-
 
     else:
         print (" Failed to read backData.")
@@ -394,16 +394,15 @@ class MFRC522:
     if not(status == self.MI_OK):
       print ("Error while reading!")
     i = 0
+
+
     if len(backData) == 16:
       print ("")
       print ("Sector "+str(blockAddr)+" "+str(backData))
-      print ("")
-      print ("")
-  
-    if backData[3] == 42:
-      print ("CONGRATULATIONS... You found the card with 42 in element 3 of array / sector 8!")
-    else:
-      print ("42 not found in element 3.")
+      print ("\n\n")
+
+    return backData
+
 
 
 
