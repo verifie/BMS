@@ -108,7 +108,7 @@ while continue_reading:
         if status == MIFAREReader.MI_OK:
 
 
-            # Variable for the data to write
+            # Clear the variable for the data to write
             data = []
 
             # Fill the data with 0xFF
@@ -131,7 +131,7 @@ while continue_reading:
             data.append(0xFF) # Data 12
             data.append(0xFF) # Data 13
             data.append(0xFF) # Data 14
-            data.append(0x1A7) # Data 15
+            data.append(0x09) # Data 15
             data.append(0xFF) # Data 16
 
 
