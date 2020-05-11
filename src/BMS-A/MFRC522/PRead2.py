@@ -133,7 +133,7 @@ while continue_reading:
             
             # Print card data.
             for i in range(0, 16):
-                print ("  - Show rfid_card_data [", i, "]:      ", rfid_card_data[i])
+                print ("  - Show rfid_card_data [", rfid_card_sector, "]:      ", rfid_card_data[rfid_card_sector])
 
             # Check to see if 42 appears at the specified location.
             if rfid_card_data[3] == 42:
