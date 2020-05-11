@@ -136,16 +136,16 @@ while continue_reading:
 
 
             # Clear the variable for the data to write
-            data = []
+            #data = []
 
             # PME MOD - Custom writes.
-            data.append(rfid_card_data) # Data 01
+            #data.append(rfid_card_data) # Data 01
 
 
 
-            print ("Sector ", rfid_card_sector, " will now be overwritten with data: [", data, "]")
+            print ("Sector ", rfid_card_sector, " will now be overwritten with data: [", rfid_card_data, "]")
             # Write the data
-            MIFAREReader.MFRC522_Write(rfid_card_sector, data)
+            MIFAREReader.MFRC522_Write(rfid_card_sector, rfid_card_data)
             print ("\n")
 
 
