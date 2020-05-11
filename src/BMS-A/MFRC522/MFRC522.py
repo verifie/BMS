@@ -385,8 +385,8 @@ class MFRC522:
         print ("")
 
         # Print card data.
-        for i in range(0, rangePeak):
-          print ("  - Read backData [", i, "]:      ", backData[i])
+        #for i in range(0, rangePeak):
+        #  print ("  - Read backData [", i, "]:      ", backData[i])
 
     else:
         print (" Failed to read backData.")
