@@ -14,7 +14,7 @@
 # Version History
 # 2020/04/25 2211 V1.00 PME - Trial Code.
 # 2020/05/05 2023 v1.04 PME - Added GIT source code control.  Triggering actions from specific ID cards.
-# 2020/05/11 1431 v1.05 PME - Added commenting.
+# 2020/05/11 1431 v1.05 PME - Added commenting and more relevant variable names.
 #
 
 # FURTHER COPYRIGHT / LICENSE INFORMATION FROM MFRC522 NFC Example code.
@@ -134,7 +134,7 @@ while continue_reading:
             MIFAREReader.MFRC522_StopCrypto1()
 
         else:
-            print ("Authentication error!)
+            print ("Authentication error!")
 
         print("/n/n")
 
