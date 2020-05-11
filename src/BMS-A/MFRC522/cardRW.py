@@ -74,9 +74,11 @@ print("StandardData = ", sstandard_data)
 
 standard_data = 0x00
 
-# Read existing RFID sector data into our rfid_card_data_xx fields.
+# Setup rfid_card_data and _new arrays.
 for i in range (0,16):
     rfid_card_data[i] = standard_data
+for i in range (0,16):
+    rfid_card_data_new[i] = standard_data
 
 print ("Standard data in rfid_card_data array (pre card read): ", rfid_card_data)
 
@@ -132,7 +134,7 @@ while continue_reading:
                 rfid_card_data_new[i] = rfid_card_data[i]
             
             # Increment element 7 by 1
-            rfid_card_data[7] = rfid_card_data[7] + 1
+            rfid_card_data_new[7] = rfid_card_data[7] + 1
 
             # Print card data.
             for i in range(0, 16):
