@@ -106,7 +106,7 @@ def end_read(signal,frame):
 
 
 
-def prepareRfidReader(self):
+def prepareRfidReader():
     # Hook the SIGINT
     signal.signal(signal.SIGINT, end_read)
 
