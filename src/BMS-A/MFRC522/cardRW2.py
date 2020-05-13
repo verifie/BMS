@@ -272,6 +272,7 @@ def incrementScanCounter(self):
 
 
 
-def timeDelay(self,self.scan_delay):
+def timeDelay(self):
     # Add a time delay to avoid reading the same card tens of times on each presentation.  scan_delay is configured at the start of this program.
+    print("Sleeping for ", self.scan_delay, "seconds.")
     time.sleep (self.scan_delay)
