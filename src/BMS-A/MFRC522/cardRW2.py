@@ -63,32 +63,6 @@ import signal
 import time
 
 
-#########################################################################################################################################    
-# RUN PROGRAM
-
-prepareRfidReader(self)
-setupDataVariables(self)
-
-# This loop keeps checking for chips. If one is near it will get the UID and authenticate
-while continue_reading:
-    
-    scanForCards(self)
-
-    # Check if authenticated. 
-    if status == MIFAREReader.MI_OK:
-
-        createNewCardData(self)
-        writeNewCardDataToCard(self)
-        writeNewCardDataToCard(self)
-        readCardData(self)
-        endCardRead(self)
-        incrementScanCounter(self)
-        timeDelay(self,self.scan_delay)
-
-# END OF RUN PROGRAM
-#########################################################################################################################################    
-
-
 
 
 
@@ -281,3 +255,34 @@ def timeDelay(self):
     # Add a time delay to avoid reading the same card tens of times on each presentation.  scan_delay is configured at the start of this program.
     print("Sleeping for ", self.scan_delay, "seconds.")
     time.sleep (self.scan_delay)
+
+
+
+
+
+
+#########################################################################################################################################    
+# RUN PROGRAM
+
+prepareRfidReader(self)
+setupDataVariables(self)
+
+# This loop keeps checking for chips. If one is near it will get the UID and authenticate
+while continue_reading:
+    
+    scanForCards(self)
+
+    # Check if authenticated. 
+    if status == MIFAREReader.MI_OK:
+
+        createNewCardData(self)
+        writeNewCardDataToCard(self)
+        writeNewCardDataToCard(self)
+        readCardData(self)
+        endCardRead(self)
+        incrementScanCounter(self)
+        timeDelay(self,self.scan_delay)
+
+# END OF RUN PROGRAM
+#########################################################################################################################################    
+
