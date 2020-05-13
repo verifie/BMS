@@ -265,7 +265,7 @@ def timeDelay(self):
 # RUN PROGRAM
 
 prepareRfidReader()
-setupDataVariables()
+setupDataVariables(self)
 
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 while continue_reading:
