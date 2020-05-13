@@ -264,24 +264,24 @@ def timeDelay(self):
 #########################################################################################################################################    
 # RUN PROGRAM
 
-prepareRfidReader(self)
-setupDataVariables(self)
+prepareRfidReader()
+setupDataVariables()
 
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 while continue_reading:
     
-    scanForCards(self)
+    scanForCards()
 
     # Check if authenticated. 
     if status == MIFAREReader.MI_OK:
 
-        createNewCardData(self)
-        writeNewCardDataToCard(self)
-        writeNewCardDataToCard(self)
-        readCardData(self)
-        endCardRead(self)
-        incrementScanCounter(self)
-        timeDelay(self,self.scan_delay)
+        createNewCardData()
+        writeNewCardDataToCard()
+        writeNewCardDataToCard()
+        readCardData()
+        endCardRead()
+        incrementScanCounter()
+        timeDelay(self.scan_delay)
 
 # END OF RUN PROGRAM
 #########################################################################################################################################    
