@@ -64,30 +64,10 @@ import time
 
 
 #########################################################################################################################################    
-# Setup default variables.
-self.debugModeStatus = True
-self.continue_reading = True
-self.scan_count = 0
-self.scan_delay = 1
-self.standard_data = 0x00
-self.rfid_card_data = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
-self.rfid_card_data_new = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
-
-self.rfid_card_sector = 8
-self.key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF] # This is the default key for authentication
-data = []
-
-# Define rfid elements.
-sstandard_data = hex(254)
-print("StandardData = ", sstandard_data)
-print ("Standard data in rfid_card_data array (pre card read): ", rfid_card_data)
-
-
-
-#########################################################################################################################################    
 # RUN PROGRAM
 
 prepareRfidReader(self)
+setupDataVariables(self)
 
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 while continue_reading:
@@ -116,6 +96,31 @@ while continue_reading:
 
 #########################################################################################################################################    
 # Program Functions:
+
+
+
+#########################################################################################################################################    
+# Setup default variables.
+def setupDataVariables(self):
+    self.debugModeStatus = True
+    self.continue_reading = True
+    self.scan_count = 0
+    self.scan_delay = 1
+    self.standard_data = 0x00
+    self.rfid_card_data = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
+    self.rfid_card_data_new = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
+
+    self.rfid_card_sector = 8
+    self.key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF] # This is the default key for authentication
+    self.data = []
+
+    # Define rfid elements.
+    sstandard_data = hex(254)
+    print("StandardData = ", sstandard_data)
+    print ("Standard data in rfid_card_data array (pre card read): ", rfid_card_data)
+
+
+
 
 
 # Capture SIGINT for cleanup when the script is aborted
