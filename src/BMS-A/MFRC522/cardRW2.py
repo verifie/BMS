@@ -13,7 +13,7 @@
 #
 # Version History
 # 2020/05/11 1443 v1.01 PME - Combine Read Write and increment an element on each scan.
-# 2020/05/11 0734 v1.02 PME - Convert code into Object Oriented Code structure.
+# 2020/05/11 0734 v1.02 PME - Convert code into Object Oriented Code structure in preparation for application development.
 #
 
 #
@@ -153,43 +153,43 @@ def prepareRfidReader(self):
 #
 
 def scanForCards(self):
-# Scan for cards    
-(status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
+    # Scan for cards    
+    (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
 
-# If a card is found
-if status == MIFAREReader.MI_OK:
-    print ("Card detected")
+    # If a card is found
+    if status == MIFAREReader.MI_OK:
+        print ("Card detected")
 
-# Get the UID of the card
-(status,uid) = MIFAREReader.MFRC522_Anticoll()
+    # Get the UID of the card
+    (status,uid) = MIFAREReader.MFRC522_Anticoll()
 
-# If we have the UID, continue
-if status == MIFAREReader.MI_OK:
-
-    # Print UID
-    print ("Card read UID: %s,%s,%s,%s" % (uid[0], uid[1], uid[2], uid[3]))
-    
-    # Select the scanned tag
-    MIFAREReader.MFRC522_SelectTag(uid)
-
-    # Authenticate
-    status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, self.key, uid)
-
-    # Check if authenticated
+    # If we have the UID, continue
     if status == MIFAREReader.MI_OK:
 
-        print ("Authenticated OK, now read sector [ ", self.rfid_card_sector, " ]")
-        self.rfid_card_data = MIFAREReader.MFRC522_Read(self.rfid_card_sector)
+        # Print UID
+        print ("Card read UID: %s,%s,%s,%s" % (uid[0], uid[1], uid[2], uid[3]))
+        
+        # Select the scanned tag
+        MIFAREReader.MFRC522_SelectTag(uid)
 
-    # Print card data.
-    if self.debugModeStatus:
-        print("\n\n")
-        for i in range(0, 16):
-            print ("  - Show rfid_card_data [", i, "]:      ", self.data[i])
-        print("\n\n")
+        # Authenticate
+        status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, self.key, uid)
 
-else:
-    print ("Authentication error!")
+        # Check if authenticated
+        if status == MIFAREReader.MI_OK:
+
+            print ("Authenticated OK, now read sector [ ", self.rfid_card_sector, " ]")
+            self.rfid_card_data = MIFAREReader.MFRC522_Read(self.rfid_card_sector)
+
+        # Print card data.
+        if self.debugModeStatus:
+            print("\n\n")
+            for i in range(0, 16):
+                print ("  - Show rfid_card_data [", i, "]:      ", self.data[i])
+            print("\n\n")
+
+    else:
+        print ("Authentication error!")
 
 
 
