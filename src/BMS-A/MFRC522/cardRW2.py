@@ -214,7 +214,7 @@ def scanForCards(self):
 # 2020/05/13 0659 v1.01 PME - Move code into a function. Initial version simply increments one element of the data for test / dev purposes.
 #
 
-def createNewCardData(self, self.rfid_card_data):
+def createNewCardData(self):
 
     # Read existing RFID sector data into our rfid_card_data_new fields.
     for i in range (0,16):
