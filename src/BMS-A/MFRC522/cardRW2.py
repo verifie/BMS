@@ -93,6 +93,7 @@ class bmsa(object):
 
     debugModeStatus = True
     continue_reading = True
+    access_request = False
     scan_count = 0
     scan_delay = 1
     standard_data = 0x00
@@ -180,6 +181,9 @@ class bmsa(object):
                     for i in range(0, 16):
                         print ("  - Show rfid_card_data [", i, "]:      ", rfid_card_data[i])
                     print("\n\n")
+
+                # Set a variable on function exit to trigger ongoing code.
+                self.access_request = True
 
             else:
                 print ("Authentication error!")
@@ -313,8 +317,7 @@ while continue_reading:
 
     # Check if authenticated. 
     
-    if status == MIFAREReader.MI_OK:
-
+    if rfid.access_request:
 
         rfid.createNewCardData()
         rfid.writeNewCardDataToCard()
