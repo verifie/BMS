@@ -89,17 +89,17 @@ class bmsa(object):
     #########################################################################################################################################    
     # Setup default variables.
     def setupDataVariables(self):
-        self.debugModeStatus = True
-        self.continue_reading = True
-        self.scan_count = 0
-        self.scan_delay = 1
-        self.standard_data = 0x00
-        self.rfid_card_data = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
-        self.rfid_card_data_new = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
+        debugModeStatus = True
+        continue_reading = True
+        scan_count = 0
+        scan_delay = 1
+        standard_data = 0x00
+        rfid_card_data = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
+        rfid_card_data_new = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
 
-        self.rfid_card_sector = 8
-        self.key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF] # This is the default key for authentication
-        self.data = []
+        rfid_card_sector = 8
+        key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF] # This is the default key for authentication
+        data = []
 
         # Define rfid elements.
         sstandard_data = hex(254)
