@@ -338,6 +338,10 @@ while continue_reading:
         print("  calling : timeDelay")
         rfid.timeDelay()
 
+        
+        print("  set rfid.access_request False to end the access session.")
+        rfid.access_request = False
+        
         print("  rfid.access_request True... done ")
 
 # END OF RUN PROGRAM
