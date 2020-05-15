@@ -88,23 +88,23 @@ class bmsa(object):
 
     #########################################################################################################################################    
     # Setup default variables.
-    def setupDataVariables(self):
-        debugModeStatus = True
-        continue_reading = True
-        scan_count = 0
-        scan_delay = 1
-        standard_data = 0x00
-        rfid_card_data = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
-        rfid_card_data_new = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
 
-        rfid_card_sector = 8
-        key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF] # This is the default key for authentication
-        data = []
+    debugModeStatus = True
+    continue_reading = True
+    scan_count = 0
+    scan_delay = 1
+    standard_data = 0x00
+    rfid_card_data = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
+    rfid_card_data_new = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
 
-        # Define rfid elements.
-        sstandard_data = hex(254)
-        print("StandardData = ", sstandard_data)
-        print ("Standard data in rfid_card_data array (pre card read): ", rfid_card_data)
+    rfid_card_sector = 8
+    key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF] # This is the default key for authentication
+    data = []
+
+    # Define rfid elements.
+    sstandard_data = hex(254)
+    print("StandardData = ", sstandard_data)
+    print ("Standard data in rfid_card_data array (pre card read): ", rfid_card_data)
 
 
 
@@ -283,7 +283,7 @@ signal.signal(signal.SIGINT, end_read)
 MIFAREReader = MFRC522.MFRC522()
 (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
 
-rfid.setupDataVariables()
+#rfid.setupDataVariables() # This is now just setup in the class.
 
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 continue_reading = True
