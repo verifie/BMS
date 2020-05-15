@@ -89,6 +89,8 @@ class bmsa(object):
     #########################################################################################################################################    
     # Setup default variables.
 
+    print (" Setup default variables.")
+
     debugModeStatus = True
     continue_reading = True
     scan_count = 0
@@ -107,6 +109,7 @@ class bmsa(object):
     print ("Standard data in rfid_card_data array (pre card read): ", rfid_card_data)
 
 
+    print (" Setup default variables.. done!")
 
 
 
@@ -140,6 +143,9 @@ class bmsa(object):
     #
 
     def scanForCards(self):
+
+        print (" scanForCards")
+
         # Scan for cards    
         (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
 
@@ -179,6 +185,7 @@ class bmsa(object):
                 print ("Authentication error!")
 
 
+        print (" scanForCards.. done!")
 
 
 
@@ -203,6 +210,7 @@ class bmsa(object):
 
     def createNewCardData(self):
 
+        print (" createNewCardData")
         # Read existing RFID sector data into our rfid_card_data_new fields.
         for i in range (0,16):
             self.rfid_card_data_new[i] = self.rfid_card_data[i]
@@ -211,6 +219,7 @@ class bmsa(object):
         self.rfid_card_data_new[7] = self.rfid_card_data[7] + 1
 
 
+        print (" createNewCardData.. done!")
 
 
     #########################################################################################################################################    
@@ -229,6 +238,8 @@ class bmsa(object):
     #
 
     def writeNewCardDataToCard(self):
+
+        print (" writeNewCardDataToCard")
         
         # If debugMode is ON, Print data to screen.
         if self.debugModeStatus:
@@ -238,18 +249,27 @@ class bmsa(object):
         MIFAREReader.MFRC522_Write(self.rfid_card_sector, self.rfid_card_data_new)
         print ("\n")
 
+        print (" writeNewCardDataToCard.. done!")
 
 
     def readCardData(self):
+
+        print (" readCardData")
+
         print ("Re-reading sector [ ", self.rfid_card_sector, " ]")
         self.rfid_card_data = MIFAREReader.MFRC522_Read(self.rfid_card_sector)
 
+        print (" readCardData.. done!")
 
 
     def endCardRead(self):
+
+        print (" endCardRead")
+
         # Stop
         MIFAREReader.MFRC522_StopCrypto1()
 
+        print (" endCardRead.. done!")
 
 
     def incrementScanCounter(self):
@@ -294,6 +314,7 @@ while continue_reading:
     # Check if authenticated. 
     
     if status == MIFAREReader.MI_OK:
+
 
         rfid.createNewCardData()
         rfid.writeNewCardDataToCard()
