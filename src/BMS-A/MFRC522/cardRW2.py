@@ -95,7 +95,7 @@ class bmsa(object):
     continue_reading = True
     access_request = False
     scan_count = 0
-    scan_delay = 5
+    scan_delay = 1
     standard_data = 0x00
     rfid_card_data = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
     rfid_card_data_new = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
