@@ -316,7 +316,6 @@ while continue_reading:
 
         rfid.createNewCardData()
         rfid.writeNewCardDataToCard()
-        rfid.writeNewCardDataToCard()
         rfid.readCardData()
         rfid.endCardRead()
         rfid.incrementScanCounter()
