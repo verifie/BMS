@@ -71,192 +71,198 @@ import time
 
 
 #########################################################################################################################################    
-# Program Functions:
+# Create class.
 
 
-
-#########################################################################################################################################    
-# Setup default variables.
-def setupDataVariables(self):
-    self.debugModeStatus = True
-    self.continue_reading = True
-    self.scan_count = 0
-    self.scan_delay = 1
-    self.standard_data = 0x00
-    self.rfid_card_data = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
-    self.rfid_card_data_new = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
-
-    self.rfid_card_sector = 8
-    self.key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF] # This is the default key for authentication
-    self.data = []
-
-    # Define rfid elements.
-    sstandard_data = hex(254)
-    print("StandardData = ", sstandard_data)
-    print ("Standard data in rfid_card_data array (pre card read): ", rfid_card_data)
+class bmsa(object):
 
 
+    #########################################################################################################################################    
+    # Program Functions:
 
 
+    #########################################################################################################################################    
+    # Setup default variables.
+    def setupDataVariables(self):
+        self.debugModeStatus = True
+        self.continue_reading = True
+        self.scan_count = 0
+        self.scan_delay = 1
+        self.standard_data = 0x00
+        self.rfid_card_data = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
+        self.rfid_card_data_new = [standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data,standard_data]
 
-# Capture SIGINT for cleanup when the script is aborted
-def end_read(signal,frame):
-    global continue_reading
-    print ("Ctrl+C captured, ending read.")
-    continue_reading = False
-    GPIO.cleanup()
+        self.rfid_card_sector = 8
+        self.key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF] # This is the default key for authentication
+        self.data = []
 
-
-
-def prepareRfidReader():
-    # Hook the SIGINT
-    signal.signal(signal.SIGINT, end_read)
-
-    # Create an object of the class MFRC522
-    MIFAREReader = MFRC522.MFRC522()
+        # Define rfid elements.
+        sstandard_data = hex(254)
+        print("StandardData = ", sstandard_data)
+        print ("Standard data in rfid_card_data array (pre card read): ", rfid_card_data)
 
 
 
 
-#########################################################################################################################################    
-# Function: scanForCards
-# 
-# Description :         Undertakes a scan for RFID cards.
-#
-# Dependencies:         Raspberry Pi, RFID Reader.
-# Inputs :              self.rfid_card_sector
-# Data Outputs:         self.rfid_card_data : card data if found.
-#
-# Status :              25 - Start
-#
-# Version History
-# 2020/05/13 0659 v1.01 PME - Move code into a function.
-#
 
-def scanForCards(self):
-    # Scan for cards    
-    (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
+    # Capture SIGINT for cleanup when the script is aborted
+    def end_read(signal,frame):
+        global continue_reading
+        print ("Ctrl+C captured, ending read.")
+        continue_reading = False
+        GPIO.cleanup()
 
-    # If a card is found
-    if status == MIFAREReader.MI_OK:
-        print ("Card detected")
 
-    # Get the UID of the card
-    (status,uid) = MIFAREReader.MFRC522_Anticoll()
 
-    # If we have the UID, continue
-    if status == MIFAREReader.MI_OK:
+    def prepareRfidReader():
+        # Hook the SIGINT
+        signal.signal(signal.SIGINT, end_read)
 
-        # Print UID
-        print ("Card read UID: %s,%s,%s,%s" % (uid[0], uid[1], uid[2], uid[3]))
-        
-        # Select the scanned tag
-        MIFAREReader.MFRC522_SelectTag(uid)
+        # Create an object of the class MFRC522
+        MIFAREReader = MFRC522.MFRC522()
 
-        # Authenticate
-        status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, self.key, uid)
 
-        # Check if authenticated
+
+
+    #########################################################################################################################################    
+    # Function: scanForCards
+    # 
+    # Description :         Undertakes a scan for RFID cards.
+    #
+    # Dependencies:         Raspberry Pi, RFID Reader.
+    # Inputs :              self.rfid_card_sector
+    # Data Outputs:         self.rfid_card_data : card data if found.
+    #
+    # Status :              25 - Start
+    #
+    # Version History
+    # 2020/05/13 0659 v1.01 PME - Move code into a function.
+    #
+
+    def scanForCards(self):
+        # Scan for cards    
+        (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
+
+        # If a card is found
+        if status == MIFAREReader.MI_OK:
+            print ("Card detected")
+
+        # Get the UID of the card
+        (status,uid) = MIFAREReader.MFRC522_Anticoll()
+
+        # If we have the UID, continue
         if status == MIFAREReader.MI_OK:
 
-            print ("Authenticated OK, now read sector [ ", self.rfid_card_sector, " ]")
-            self.rfid_card_data = MIFAREReader.MFRC522_Read(self.rfid_card_sector)
+            # Print UID
+            print ("Card read UID: %s,%s,%s,%s" % (uid[0], uid[1], uid[2], uid[3]))
+            
+            # Select the scanned tag
+            MIFAREReader.MFRC522_SelectTag(uid)
 
-        # Print card data.
+            # Authenticate
+            status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, self.key, uid)
+
+            # Check if authenticated
+            if status == MIFAREReader.MI_OK:
+
+                print ("Authenticated OK, now read sector [ ", self.rfid_card_sector, " ]")
+                self.rfid_card_data = MIFAREReader.MFRC522_Read(self.rfid_card_sector)
+
+            # Print card data.
+            if self.debugModeStatus:
+                print("\n\n")
+                for i in range(0, 16):
+                    print ("  - Show rfid_card_data [", i, "]:      ", self.data[i])
+                print("\n\n")
+
+        else:
+            print ("Authentication error!")
+
+
+
+
+
+
+    #########################################################################################################################################    
+    # Function:  createNewCardData
+    # 
+    # Description :         Modified existing card data with current scan credentials.  This mitigates duplicated card risk by changing some
+    #                       card data on every scan.  The card authentication process then checks basic user and access information alongside
+    #                       the modified data.  Duplicated cards may have the correct user ID and access information, but won't carry the 
+    #                       most recent scan information.
+    #
+    # Dependencies:         Raspberry Pi, RFID Reader.
+    # Inputs :              self.rfid_card_data
+    # Data Outputs:         self.rfid_card_data_new
+    #
+    # Status :              25 - Start
+    #
+    # Version History
+    # 2020/05/13 0659 v1.01 PME - Move code into a function. Initial version simply increments one element of the data for test / dev purposes.
+    #
+
+    def createNewCardData(self):
+
+        # Read existing RFID sector data into our rfid_card_data_new fields.
+        for i in range (0,16):
+            self.rfid_card_data_new[i] = self.rfid_card_data[i]
+
+        # Increment element 7 by 1
+        self.rfid_card_data_new[7] = self.rfid_card_data[7] + 1
+
+
+
+
+    #########################################################################################################################################    
+    # Function:  writeNewCardDataToCard
+    # 
+    # Description :         Writes new data to the card
+    #
+    # Dependencies:         Raspberry Pi, RFID Reader.
+    # Inputs :              self.rfid_card_sector
+    # Data Outputs:         self.rfid_card_data : card data if found.
+    #
+    # Status :              25 - Start
+    #
+    # Version History
+    # 2020/05/13 0659 v1.01 PME - Move code into a function.
+    #
+
+    def writeNewCardDataToCard(self):
+        
+        # If debugMode is ON, Print data to screen.
         if self.debugModeStatus:
-            print("\n\n")
-            for i in range(0, 16):
-                print ("  - Show rfid_card_data [", i, "]:      ", self.data[i])
-            print("\n\n")
+            print ("Sector ", self.rfid_card_sector, " will now be overwritten with data: [", self.rfid_card_data_new, "]")
 
-    else:
-        print ("Authentication error!")
+        # Write the data
+        MIFAREReader.MFRC522_Write(self.rfid_card_sector, self.rfid_card_data_new)
+        print ("\n")
 
 
 
+    def readCardData(self):
+        print ("Re-reading sector [ ", self.rfid_card_sector, " ]")
+        self.rfid_card_data = MIFAREReader.MFRC522_Read(self.rfid_card_sector)
 
 
 
-#########################################################################################################################################    
-# Function:  createNewCardData
-# 
-# Description :         Modified existing card data with current scan credentials.  This mitigates duplicated card risk by changing some
-#                       card data on every scan.  The card authentication process then checks basic user and access information alongside
-#                       the modified data.  Duplicated cards may have the correct user ID and access information, but won't carry the 
-#                       most recent scan information.
-#
-# Dependencies:         Raspberry Pi, RFID Reader.
-# Inputs :              self.rfid_card_data
-# Data Outputs:         self.rfid_card_data_new
-#
-# Status :              25 - Start
-#
-# Version History
-# 2020/05/13 0659 v1.01 PME - Move code into a function. Initial version simply increments one element of the data for test / dev purposes.
-#
-
-def createNewCardData(self):
-
-    # Read existing RFID sector data into our rfid_card_data_new fields.
-    for i in range (0,16):
-        self.rfid_card_data_new[i] = self.rfid_card_data[i]
-
-    # Increment element 7 by 1
-    self.rfid_card_data_new[7] = self.rfid_card_data[7] + 1
+    def endCardRead(self):
+        # Stop
+        MIFAREReader.MFRC522_StopCrypto1()
 
 
 
-
-#########################################################################################################################################    
-# Function:  writeNewCardDataToCard
-# 
-# Description :         Writes new data to the card
-#
-# Dependencies:         Raspberry Pi, RFID Reader.
-# Inputs :              self.rfid_card_sector
-# Data Outputs:         self.rfid_card_data : card data if found.
-#
-# Status :              25 - Start
-#
-# Version History
-# 2020/05/13 0659 v1.01 PME - Move code into a function.
-#
-
-def writeNewCardDataToCard(self):
-    
-    # If debugMode is ON, Print data to screen.
-    if self.debugModeStatus:
-        print ("Sector ", self.rfid_card_sector, " will now be overwritten with data: [", self.rfid_card_data_new, "]")
-
-    # Write the data
-    MIFAREReader.MFRC522_Write(self.rfid_card_sector, self.rfid_card_data_new)
-    print ("\n")
+    def incrementScanCounter(self):
+        # Increment run time scan counter.  NOTE this becomes reset to zero on each program run time stop and restart.
+        self.scan_count = self.scan_count + 1
+        print ("Scan Count :", self.scan_count, "\n\n")
 
 
 
-def readCardData(self):
-    print ("Re-reading sector [ ", self.rfid_card_sector, " ]")
-    self.rfid_card_data = MIFAREReader.MFRC522_Read(self.rfid_card_sector)
-
-
-
-def endCardRead(self):
-    # Stop
-    MIFAREReader.MFRC522_StopCrypto1()
-
-
-
-def incrementScanCounter(self):
-    # Increment run time scan counter.  NOTE this becomes reset to zero on each program run time stop and restart.
-    self.scan_count = self.scan_count + 1
-    print ("Scan Count :", self.scan_count, "\n\n")
-
-
-
-def timeDelay(self):
-    # Add a time delay to avoid reading the same card tens of times on each presentation.  scan_delay is configured at the start of this program.
-    print("Sleeping for ", self.scan_delay, "seconds.")
-    time.sleep (self.scan_delay)
+    def timeDelay(self):
+        # Add a time delay to avoid reading the same card tens of times on each presentation.  scan_delay is configured at the start of this program.
+        print("Sleeping for ", self.scan_delay, "seconds.")
+        time.sleep (self.scan_delay)
 
 
 
@@ -266,24 +272,27 @@ def timeDelay(self):
 #########################################################################################################################################    
 # RUN PROGRAM
 
-prepareRfidReader()
-setupDataVariables(self)
+
+rfid = bmsa()
+
+rfid.prepareRfidReader()
+rfid.setupDataVariables()
 
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 while continue_reading:
     
-    scanForCards()
+    rfid.scanForCards()
 
     # Check if authenticated. 
-    if status == MIFAREReader.MI_OK:
+    if status == rfid.MIFAREReader.MI_OK:
 
-        createNewCardData()
-        writeNewCardDataToCard()
-        writeNewCardDataToCard()
-        readCardData()
-        endCardRead()
-        incrementScanCounter()
-        timeDelay(self.scan_delay)
+        rfid.createNewCardData()
+        rfid.writeNewCardDataToCard()
+        rfid.writeNewCardDataToCard()
+        rfid.readCardData()
+        rfid.endCardRead()
+        rfid.incrementScanCounter()
+        rfid.timeDelay(scan_delay)
 
 # END OF RUN PROGRAM
 #########################################################################################################################################    
