@@ -275,7 +275,13 @@ class bmsa(object):
 
 rfid = bmsa()
 
-rfid.prepareRfidReader()
+
+# Replace rfid initialisation function with direct code here in the run program to avoid creating an object of a class in a class called by a function - which feels very messy and didnt work.
+# Hook the SIGINT
+signal.signal(signal.SIGINT, end_read)
+# Create an object of the class MFRC522
+MIFAREReader = MFRC522.MFRC522()
+
 rfid.setupDataVariables()
 
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
@@ -284,7 +290,7 @@ while continue_reading:
     rfid.scanForCards()
 
     # Check if authenticated. 
-    if status == rfid.MIFAREReader.MI_OK:
+    if status == MIFAREReader.MI_OK:
 
         rfid.createNewCardData()
         rfid.writeNewCardDataToCard()
