@@ -317,12 +317,28 @@ while continue_reading:
     
     if rfid.access_request:
 
+        print("  rfid.access_request True. ")
+
+
+        print("  calling : rfid.createNewCardData")
         rfid.createNewCardData()
+
+        print("  calling : writeNewCardDataToCard")
         rfid.writeNewCardDataToCard()
+
+        print("  calling : readCardData")
         rfid.readCardData()
+
+        print("  calling : endCardRead")
         rfid.endCardRead()
+
+        print("  calling : incrementScanCounter")
         rfid.incrementScanCounter()
+
+        print("  calling : timeDelay")
         rfid.timeDelay()
+
+        print("  rfid.access_request True... done ")
 
 # END OF RUN PROGRAM
 #########################################################################################################################################    
