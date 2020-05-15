@@ -169,7 +169,7 @@ class bmsa(object):
                     rfid_card_data = MIFAREReader.MFRC522_Read(self.rfid_card_sector)
 
                 # Print card data.
-                if debugModeStatus:
+                if self.debugModeStatus:
                     print("\n\n")
                     for i in range(0, 16):
                         print ("  - Show rfid_card_data [", i, "]:      ", data[i])
