@@ -14,10 +14,15 @@ class Restaurant(object):
 
 x = Restaurant()
 
-print ("Bankruptcy state: ", x.bankrupt)
+print ("x Bankruptcy state: ", x.bankrupt)
 
 x.bankrupt = False
 
-print ("Bankruptcy state: ", x.bankrupt)
+print ("x Bankruptcy state: ", x.bankrupt)
 
+
+#bankrupt = True
+
+
+print ("Bankruptcy state: ", bankrupt)
 
