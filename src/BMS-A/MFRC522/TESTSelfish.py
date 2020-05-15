@@ -16,5 +16,8 @@ x = Restaurant()
 
 print ("Bankruptcy state: ", x.bankrupt)
 
+x.bankrupt = False
+
+print ("Bankruptcy state: ", x.bankrupt)
 
 
