@@ -145,8 +145,6 @@ class bmsa(object):
 
     def scanForCards(self):
 
-        print ("\n\n scanForCards")
-
         # Scan for cards    
         (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
 
@@ -187,9 +185,6 @@ class bmsa(object):
 
             else:
                 print ("Authentication error!")
-
-
-        print (" scanForCards.. done! \n\n")
 
 
 
@@ -325,7 +320,7 @@ while continue_reading:
         rfid.readCardData()
         rfid.endCardRead()
         rfid.incrementScanCounter()
-        rfid.timeDelay(self.scan_delay)
+        rfid.timeDelay()
 
 # END OF RUN PROGRAM
 #########################################################################################################################################    
