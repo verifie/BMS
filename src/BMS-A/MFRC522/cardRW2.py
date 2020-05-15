@@ -160,13 +160,13 @@ class bmsa(object):
                 MIFAREReader.MFRC522_SelectTag(uid)
 
                 # Authenticate
-                status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, key, uid)
+                status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, self.key, uid)
 
                 # Check if authenticated
                 if status == MIFAREReader.MI_OK:
 
-                    print ("Authenticated OK, now read sector [ ", rfid_card_sector, " ]")
-                    rfid_card_data = MIFAREReader.MFRC522_Read(rfid_card_sector)
+                    print ("Authenticated OK, now read sector [ ", self.rfid_card_sector, " ]")
+                    rfid_card_data = MIFAREReader.MFRC522_Read(self.rfid_card_sector)
 
                 # Print card data.
                 if debugModeStatus:
