@@ -21,7 +21,7 @@ x.bankrupt = False
 print ("x Bankruptcy state: ", x.bankrupt)
 
 
-#bankrupt = True
+bankrupt = True
 
 
 print ("Bankruptcy state: ", bankrupt)
