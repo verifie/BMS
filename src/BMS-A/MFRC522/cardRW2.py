@@ -293,7 +293,7 @@ while continue_reading:
 
     # Check if authenticated. 
     
-    if status == rfid.MIFAREReader.MI_OK:
+    if status == MIFAREReader.MI_OK:
 
         rfid.createNewCardData()
         rfid.writeNewCardDataToCard()
