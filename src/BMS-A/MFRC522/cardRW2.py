@@ -172,7 +172,7 @@ class bmsa(object):
                 if self.debugModeStatus:
                     print("\n\n")
                     for i in range(0, 16):
-                        print ("  - Show rfid_card_data [", i, "]:      ", data[i])
+                        print ("  - Show rfid_card_data [", i, "]:      ", rfid_card_data[i])
                     print("\n\n")
 
             else:
