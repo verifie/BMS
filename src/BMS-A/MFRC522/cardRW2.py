@@ -285,6 +285,7 @@ MIFAREReader = MFRC522.MFRC522()
 rfid.setupDataVariables()
 
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
+continue_reading = True
 while continue_reading:
     
     rfid.scanForCards()
