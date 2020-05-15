@@ -145,7 +145,7 @@ class bmsa(object):
 
     def scanForCards(self):
 
-        print (" scanForCards")
+        #print (" scanForCards")
 
         # Scan for cards    
         (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
@@ -189,7 +189,7 @@ class bmsa(object):
                 print ("Authentication error!")
 
 
-        print (" scanForCards... done!")
+        #print (" scanForCards... done!")
 
 
     #########################################################################################################################################    
