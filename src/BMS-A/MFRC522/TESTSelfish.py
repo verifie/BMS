@@ -26,3 +26,4 @@ bankrupt = True
 
 print ("Bankruptcy state: ", bankrupt)
 
+print ("x Bankruptcy state: ", x.bankrupt)
