@@ -147,36 +147,36 @@ class bmsa(object):
         if status == MIFAREReader.MI_OK:
             print ("Card detected")
 
-        # Get the UID of the card
-        (status,uid) = MIFAREReader.MFRC522_Anticoll()
+            # Get the UID of the card
+            (status,uid) = MIFAREReader.MFRC522_Anticoll()
 
-        # If we have the UID, continue
-        if status == MIFAREReader.MI_OK:
-
-            # Print UID
-            print ("Card read UID: %s,%s,%s,%s" % (uid[0], uid[1], uid[2], uid[3]))
-            
-            # Select the scanned tag
-            MIFAREReader.MFRC522_SelectTag(uid)
-
-            # Authenticate
-            status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, key, uid)
-
-            # Check if authenticated
+            # If we have the UID, continue
             if status == MIFAREReader.MI_OK:
 
-                print ("Authenticated OK, now read sector [ ", rfid_card_sector, " ]")
-                rfid_card_data = MIFAREReader.MFRC522_Read(rfid_card_sector)
+                # Print UID
+                print ("Card read UID: %s,%s,%s,%s" % (uid[0], uid[1], uid[2], uid[3]))
+                
+                # Select the scanned tag
+                MIFAREReader.MFRC522_SelectTag(uid)
 
-            # Print card data.
-            if debugModeStatus:
-                print("\n\n")
-                for i in range(0, 16):
-                    print ("  - Show rfid_card_data [", i, "]:      ", data[i])
-                print("\n\n")
+                # Authenticate
+                status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, key, uid)
 
-        else:
-            print ("Authentication error!")
+                # Check if authenticated
+                if status == MIFAREReader.MI_OK:
+
+                    print ("Authenticated OK, now read sector [ ", rfid_card_sector, " ]")
+                    rfid_card_data = MIFAREReader.MFRC522_Read(rfid_card_sector)
+
+                # Print card data.
+                if debugModeStatus:
+                    print("\n\n")
+                    for i in range(0, 16):
+                        print ("  - Show rfid_card_data [", i, "]:      ", data[i])
+                    print("\n\n")
+
+            else:
+                print ("Authentication error!")
 
 
 
