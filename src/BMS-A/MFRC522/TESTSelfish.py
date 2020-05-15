@@ -10,4 +10,4 @@ def open_branch(self):
     if not self.bankrupt:
         print("branch opened")
 
-open_branch()
+open_branch(self)
