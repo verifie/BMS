@@ -281,6 +281,7 @@ rfid = bmsa()
 signal.signal(signal.SIGINT, end_read)
 # Create an object of the class MFRC522
 MIFAREReader = MFRC522.MFRC522()
+(status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
 
 rfid.setupDataVariables()
 
@@ -291,7 +292,8 @@ while continue_reading:
     rfid.scanForCards()
 
     # Check if authenticated. 
-    if status == MIFAREReader.MI_OK:
+    
+    if status == rfid.MIFAREReader.MI_OK:
 
         rfid.createNewCardData()
         rfid.writeNewCardDataToCard()
