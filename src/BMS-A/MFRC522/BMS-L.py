@@ -44,7 +44,7 @@ bus = smbus.SMBus(1) # Rev 2 Pi uses 1
  
 DEVICEA = 0x22 # Device address (A0-A2)
 DEVICEB = 0x23 # Device address (A0-A2)
-DEVICEC = 0x26 # Device address (A0-A2)
+DEVICEC = 0x25 # Device address (A0-A2)
 
 IODIRA = 0x00 # Pin direction register
 OLATA  = 0x14 # Register for outputs
