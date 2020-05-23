@@ -20,7 +20,7 @@
 print("")
 print("=============================================================================================================================================")
 print("")
-print("  MCP23017 I2C Port Expander "
+print("  MCP23017 I2C Port Expander ")
 print("                                ")
 print(" Copyright (c) Leighton Electronics 2020 Onwards. Patent Pending. NO UNAUTHORISED ACCESS PERMITTED. ")
 print(" www.LeightonElectronics.co.uk ")
