@@ -62,14 +62,15 @@ bus.write_byte_data(DEVICEB,OLATA,0)
 bus.write_byte_data(DEVICEC,OLATA,0)
  
 for MyData in range(1,3000):
+  mydatainv = MyData - 1
   # Count from 1 to 8 which in binary will count
   # from 001 to 111
   bus.write_byte_data(DEVICEA,OLATA,MyData)
-  bus.write_byte_data(DEVICEB,OLATA,MyData)
+  bus.write_byte_data(DEVICEB,OLATA,mydatainv)
   bus.write_byte_data(DEVICEC,OLATA,MyData)
 
   print (MyData)
-  time.sleep(0.5)
+  time.sleep(0.2)
  
 # Set all bits to zero
 bus.write_byte_data(DEVICEA,OLATA,0)
