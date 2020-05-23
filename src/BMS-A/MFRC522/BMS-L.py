@@ -52,10 +52,14 @@ GPIOA  = 0x12 # Register for inputs
  
 # Set all GPA pins as outputs by setting
 # all bits of IODIRA register to 0
-bus.write_byte_data(DEVICE,IODIRA,0x00)
+bus.write_byte_data(DEVICEA,IODIRA,0x00)
+bus.write_byte_data(DEVICEB,IODIRA,0x00)
+bus.write_byte_data(DEVICEC,IODIRA,0x00)
  
 # Set output all 7 output bits to 0
-bus.write_byte_data(DEVICE,OLATA,0)
+bus.write_byte_data(DEVICEA,OLATA,0)
+bus.write_byte_data(DEVICEB,OLATA,0)
+bus.write_byte_data(DEVICEC,OLATA,0)
  
 for MyData in range(1,8):
   # Count from 1 to 8 which in binary will count
@@ -68,4 +72,6 @@ for MyData in range(1,8):
   time.sleep(1)
  
 # Set all bits to zero
-bus.write_byte_data(DEVICE,OLATA,0)
+bus.write_byte_data(DEVICEA,OLATA,0)
+bus.write_byte_data(DEVICEB,OLATA,0)
+bus.write_byte_data(DEVICEC,OLATA,0)
