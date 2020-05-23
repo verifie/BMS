@@ -58,7 +58,7 @@ for MyData in range(1,8):
   # Count from 1 to 8 which in binary will count
   # from 001 to 111
   bus.write_byte_data(DEVICE,OLATA,MyData)
-  print MyData
+  print (MyData)
   time.sleep(1)
  
 # Set all bits to zero
