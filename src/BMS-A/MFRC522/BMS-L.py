@@ -69,7 +69,7 @@ for MyData in range(1,3000):
   bus.write_byte_data(DEVICEC,OLATA,MyData)
 
   print (MyData)
-  #time.sleep(1)
+  #time.sleep(0.01)
  
 # Set all bits to zero
 bus.write_byte_data(DEVICEA,OLATA,0)
