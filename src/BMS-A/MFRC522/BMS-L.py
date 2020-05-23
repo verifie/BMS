@@ -4,37 +4,15 @@
 #########################################################################################################################################    
 # cardRW.py
 # 
-# RFID Project
+# BMS-L
 # (c) 2020 Leighton Electronics
 # 
-# Description :         RFID Raspberry Pi / Python 3 / RFID-RC522 - Writer.
+# Description :         Building Management System Lighting Control Interface trials.
 #
 # Status :              25 - Start
 #
 # Version History
-# 2020/05/11 1443 v1.01 PME - Combine Read Write and increment an element on each scan.
-# 2020/05/11 0734 v1.02 PME - Convert code into Object Oriented Code structure in preparation for application development.
-#
-
-#
-#    Copyright 2014,2018 Mario Gomez <mario.gomez@teubi.co>
-#
-#    This file is part of MFRC522-Python
-#    MFRC522-Python is a simple Python implementation for
-#    the MFRC522 NFC Card Reader for the Raspberry Pi.
-#
-#    MFRC522-Python is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Lesser General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    MFRC522-Python is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Lesser General Public License for more details.
-#
-#    You should have received a copy of the GNU Lesser General Public License
-#    along with MFRC522-Python.  If not, see <http://www.gnu.org/licenses/>.
+# 2020/05/23 2211 v0.00 PME - Start interface tests from demo at: https://www.raspberrypi-spy.co.uk/2013/07/how-to-use-a-mcp23017-i2c-port-expander-with-the-raspberry-pi-part-2/
 
 
 
@@ -42,7 +20,7 @@
 print("")
 print("=============================================================================================================================================")
 print("")
-print("  MCP23017 I2C Port Expander      ")
+print("  MCP23017 I2C Port Expander "
 print("                                ")
 print(" Copyright (c) Leighton Electronics 2020 Onwards. Patent Pending. NO UNAUTHORISED ACCESS PERMITTED. ")
 print(" www.LeightonElectronics.co.uk ")
