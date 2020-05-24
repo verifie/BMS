@@ -30,6 +30,28 @@ print("")
 print("")
 
 
+
+#########################################################################################################################################    
+# Reference - useful information
+
+# You set a bit in IODIRA (0x00) or IODIRB (0x01) to define whether the pin is in input or an output 1== input, 0 == output.
+# You read input bits from GPIOA (0x12) or GPIOB (0x13) reading 1 == high, 0 == low.
+# You write output bits to OLATA (0x14) or OLATB (0x15) where 1 == high and 0 == low.
+#
+# Syntax 
+# bus.write_byte_data([device],[command],[Pin 7,6,5,4,3,2,1,0 addressed as an 8 bit binary number presented in HEX]
+# e.g.
+# bus.write_byte_data(DEVICEC,IODIRA,0x80)
+#
+#                                                7 6 5 4 3 2 1 0
+# ... tells device C, sets direction for pins    1 0 0 0 0 0 0 0
+# ... the last pin is an input, the others are outputs.
+
+# From the datasheet: When a bit is set, the corresponding pin becomes an input. When a bit is clear, the corresponding pinbecomes an output.
+
+
+
+
 #########################################################################################################################################    
 # Import Libraries.
 
@@ -38,37 +60,83 @@ import MFRC522
 import signal
 import time
 import smbus
+
+
+#########################################################################################################################################    
+# Define Variables
+
+room_light_circuit_A = 0x00
+room_light_circuit_B = 0x01
+room_light_circuit_C = 0x02
+
+
+
+
+
+#########################################################################################################################################    
+# Define Variables - Friendly names for I2C Bus registers.  It makes it easier to read the code and relates to datasheet names at:
+# http://ww1.microchip.com/downloads/en/devicedoc/20001952c.pdf
  
 #bus = smbus.SMBus(0)  # Rev 1 Pi uses 0
 bus = smbus.SMBus(1) # Rev 2 Pi uses 1
- 
+
+# To use more than 8 MCP23017 chips, a multiplexer is required, allowing the same address to be used. These are the multiplexer names.
+
+
+# Address of MCP23017 being accessed.  Address can be changed to 1 of 8 options by setting pins A0, A1 and A2.
 DEVICEA = 0x22 # Device address (A0-A2)
 DEVICEB = 0x23 # Device address (A0-A2)
 DEVICEC = 0x25 # Device address (A0-A2)
 
-IODIRA = 0x00 # Pin direction register
-OLATA  = 0x14 # Register for outputs
-GPIOA  = 0x12 # Register for inputs
+# Register to access Input / Output Direction Configuration.
+IODIRA = 0x00 # Pin direction register A
+IODIRB = 0x01 # Pin direction register B
 
+# Register to Output Latches
+OLATA  = 0x14 # Register for outputs A
+OLATB  = 0x15 # Register for outputs B
+
+# Register for Input
+GPIOA  = 0x12 # Register for inputs A
+GPIOB  = 0x13 # Register for inputs B
+
+
+
+
+#########################################################################################################################################    
+# Set Pin configuration as Input or Output.
+# For our example, Bank A are OUTPUTs, Bank B are INPUTs
+
+
+bus.write_byte_data(DEVICEC,IODIRA,0x00)
+bus.write_byte_data(DEVICEC,IODIRB,0xFF)
+
+ 
+
+
+
+
+#########################################################################################################################################    
 #INPUT DEMO
 
-# Set first 7 GPA pins as outputs and
-# last one as input.
-bus.write_byte_data(DEVICEC,IODIRA,0x80)
- 
 # Loop until user presses CTRL-C
 while True:
  
     # Read state of GPIOA register
-    MySwitch = bus.read_byte_data(DEVICEC,GPIOA)
+    MySwitch = bus.read_byte_data(DEVICEC,GPIOB)
  
+    print ("Read Status : ", MySwitch)
+
     if MySwitch & 0b10000000 == 0b10000000:
         print ("Switch was pressed!")
+        
+        bus.write_byte_data(DEVICEB,OLATA,MyData)
+
         time.sleep(1)
 
 
 
-
+#########################################################################################################################################    
 # OUTPUT DEMO
  
 # Set all GPA pins as outputs by setting
