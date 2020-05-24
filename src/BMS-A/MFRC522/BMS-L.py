@@ -49,6 +49,27 @@ DEVICEC = 0x25 # Device address (A0-A2)
 IODIRA = 0x00 # Pin direction register
 OLATA  = 0x14 # Register for outputs
 GPIOA  = 0x12 # Register for inputs
+
+#INPUT DEMO
+
+# Set first 7 GPA pins as outputs and
+# last one as input.
+bus.write_byte_data(DEVICE,IODIRA,0x80)
+ 
+# Loop until user presses CTRL-C
+while True:
+ 
+  # Read state of GPIOA register
+  MySwitch = bus.read_byte_data(DEVICE,GPIOA)
+ 
+  if MySwitch &amp; 0b10000000 == 0b10000000:
+   print ("Switch was pressed!")
+   time.sleep(1)
+
+
+
+
+# OUTPUT DEMO
  
 # Set all GPA pins as outputs by setting
 # all bits of IODIRA register to 0
