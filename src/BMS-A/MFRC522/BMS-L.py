@@ -69,6 +69,8 @@ room_light_circuit_A = 0x00
 room_light_circuit_B = 0x01
 room_light_circuit_C = 0x02
 
+toggler = 0
+
 
 
 
@@ -130,7 +132,13 @@ while True:
     if MySwitch & 0b10000000 == 0b10000000:
         print ("Switch was pressed!")
         
-        bus.write_byte_data(DEVICEB,OLATA,MyData)
+        bus.write_byte_data(DEVICEB,OLATA,toggler)
+
+        # Invert light state
+        if toggler = 1
+            toggler = 0
+        else:
+            toggler = 1
 
         time.sleep(1)
 
