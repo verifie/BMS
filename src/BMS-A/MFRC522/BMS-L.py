@@ -57,14 +57,14 @@ GPIOA  = 0x12 # Register for inputs
 bus.write_byte_data(DEVICE,IODIRA,0x80)
  
 # Loop until user presses CTRL-C
-while True:
+#while True:
  
   # Read state of GPIOA register
-  MySwitch = bus.read_byte_data(DEVICE,GPIOA)
+#  MySwitch = bus.read_byte_data(DEVICE,GPIOA)
  
-  if MySwitch & 0b10000000 == 0b10000000:
-   print ("Switch was pressed!")
-   time.sleep(1)
+#  if MySwitch & 0b10000000 == 0b10000000:
+#   print ("Switch was pressed!")
+#   time.sleep(1)
 
 
 
@@ -79,8 +79,8 @@ bus.write_byte_data(DEVICEC,IODIRA,0x00)
  
 # Set output all 7 output bits to 0
 bus.write_byte_data(DEVICEA,OLATA,0)
-bus.write_byte_data(DEVICEB,OLATA,0)
-bus.write_byte_data(DEVICEC,OLATA,0)
+#bus.write_byte_data(DEVICEB,OLATA,0)
+#bus.write_byte_data(DEVICEC,OLATA,0)
  
 for MyData in range(1,999999000):
   mydatainv = MyData - 1
