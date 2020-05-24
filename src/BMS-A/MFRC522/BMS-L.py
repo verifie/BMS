@@ -145,13 +145,11 @@ while True:
     if MySwitch & 0b10000000 == 0b10000000:
         print ("Switch was pressed!")
         
-        bus.write_byte_data(DEVICEB,OLATA,toggler)
+        bus.write_byte_data(DEVICEB,OLATA,1)
 
-        # Invert light state
-        if toggler:
-            toggler = 0
-        else:
-            toggler = 1
+    else:
+        
+        bus.write_byte_data(DEVICEB,OLATA,0)
 
         time.sleep(1)
 
