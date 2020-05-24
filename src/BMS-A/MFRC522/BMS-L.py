@@ -79,15 +79,15 @@ bus.write_byte_data(DEVICEC,IODIRA,0x00)
  
 # Set output all 7 output bits to 0
 bus.write_byte_data(DEVICEA,OLATA,0)
-#bus.write_byte_data(DEVICEB,OLATA,0)
-#bus.write_byte_data(DEVICEC,OLATA,0)
+bus.write_byte_data(DEVICEB,OLATA,0)
+bus.write_byte_data(DEVICEC,OLATA,0)
  
 for MyData in range(1,999999000):
   mydatainv = MyData - 1
   # Count from 1 to 8 which in binary will count
   # from 001 to 111
-  bus.write_byte_data(DEVICEA,OLATA,mydatainv)
-  bus.write_byte_data(DEVICEB,OLATA,MyData)
+  #bus.write_byte_data(DEVICEA,OLATA,mydatainv)
+  #bus.write_byte_data(DEVICEB,OLATA,MyData)
   bus.write_byte_data(DEVICEC,OLATA,MyData)
 
   print (MyData)
