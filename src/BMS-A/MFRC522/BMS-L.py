@@ -54,13 +54,13 @@ GPIOA  = 0x12 # Register for inputs
 
 # Set first 7 GPA pins as outputs and
 # last one as input.
-bus.write_byte_data(DEVICE,IODIRA,0x80)
+bus.write_byte_data(DEVICEC,IODIRA,0x80)
  
 # Loop until user presses CTRL-C
 while True:
  
     # Read state of GPIOA register
-    MySwitch = bus.read_byte_data(DEVICE,GPIOA)
+    MySwitch = bus.read_byte_data(DEVICEC,GPIOA)
  
     if MySwitch & 0b10000000 == 0b10000000:
         print ("Switch was pressed!")
