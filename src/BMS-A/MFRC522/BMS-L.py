@@ -121,6 +121,19 @@ bus.write_byte_data(DEVICEC,IODIRB,0xFF)
 #########################################################################################################################################    
 #INPUT DEMO
 
+# Set all GPA pins as outputs by setting
+# all bits of IODIRA register to 0
+bus.write_byte_data(DEVICEA,IODIRA,0x00)
+bus.write_byte_data(DEVICEB,IODIRA,0x00)
+bus.write_byte_data(DEVICEC,IODIRA,0x00)
+ 
+# Set output all 7 output bits to 0
+bus.write_byte_data(DEVICEA,OLATA,0)
+bus.write_byte_data(DEVICEB,OLATA,0)
+bus.write_byte_data(DEVICEC,OLATA,0)
+
+
+
 # Loop until user presses CTRL-C
 while True:
  
