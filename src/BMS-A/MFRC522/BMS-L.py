@@ -142,7 +142,8 @@ while True:
  
 
     if MySwitch > 0:
-        if MySwitch = bus.read_byte_data(DEVICEC,GPIOB):
+        MySwitchDebounceRead = bus.read_byte_data(DEVICEC,GPIOB):
+        if MySwitch = MySwitchDebounceRead:
             print ("Switch was pressed!")
             print ("Read Status : ", MySwitch)
             
