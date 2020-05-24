@@ -135,7 +135,7 @@ while True:
         bus.write_byte_data(DEVICEB,OLATA,toggler)
 
         # Invert light state
-        if toggler = 1
+        if toggler:
             toggler = 0
         else:
             toggler = 1
