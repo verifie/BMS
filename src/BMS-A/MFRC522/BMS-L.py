@@ -54,7 +54,7 @@ GPIOA  = 0x12 # Register for inputs
 
 # Set first 7 GPA pins as outputs and
 # last one as input.
-bus.write_byte_data(DEVICE,IODIRA,0x80)
+# bus.write_byte_data(DEVICE,IODIRA,0x80)
  
 # Loop until user presses CTRL-C
 #while True:
