@@ -143,6 +143,9 @@ while True:
 
     if MySwitch > 0:
 
+        # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
+        time.sleep(0.01)
+
         # Read again to check the reading is the same as the trigger.
         MySwitchDebounceRead = bus.read_byte_data(DEVICEC,GPIOB)
 
