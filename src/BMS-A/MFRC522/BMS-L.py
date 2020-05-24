@@ -62,7 +62,7 @@ while True:
   # Read state of GPIOA register
   MySwitch = bus.read_byte_data(DEVICE,GPIOA)
  
-  if MySwitch &amp; 0b10000000 == 0b10000000:
+  if MySwitch & 0b10000000 == 0b10000000:
    print ("Switch was pressed!")
    time.sleep(1)
 
