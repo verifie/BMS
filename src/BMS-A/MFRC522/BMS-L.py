@@ -142,7 +142,11 @@ while True:
  
 
     if MySwitch > 0:
-        MySwitchDebounceRead = bus.read_byte_data(DEVICEC,GPIOB):
+
+        # Read again to check the reading is the same as the trigger.
+        MySwitchDebounceRead = bus.read_byte_data(DEVICEC,GPIOB)
+
+        # If the trigger is the same, action the trigger, else it was probably electrical noise, so ignore.
         if MySwitch = MySwitchDebounceRead:
             print ("Switch was pressed!")
             print ("Read Status : ", MySwitch)
