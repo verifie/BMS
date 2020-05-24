@@ -142,7 +142,7 @@ while True:
  
     print ("Read Status : ", MySwitch)
 
-    if MySwitch & 0b10000000 == 0b10000000:
+    if MySwitch > 0:
         print ("Switch was pressed!")
         
         bus.write_byte_data(DEVICEB,OLATA,1)
