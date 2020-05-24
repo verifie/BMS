@@ -142,10 +142,11 @@ while True:
  
 
     if MySwitch > 0:
-        print ("Switch was pressed!")
-        print ("Read Status : ", MySwitch)
-        
-        bus.write_byte_data(DEVICEB,OLATA,1)
+        if MySwitch = bus.read_byte_data(DEVICEC,GPIOB):
+            print ("Switch was pressed!")
+            print ("Read Status : ", MySwitch)
+            
+            bus.write_byte_data(DEVICEB,OLATA,1)
 
     else:
         
