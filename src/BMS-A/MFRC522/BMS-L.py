@@ -151,7 +151,7 @@ while True:
         
         bus.write_byte_data(DEVICEB,OLATA,0)
 
-        time.sleep(1)
+    time.sleep(1)
 
 
 
