@@ -140,10 +140,10 @@ while True:
     # Read state of GPIOA register
     MySwitch = bus.read_byte_data(DEVICEC,GPIOB)
  
-    print ("Read Status : ", MySwitch)
 
     if MySwitch > 0:
         print ("Switch was pressed!")
+        print ("Read Status : ", MySwitch)
         
         bus.write_byte_data(DEVICEB,OLATA,1)
 
@@ -151,7 +151,7 @@ while True:
         
         bus.write_byte_data(DEVICEB,OLATA,0)
 
-    time.sleep(1)
+    time.sleep(0.1)
 
 
 
