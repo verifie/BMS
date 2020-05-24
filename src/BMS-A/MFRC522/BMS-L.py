@@ -70,6 +70,7 @@ room_light_circuit_B = 0x01
 room_light_circuit_C = 0x02
 
 toggler = 0
+PrintOnce = True
 
 
 
@@ -148,19 +149,25 @@ while True:
 
         # Read again to check the reading is the same as the trigger.
         MySwitchDebounceRead = bus.read_byte_data(DEVICEC,GPIOB)
+        
 
         # If the trigger is the same, action the trigger, else it was probably electrical noise, so ignore.
         if MySwitch == MySwitchDebounceRead:
-            print ("Switch was pressed!")
-            print ("Read Status : ", MySwitch)
+            
+            # Print note to screen ONCE this trigger.
+            if PrintOnce:
+                print ("Switch was pressed!")
+                print ("Read Status : ", MySwitch)
+                PrintOnce = False
             
             bus.write_byte_data(DEVICEB,OLATA,1)
 
     else:
         
         bus.write_byte_data(DEVICEB,OLATA,0)
+        PrintOnce = True
 
-    time.sleep(0.1)
+    time.sleep(0.01)
 
 
 
