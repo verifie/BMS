@@ -145,14 +145,26 @@ while True:
     if MySwitch > 1:
 
         # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
-        time.sleep(0.025)
+        time.sleep(0.02)
 
         # Read again to check the reading is the same as the trigger.
-        MySwitchDebounceRead = bus.read_byte_data(DEVICEC,GPIOB)
+        MySwitchDebounceReadA = bus.read_byte_data(DEVICEC,GPIOB)
+        
+        # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
+        time.sleep(0.02)
+
+        # Read again to check the reading is the same as the trigger.
+        MySwitchDebounceReadB = bus.read_byte_data(DEVICEC,GPIOB)
+
+        # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
+        time.sleep(0.02)
+
+        # Read again to check the reading is the same as the trigger.
+        MySwitchDebounceReadC = bus.read_byte_data(DEVICEC,GPIOB)
         
 
         # If the trigger is the same, action the trigger, else it was probably electrical noise, so ignore.
-        if MySwitch == MySwitchDebounceRead:
+        if MySwitch == MySwitchDebounceReadA and MySwitch == MySwitchDebounceReadB MySwitch == MySwitchDebounceReadC:
             
             # Print note to screen ONCE this trigger.
             if PrintOnce:
