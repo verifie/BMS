@@ -164,7 +164,7 @@ while True:
         
 
         # If the trigger is the same, action the trigger, else it was probably electrical noise, so ignore.
-        if MySwitch == MySwitchDebounceReadA and MySwitch == MySwitchDebounceReadB MySwitch == MySwitchDebounceReadC:
+        if MySwitch == MySwitchDebounceReadA and MySwitch == MySwitchDebounceReadB and MySwitch == MySwitchDebounceReadC:
             
             # Print note to screen ONCE this trigger.
             if PrintOnce:
