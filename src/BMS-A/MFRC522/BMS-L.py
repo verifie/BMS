@@ -135,12 +135,12 @@ def room_light_circuit_A_status_INVERT():
     if room_light_circuit_A_status:
         bus.write_byte_data(DEVICEB,OLATA,1) 
         print("   -- LIGHT ON (debug)")
-        room_light_circuit_A_status = False
+        self.room_light_circuit_A_status = False
     
     else:
         bus.write_byte_data(DEVICEB,OLATA,0) 
         print("   -- LIGHT OFF (debug)")
-        room_light_circuit_A_status = True
+        self.room_light_circuit_A_status = True
 
 
 
@@ -162,8 +162,8 @@ bus.write_byte_data(DEVICEC,OLATA,0)
 
 
 
-# Loop until user presses CTRL-C
-while True:
+# Define the RunProgram
+def RunProgram(self):
  
     # Read state of GPIOA register
     MySwitch = bus.read_byte_data(DEVICEC,GPIOB)
@@ -212,6 +212,11 @@ while True:
 
 
 
+
+# Loop until user presses CTRL-C
+while True:
+
+    RunProgram()
 
 
 #########################################################################################################################################    
