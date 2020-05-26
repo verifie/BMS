@@ -129,6 +129,9 @@ bus.write_byte_data(DEVICEC,IODIRB,0xFF)
 
 
 def room_light_circuit_A_status_INVERT():
+    
+    print("   -- LIGHT Status Change.")
+
     if room_light_circuit_A_status:
         bus.write_byte_data(DEVICEB,OLATA,1) 
         print("   -- LIGHT ON (debug)")
@@ -196,7 +199,7 @@ while True:
                 print ("Read Status : ", MySwitch)
                 PrintOnce = False
             
-            room_light_circuit_A_status_INVERT
+                room_light_circuit_A_status_INVERT
 
     else:
         
