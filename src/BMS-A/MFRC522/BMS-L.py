@@ -13,7 +13,7 @@
 #
 # Version History
 # 2020/05/23 2211 v0.00 PME - Start interface tests from demo at: https://www.raspberrypi-spy.co.uk/2013/07/how-to-use-a-mcp23017-i2c-port-expander-with-the-raspberry-pi-part-2/
-
+# 2020/05/23 2211 v0.01 PME - Interfacing tests complete.  Now develop the logic for light control.
 
 
 # Simple print screen introduction
@@ -66,8 +66,13 @@ import smbus
 # Define Variables
 
 room_light_circuit_A = 0x00
+room_light_circuit_A_status = False
+
 room_light_circuit_B = 0x01
+room_light_circuit_B_status = False
+
 room_light_circuit_C = 0x02
+room_light_circuit_A_status = False
 
 toggler = 0
 PrintOnce = True
@@ -172,7 +177,7 @@ while True:
                 print ("Read Status : ", MySwitch)
                 PrintOnce = False
             
-            bus.write_byte_data(DEVICEB,OLATA,1)
+            room_light_circuit_A_status_INVERT
 
     else:
         
@@ -180,6 +185,20 @@ while True:
         PrintOnce = True
 
     time.sleep(0.01)
+
+
+
+
+
+def room_light_circuit_A_status_INVERT():
+    if room_light_circuit_A_status:
+        bus.write_byte_data(DEVICEB,OLATA,1) 
+        room_light_circuit_A_status = False
+    
+    else:
+        bus.write_byte_data(DEVICEB,OLATA,0) 
+        room_light_circuit_A_status = True
+
 
 
 
@@ -212,3 +231,6 @@ for MyData in range(1,999999000):
 bus.write_byte_data(DEVICEA,OLATA,0)
 bus.write_byte_data(DEVICEB,OLATA,0)
 bus.write_byte_data(DEVICEC,OLATA,0)
+
+
+room_light_circuit_A_status_INVERT
