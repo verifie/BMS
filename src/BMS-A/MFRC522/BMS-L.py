@@ -131,10 +131,12 @@ bus.write_byte_data(DEVICEC,IODIRB,0xFF)
 def room_light_circuit_A_status_INVERT():
     if room_light_circuit_A_status:
         bus.write_byte_data(DEVICEB,OLATA,1) 
+        print("   -- LIGHT ON (debug)")
         room_light_circuit_A_status = False
     
     else:
         bus.write_byte_data(DEVICEB,OLATA,0) 
+        print("   -- LIGHT OFF (debug)")
         room_light_circuit_A_status = True
 
 
