@@ -123,6 +123,23 @@ bus.write_byte_data(DEVICEC,IODIRB,0xFF)
 
 
 
+#########################################################################################################################################    
+# Procedure to invert light state.  Fixed to light A for this test.
+# TODO: design a method to invert generically based on which light chosen, OR duplicate for each lighting circuit status.
+
+
+def room_light_circuit_A_status_INVERT():
+    if room_light_circuit_A_status:
+        bus.write_byte_data(DEVICEB,OLATA,1) 
+        room_light_circuit_A_status = False
+    
+    else:
+        bus.write_byte_data(DEVICEB,OLATA,0) 
+        room_light_circuit_A_status = True
+
+
+
+
 
 #########################################################################################################################################    
 #INPUT DEMO
@@ -187,17 +204,6 @@ while True:
     time.sleep(0.01)
 
 
-
-
-
-def room_light_circuit_A_status_INVERT():
-    if room_light_circuit_A_status:
-        bus.write_byte_data(DEVICEB,OLATA,1) 
-        room_light_circuit_A_status = False
-    
-    else:
-        bus.write_byte_data(DEVICEB,OLATA,0) 
-        room_light_circuit_A_status = True
 
 
 
