@@ -223,7 +223,7 @@ class bmsa(object):
     # Loop until user presses CTRL-C
     while True:
 
-        RunProgram()
+        RunProgram(self)
 
 
     #########################################################################################################################################    
