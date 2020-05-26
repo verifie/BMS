@@ -63,191 +63,198 @@ import smbus
 
 
 #########################################################################################################################################    
-# Define Variables
-
-room_light_circuit_A = 0x00
-room_light_circuit_A_status = False
-
-room_light_circuit_B = 0x01
-room_light_circuit_B_status = False
-
-room_light_circuit_C = 0x02
-room_light_circuit_A_status = False
-
-toggler = 0
-PrintOnce = True
+# Create class.
 
 
+class bmsa(object):
 
 
+    #########################################################################################################################################    
+    # Define Variables
 
-#########################################################################################################################################    
-# Define Variables - Friendly names for I2C Bus registers.  It makes it easier to read the code and relates to datasheet names at:
-# http://ww1.microchip.com/downloads/en/devicedoc/20001952c.pdf
- 
-#bus = smbus.SMBus(0)  # Rev 1 Pi uses 0
-bus = smbus.SMBus(1) # Rev 2 Pi uses 1
+    room_light_circuit_A = 0x00
+    room_light_circuit_A_status = False
 
-# To use more than 8 MCP23017 chips, a multiplexer is required, allowing the same address to be used. These are the multiplexer names.
+    room_light_circuit_B = 0x01
+    room_light_circuit_B_status = False
 
+    room_light_circuit_C = 0x02
+    room_light_circuit_A_status = False
 
-# Address of MCP23017 being accessed.  Address can be changed to 1 of 8 options by setting pins A0, A1 and A2.
-DEVICEA = 0x22 # Device address (A0-A2)
-DEVICEB = 0x23 # Device address (A0-A2)
-DEVICEC = 0x25 # Device address (A0-A2)
-
-# Register to access Input / Output Direction Configuration.
-IODIRA = 0x00 # Pin direction register A
-IODIRB = 0x01 # Pin direction register B
-
-# Register to Output Latches
-OLATA  = 0x14 # Register for outputs A
-OLATB  = 0x15 # Register for outputs B
-
-# Register for Input
-GPIOA  = 0x12 # Register for inputs A
-GPIOB  = 0x13 # Register for inputs B
+    toggler = 0
+    PrintOnce = True
 
 
 
 
-#########################################################################################################################################    
-# Set Pin configuration as Input or Output.
-# For our example, Bank A are OUTPUTs, Bank B are INPUTs
 
-
-bus.write_byte_data(DEVICEC,IODIRA,0x00)
-bus.write_byte_data(DEVICEC,IODIRB,0xFF)
-
- 
-
-
-
-#########################################################################################################################################    
-# Procedure to invert light state.  Fixed to light A for this test.
-# TODO: design a method to invert generically based on which light chosen, OR duplicate for each lighting circuit status.
-
-
-def room_light_circuit_A_status_INVERT():
+    #########################################################################################################################################    
+    # Define Variables - Friendly names for I2C Bus registers.  It makes it easier to read the code and relates to datasheet names at:
+    # http://ww1.microchip.com/downloads/en/devicedoc/20001952c.pdf
     
-    print("   -- LIGHT Status Change.")
+    #bus = smbus.SMBus(0)  # Rev 1 Pi uses 0
+    bus = smbus.SMBus(1) # Rev 2 Pi uses 1
 
-    if room_light_circuit_A_status:
-        bus.write_byte_data(DEVICEB,OLATA,1) 
-        print("   -- LIGHT ON (debug)")
-        self.room_light_circuit_A_status = False
+    # To use more than 8 MCP23017 chips, a multiplexer is required, allowing the same address to be used. These are the multiplexer names.
+
+
+    # Address of MCP23017 being accessed.  Address can be changed to 1 of 8 options by setting pins A0, A1 and A2.
+    DEVICEA = 0x22 # Device address (A0-A2)
+    DEVICEB = 0x23 # Device address (A0-A2)
+    DEVICEC = 0x25 # Device address (A0-A2)
+
+    # Register to access Input / Output Direction Configuration.
+    IODIRA = 0x00 # Pin direction register A
+    IODIRB = 0x01 # Pin direction register B
+
+    # Register to Output Latches
+    OLATA  = 0x14 # Register for outputs A
+    OLATB  = 0x15 # Register for outputs B
+
+    # Register for Input
+    GPIOA  = 0x12 # Register for inputs A
+    GPIOB  = 0x13 # Register for inputs B
+
+
+
+
+    #########################################################################################################################################    
+    # Set Pin configuration as Input or Output.
+    # For our example, Bank A are OUTPUTs, Bank B are INPUTs
+
+
+    bus.write_byte_data(DEVICEC,IODIRA,0x00)
+    bus.write_byte_data(DEVICEC,IODIRB,0xFF)
+
     
-    else:
-        bus.write_byte_data(DEVICEB,OLATA,0) 
-        print("   -- LIGHT OFF (debug)")
-        self.room_light_circuit_A_status = True
 
 
 
+    #########################################################################################################################################    
+    # Procedure to invert light state.  Fixed to light A for this test.
+    # TODO: design a method to invert generically based on which light chosen, OR duplicate for each lighting circuit status.
 
 
-#########################################################################################################################################    
-#INPUT DEMO
-
-# Set all GPA pins as outputs by setting
-# all bits of IODIRA register to 0
-bus.write_byte_data(DEVICEA,IODIRA,0x00)
-bus.write_byte_data(DEVICEB,IODIRA,0x00)
-bus.write_byte_data(DEVICEC,IODIRA,0x00)
- 
-# Set output all 7 output bits to 0
-bus.write_byte_data(DEVICEA,OLATA,0)
-bus.write_byte_data(DEVICEB,OLATA,0)
-bus.write_byte_data(DEVICEC,OLATA,0)
-
-
-
-# Define the RunProgram
-def RunProgram(self):
- 
-    # Read state of GPIOA register
-    MySwitch = bus.read_byte_data(DEVICEC,GPIOB)
- 
-
-    if MySwitch > 1:
-
-        # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
-        time.sleep(0.02)
-
-        # Read again to check the reading is the same as the trigger.
-        MySwitchDebounceReadA = bus.read_byte_data(DEVICEC,GPIOB)
+    def room_light_circuit_A_status_INVERT():
         
-        # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
-        time.sleep(0.02)
+        print("   -- LIGHT Status Change.")
 
-        # Read again to check the reading is the same as the trigger.
-        MySwitchDebounceReadB = bus.read_byte_data(DEVICEC,GPIOB)
-
-        # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
-        time.sleep(0.02)
-
-        # Read again to check the reading is the same as the trigger.
-        MySwitchDebounceReadC = bus.read_byte_data(DEVICEC,GPIOB)
+        if room_light_circuit_A_status:
+            bus.write_byte_data(DEVICEB,OLATA,1) 
+            print("   -- LIGHT ON (debug)")
+            self.room_light_circuit_A_status = False
         
+        else:
+            bus.write_byte_data(DEVICEB,OLATA,0) 
+            print("   -- LIGHT OFF (debug)")
+            self.room_light_circuit_A_status = True
 
-        # If the trigger is the same, action the trigger, else it was probably electrical noise, so ignore.
-        if MySwitch == MySwitchDebounceReadA and MySwitch == MySwitchDebounceReadB and MySwitch == MySwitchDebounceReadC:
+
+
+
+
+    #########################################################################################################################################    
+    #INPUT DEMO
+
+    # Set all GPA pins as outputs by setting
+    # all bits of IODIRA register to 0
+    bus.write_byte_data(DEVICEA,IODIRA,0x00)
+    bus.write_byte_data(DEVICEB,IODIRA,0x00)
+    bus.write_byte_data(DEVICEC,IODIRA,0x00)
+    
+    # Set output all 7 output bits to 0
+    bus.write_byte_data(DEVICEA,OLATA,0)
+    bus.write_byte_data(DEVICEB,OLATA,0)
+    bus.write_byte_data(DEVICEC,OLATA,0)
+
+
+
+    # Define the RunProgram
+    def RunProgram(self):
+    
+        # Read state of GPIOA register
+        MySwitch = bus.read_byte_data(DEVICEC,GPIOB)
+    
+
+        if MySwitch > 1:
+
+            # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
+            time.sleep(0.02)
+
+            # Read again to check the reading is the same as the trigger.
+            MySwitchDebounceReadA = bus.read_byte_data(DEVICEC,GPIOB)
             
-            # Print note to screen ONCE this trigger.
-            if PrintOnce:
-                print ("Switch was pressed!")
-                print ("Read Status : ", MySwitch)
-                PrintOnce = False
+            # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
+            time.sleep(0.02)
+
+            # Read again to check the reading is the same as the trigger.
+            MySwitchDebounceReadB = bus.read_byte_data(DEVICEC,GPIOB)
+
+            # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
+            time.sleep(0.02)
+
+            # Read again to check the reading is the same as the trigger.
+            MySwitchDebounceReadC = bus.read_byte_data(DEVICEC,GPIOB)
             
-                room_light_circuit_A_status_INVERT()
+
+            # If the trigger is the same, action the trigger, else it was probably electrical noise, so ignore.
+            if MySwitch == MySwitchDebounceReadA and MySwitch == MySwitchDebounceReadB and MySwitch == MySwitchDebounceReadC:
                 
+                # Print note to screen ONCE this trigger.
+                if PrintOnce:
+                    print ("Switch was pressed!")
+                    print ("Read Status : ", MySwitch)
+                    PrintOnce = False
+                
+                    room_light_circuit_A_status_INVERT()
+                    
 
-    else:
-        
-        bus.write_byte_data(DEVICEB,OLATA,0)
-        PrintOnce = True
+        else:
+            
+            bus.write_byte_data(DEVICEB,OLATA,0)
+            PrintOnce = True
 
-    time.sleep(0.01)
-
-
-
-
-
-# Loop until user presses CTRL-C
-while True:
-
-    RunProgram()
-
-
-#########################################################################################################################################    
-# OUTPUT DEMO
- 
-# Set all GPA pins as outputs by setting
-# all bits of IODIRA register to 0
-bus.write_byte_data(DEVICEA,IODIRA,0x00)
-bus.write_byte_data(DEVICEB,IODIRA,0x00)
-bus.write_byte_data(DEVICEC,IODIRA,0x00)
- 
-# Set output all 7 output bits to 0
-bus.write_byte_data(DEVICEA,OLATA,0)
-bus.write_byte_data(DEVICEB,OLATA,0)
-bus.write_byte_data(DEVICEC,OLATA,0)
- 
-for MyData in range(1,999999000):
-  mydatainv = MyData - 1
-  # Count from 1 to 8 which in binary will count
-  # from 001 to 111
-  bus.write_byte_data(DEVICEA,OLATA,mydatainv)
-  bus.write_byte_data(DEVICEB,OLATA,MyData)
-  bus.write_byte_data(DEVICEC,OLATA,MyData)
-
-  print (MyData)
-  time.sleep(0.05)
- 
-# Set all bits to zero
-bus.write_byte_data(DEVICEA,OLATA,0)
-bus.write_byte_data(DEVICEB,OLATA,0)
-bus.write_byte_data(DEVICEC,OLATA,0)
+        time.sleep(0.01)
 
 
-room_light_circuit_A_status_INVERT
+
+
+
+    # Loop until user presses CTRL-C
+    while True:
+
+        RunProgram()
+
+
+    #########################################################################################################################################    
+    # OUTPUT DEMO
+    
+    # Set all GPA pins as outputs by setting
+    # all bits of IODIRA register to 0
+    bus.write_byte_data(DEVICEA,IODIRA,0x00)
+    bus.write_byte_data(DEVICEB,IODIRA,0x00)
+    bus.write_byte_data(DEVICEC,IODIRA,0x00)
+    
+    # Set output all 7 output bits to 0
+    bus.write_byte_data(DEVICEA,OLATA,0)
+    bus.write_byte_data(DEVICEB,OLATA,0)
+    bus.write_byte_data(DEVICEC,OLATA,0)
+    
+    for MyData in range(1,999999000):
+    mydatainv = MyData - 1
+    # Count from 1 to 8 which in binary will count
+    # from 001 to 111
+    bus.write_byte_data(DEVICEA,OLATA,mydatainv)
+    bus.write_byte_data(DEVICEB,OLATA,MyData)
+    bus.write_byte_data(DEVICEC,OLATA,MyData)
+
+    print (MyData)
+    time.sleep(0.05)
+    
+    # Set all bits to zero
+    bus.write_byte_data(DEVICEA,OLATA,0)
+    bus.write_byte_data(DEVICEB,OLATA,0)
+    bus.write_byte_data(DEVICEC,OLATA,0)
+
+
+    room_light_circuit_A_status_INVERT
