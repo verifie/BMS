@@ -199,7 +199,8 @@ while True:
                 print ("Read Status : ", MySwitch)
                 PrintOnce = False
             
-                room_light_circuit_A_status_INVERT
+                room_light_circuit_A_status_INVERT()
+                
 
     else:
         
