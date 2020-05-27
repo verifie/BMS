@@ -269,8 +269,9 @@ class bmsl(object):
         # Then record the state actioned to MySwitchCurrentState
         self.MySwitchCurrentState = self.MySwitch
 
-                    
-
+        # Finally, set the change request state to False as we've actioned the change and there is nothing left to do in this cycle.
+        self.changeCircuitState = False
+        
 
 
     #########################################################################################################################################   
