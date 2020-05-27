@@ -178,7 +178,7 @@ class bmsl(object):
         
         print("   -- LIGHT Status Change.")
 
-        if self.room_light_circuit_A_status:
+        if not self.room_light_circuit_A_status:
             self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 1) 
             print("   -- LIGHT ON (debug)")
             self.room_light_circuit_A_status = False
