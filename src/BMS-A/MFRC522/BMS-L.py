@@ -16,6 +16,7 @@
 # 2020/05/23 2211 v0.01 PME - Interfacing tests complete.  Now develop the logic for light control. Move into a Class / Function Object Oriented Code structure.
 # 2020/05/27 0900 v0.02 PME - Installing class system. Remove test code that poked interface.  Changed variables to friendlier names, although they no longer match the example or datasheet.
 # 2020/05/27 1107 v0.03 PME - Fix control logic.  The prior software flips the light on for a moment.  Multiple read fails too. So tidy up code and logic sequence.
+# 2020/05/27 1208 v0.04 PME - Improve trigger detection - If switch is pressed, dont toggle on or off all the time. A plan will be needed, but lets test some ideas.
 
 # Simple print screen introduction
 print("")
@@ -92,6 +93,9 @@ class bmsl(object):
     # Software variables.
 
     print (" ... Setup default variables.")
+
+
+    changeCircuitState = False
 
     room_light_circuit_A = 0x00
     room_light_circuit_A_status = False
@@ -229,16 +233,35 @@ class bmsl(object):
             # we mere mortals consider fast is an age both in computer terms and EMF interference, so it's easy to spot.
             # If there is enough interference to fool this filter - it's time to rework the electronics and interfacing!
             if self.MySwitch == self.MySwitchDebounceReadA and self.MySwitch == self.MySwitchDebounceReadB:
-                
-                # The trigger passed our tests and appeared genuine, so we will action the request.
-                # We aren't concerned with the state of the circuit, we just know a request has been made to change it, so we will action an inversion of the channel.
-                if self.PrintOnce:
-                    print ("A trigger was acknowledged and passed the interference filter") # Dev code
-                    print ("Read Status : ", self.MySwitch)
-                    PrintOnce = False
-                
-                    self.room_light_circuit_A_status_INVERT(1)
+
+                # If we reach here, we believe the trigger was genuine.
+                print ("A trigger was acknowledged and passed the interference filter") # Dev code
+
+                # Update the Circuit State.
+                self.changeCircuitState = True
+
+
+            
+            
+    #########################################################################################################################################   
+    # actionTrigger
+    #
+    # This is called if a trigger has been found
+
+    def actionTrigger(self):
+        
+        # A trigger passed our tests and appeared genuine.
+
+        # Compare this trigger to the previous trigger.  If it is different, do something, else ignore.        
+        if self.Myswitch == self.MySwitchPrevious:
+        
+            # The trigger is different, so we will show the trigger.
+            print ("A new trigger was acknowledged.  Bus Read Status : ", self.MySwitch)
+
+            # And action the request.
+            self.room_light_circuit_A_status_INVERT(1)
                     
+
 
 
     #########################################################################################################################################   
@@ -261,6 +284,8 @@ class bmsl(object):
         #self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 1)      #TODO - this doesn't do anything useful. Do not enable!
 
 
+
+
     #########################################################################################################################################    
     # RunProgram
     #
@@ -270,9 +295,17 @@ class bmsl(object):
 
         # Loop until user presses CTRL-C
         while True:
+
+            # Look for trigger (changes)
             self.lookForTriggers()
 
+            # Test to see if an action has been requested.
+            if self.changeCircuitState
 
+                # A trigger request was made. #TODO Pass request on to action.
+                self.actionTrigger()
+
+            # End of RunProgram Loop. Restarting.
 
 
 ###########################################################################################################################################################################
