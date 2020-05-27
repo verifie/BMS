@@ -228,7 +228,7 @@ class bmsl(object):
             
 
             # If the trigger is the same, action the trigger, else it was probably electrical noise, so ignore.
-            if self.MySwitch == self.MySwitchDebounceReadA and MySwitch == self.MySwitchDebounceReadB and MySwitch == self.MySwitchDebounceReadC:
+            if self.MySwitch == self.MySwitchDebounceReadA and self.MySwitch == self.MySwitchDebounceReadB and self.MySwitch == self.MySwitchDebounceReadC:
                 
                 # Print note to screen ONCE this trigger.
                 if self.PrintOnce:
