@@ -14,26 +14,27 @@
 # Version History
 # 2020/05/23 2211 v0.00 PME - Start interface tests from demo at: https://www.raspberrypi-spy.co.uk/2013/07/how-to-use-a-mcp23017-i2c-port-expander-with-the-raspberry-pi-part-2/
 # 2020/05/23 2211 v0.01 PME - Interfacing tests complete.  Now develop the logic for light control. Move into a Class / Function Object Oriented Code structure.
-# 2020/05/27 2211 v0.01 PME - Installing class system.
+# 2020/05/27 2211 v0.01 PME - Installing class system. Remove test code that poked interface.
 
 
 # Simple print screen introduction
 print("")
 print("=============================================================================================================================================")
 print("")
-print("  _________  ________  ______       _ _     _ _              ___  ___                                                  _     _____           _                 ")
-print("  | ___ |  \/  /  ___| | ___ \     (_| |   | (_)             |  \/  |                                                 | |   /  ___|         | |                ")
-print("  | |_/ | .  . \ `--.  | |_/ /_   _ _| | __| |_ _ __   __ _  | .  . | __ _ _ __   __ _  __ _  ___ _ __ ___   ___ _ __ | |_  \ `--. _   _ ___| |_ ___ _ __ ___  ")
-print("  | ___ | |\/| |`--. \ | ___ | | | | | |/ _` | | '_ \ / _` | | |\/| |/ _` | '_ \ / _` |/ _` |/ _ | '_ ` _ \ / _ | '_ \| __|  `--. | | | / __| __/ _ | '_ ` _ \ ")
-print("  | |_/ | |  | /\__/ / | |_/ | |_| | | | (_| | | | | | (_| | | |  | | (_| | | | | (_| | (_| |  __| | | | | |  __| | | | |_  /\__/ | |_| \__ | ||  __| | | | | |")
-print("  \____/\_|  |_\____/  \____/ \__,_|_|_|\__,_|_|_| |_|\__, | \_|  |_/\__,_|_| |_|\__,_|\__, |\___|_| |_| |_|\___|_| |_|\__| \____/ \__, |___/\__\___|_| |_| |_|")
-print("                                                       __/ |                            __/ |                                       __/ |                      ")
-print("                                                      |___/                            |___/                                       |___/                       ")
-print(" BMS-L - Building Management System - Smart Lighting Control")
+print("  _________  ________  ")
+print("  | ___ |  \/  /  ___| ")
+print("  | |_/ | .  . \ `--.  ")
+print("  | ___ | |\/| |`--. \ ")
+print("  | |_/ | |  | /\__/ /    BMS-L - Building Management System - Smart Environment Control (Lighting)")
+print("  \____/\_|  |_\____/  ")
+print("                       ")
+print(" 
 print("")
 print(" Dependencies:")
 print("     1. Raspberry Pi 2,3 or 4. ")
-print("     2. MCP23017 I2C Port Expander ")
+print("     2. MCP23017 I2C Port Expanders at each local control location. ")
+print("     3. I2C for local electronic communication, converting to Differential I2C for location to location comms. ")
+print("     4. 24v DC supply, regulated to 5v and 3.3v at each local site.")
 print("                                ")
 print(" Copyright (c) Leighton Electronics 2020 Onwards. Patent Pending. NO UNAUTHORISED ACCESS PERMITTED. ")
 print(" www.LeightonElectronics.co.uk ")
@@ -98,6 +99,7 @@ class bmsl(object):
 
     toggler = 0
     PrintOnce = True
+    debounceDelay = 0.01
 
     print (" ... Setup default variables. DONE")
 
@@ -156,12 +158,12 @@ class bmsl(object):
         print("   -- LIGHT Status Change.")
 
         if room_light_circuit_A_status:
-            bus.write_byte_data(DEVICEB,OLATA,1) 
+            bus.write_byte_data(self.DEVICEB,self.OLATA,1) 
             print("   -- LIGHT ON (debug)")
             self.room_light_circuit_A_status = False
         
         else:
-            bus.write_byte_data(DEVICEB,OLATA,0) 
+            bus.write_byte_data(self.DEVICEB,self.OLATA,0) 
             print("   -- LIGHT OFF (debug)")
             self.room_light_circuit_A_status = True
 
@@ -174,14 +176,14 @@ class bmsl(object):
 
     # Set all GPA pins as outputs by setting
     # all bits of IODIRA register to 0
-    bus.write_byte_data(DEVICEA,IODIRA,0x00)
-    bus.write_byte_data(DEVICEB,IODIRA,0x00)
-    bus.write_byte_data(DEVICEC,IODIRA,0x00)
+    bus.write_byte_data(self.DEVICEA,self.IODIRA,0x00)
+    bus.write_byte_data(self.DEVICEB,self.IODIRA,0x00)
+    bus.write_byte_data(self.DEVICEC,self.IODIRA,0x00)
     
     # Set output all 7 output bits to 0
-    bus.write_byte_data(DEVICEA,OLATA,0)
-    bus.write_byte_data(DEVICEB,OLATA,0)
-    bus.write_byte_data(DEVICEC,OLATA,0)
+    bus.write_byte_data(self.DEVICEA,self.OLATA,0)
+    bus.write_byte_data(self.DEVICEB,self.OLATA,0)
+    bus.write_byte_data(self.DEVICEC,self.OLATA,0)
 
 
 
@@ -189,32 +191,32 @@ class bmsl(object):
     def RunProgram(self):
     
         # Read state of GPIOA register
-        MySwitch = bus.read_byte_data(DEVICEC,GPIOB)
+        MySwitch = bus.read_byte_data(self.DEVICEC,self.GPIOB)
     
 
         if MySwitch > 1:
 
             # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
-            time.sleep(0.02)
+            time.sleep(self.debounceDelay)
 
             # Read again to check the reading is the same as the trigger.
-            MySwitchDebounceReadA = bus.read_byte_data(DEVICEC,GPIOB)
+            self.MySwitchDebounceReadA = bus.read_byte_data(self.DEVICEC,self.GPIOB)
             
             # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
-            time.sleep(0.02)
+            time.sleep(self.debounceDelay)
 
             # Read again to check the reading is the same as the trigger.
-            MySwitchDebounceReadB = bus.read_byte_data(DEVICEC,GPIOB)
+            self.MySwitchDebounceReadB = bus.read_byte_data(self.DEVICEC,self.GPIOB)
 
             # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
-            time.sleep(0.02)
+            time.sleep(self.debounceDelay)
 
             # Read again to check the reading is the same as the trigger.
-            MySwitchDebounceReadC = bus.read_byte_data(DEVICEC,GPIOB)
+            self.MySwitchDebounceReadC = bus.read_byte_data(self.DEVICEC,self.GPIOB)
             
 
             # If the trigger is the same, action the trigger, else it was probably electrical noise, so ignore.
-            if MySwitch == MySwitchDebounceReadA and MySwitch == MySwitchDebounceReadB and MySwitch == MySwitchDebounceReadC:
+            if self.MySwitch == self.MySwitchDebounceReadA and MySwitch == self.MySwitchDebounceReadB and MySwitch == MySwitchDebounceReadC:
                 
                 # Print note to screen ONCE this trigger.
                 if PrintOnce:
@@ -227,10 +229,10 @@ class bmsl(object):
 
         else:
             
-            bus.write_byte_data(DEVICEB,OLATA,0)
+            bus.write_byte_data(self.DEVICEB,self.OLATA,0)
             PrintOnce = True
 
-        time.sleep(0.01)
+        time.sleep(self.debounceDelay)
 
 
 
@@ -242,33 +244,3 @@ environmentController = bmsl()
 while True:
 
     RunProgram()
-
-
-#########################################################################################################################################    
-# OUTPUT DEMO
-
-# Set all GPA pins as outputs by setting
-# all bits of IODIRA register to 0
-bus.write_byte_data(environmentController.DEVICEA,environmentController.IODIRA,0x00)
-bus.write_byte_data(environmentController.DEVICEB,environmentController.IODIRA,0x00)
-bus.write_byte_data(environmentController.DEVICEC,environmentController.IODIRA,0x00)
-
-# Set output all 7 output bits to 0
-bus.write_byte_data(environmentController.DEVICEA,environmentController.OLATA,0)
-bus.write_byte_data(environmentController.DEVICEB,environmentController.OLATA,0)
-bus.write_byte_data(environmentController.DEVICEC,environmentController.OLATA,0)
-
-# Count from 1 to 8 which in binary will count
-# from 001 to 111
-bus.write_byte_data(environmentController.DEVICEA,environmentController.OLATA,environmentController.mydatainv)
-bus.write_byte_data(environmentController.DEVICEB,environmentController.OLATA,environmentController.MyData)
-bus.write_byte_data(environmentController.DEVICEC,environmentController.OLATA,environmentController.MyData)
-
-print (environmentController.MyData)
-time.sleep(0.05)
-
-# Set all bits to zero
-bus.write_byte_data(environmentController.DEVICEA,environmentController.OLATA,0)
-bus.write_byte_data(environmentController.DEVICEB,environmentController.OLATA,0)
-bus.write_byte_data(environmentController.DEVICEC,environmentController.OLATA,0)
-
