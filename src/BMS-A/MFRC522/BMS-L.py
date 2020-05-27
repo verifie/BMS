@@ -96,6 +96,7 @@ class bmsl(object):
 
 
     changeCircuitState = False
+    MySwitchPrevious = 0
 
     room_light_circuit_A = 0x00
     room_light_circuit_A_status = False
@@ -253,13 +254,17 @@ class bmsl(object):
         # A trigger passed our tests and appeared genuine.
 
         # Compare this trigger to the previous trigger.  If it is different, do something, else ignore.        
-        if self.Myswitch == self.MySwitchPrevious:
+        if not self.Myswitch == self.MySwitchCurrentState:
         
             # The trigger is different, so we will show the trigger.
             print ("A new trigger was acknowledged.  Bus Read Status : ", self.MySwitch)
 
-            # And action the request.
+            # Action the request.
             self.room_light_circuit_A_status_INVERT(1)
+
+            # Then record the state actioned to MySwitchCurrentState
+            self.MySwitchCurrentState = self.Myswitch
+
                     
 
 
