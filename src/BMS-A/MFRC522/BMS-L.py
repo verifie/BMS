@@ -236,39 +236,37 @@ class bmsa(object):
 
 
 
-    # Loop until user presses CTRL-C
-    while True:
+# Loop until user presses CTRL-C
+while True:
 
-        RunProgram()
-
-
-    #########################################################################################################################################    
-    # OUTPUT DEMO
-    
-    # Set all GPA pins as outputs by setting
-    # all bits of IODIRA register to 0
-    bus.write_byte_data(DEVICEA,IODIRA,0x00)
-    bus.write_byte_data(DEVICEB,IODIRA,0x00)
-    bus.write_byte_data(DEVICEC,IODIRA,0x00)
-    
-    # Set output all 7 output bits to 0
-    bus.write_byte_data(DEVICEA,OLATA,0)
-    bus.write_byte_data(DEVICEB,OLATA,0)
-    bus.write_byte_data(DEVICEC,OLATA,0)
-    
-    # Count from 1 to 8 which in binary will count
-    # from 001 to 111
-    bus.write_byte_data(DEVICEA,OLATA,mydatainv)
-    bus.write_byte_data(DEVICEB,OLATA,MyData)
-    bus.write_byte_data(DEVICEC,OLATA,MyData)
-
-    print (MyData)
-    time.sleep(0.05)
-    
-    # Set all bits to zero
-    bus.write_byte_data(DEVICEA,OLATA,0)
-    bus.write_byte_data(DEVICEB,OLATA,0)
-    bus.write_byte_data(DEVICEC,OLATA,0)
+    RunProgram()
 
 
-    room_light_circuit_A_status_INVERT
+#########################################################################################################################################    
+# OUTPUT DEMO
+
+# Set all GPA pins as outputs by setting
+# all bits of IODIRA register to 0
+bus.write_byte_data(DEVICEA,IODIRA,0x00)
+bus.write_byte_data(DEVICEB,IODIRA,0x00)
+bus.write_byte_data(DEVICEC,IODIRA,0x00)
+
+# Set output all 7 output bits to 0
+bus.write_byte_data(DEVICEA,OLATA,0)
+bus.write_byte_data(DEVICEB,OLATA,0)
+bus.write_byte_data(DEVICEC,OLATA,0)
+
+# Count from 1 to 8 which in binary will count
+# from 001 to 111
+bus.write_byte_data(DEVICEA,OLATA,mydatainv)
+bus.write_byte_data(DEVICEB,OLATA,MyData)
+bus.write_byte_data(DEVICEC,OLATA,MyData)
+
+print (MyData)
+time.sleep(0.05)
+
+# Set all bits to zero
+bus.write_byte_data(DEVICEA,OLATA,0)
+bus.write_byte_data(DEVICEB,OLATA,0)
+bus.write_byte_data(DEVICEC,OLATA,0)
+
