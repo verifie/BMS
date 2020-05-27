@@ -240,10 +240,10 @@ class bmsl(object):
             # Because the reads are done so closely together, (speed in fractions of a second) - no multiple trigger state changes could possibly occur.  Importantly, what
             # we mere mortals consider fast is an age both in computer terms and EMF interference, so it's easy to spot.
             # If there is enough interference to fool this filter - it's time to rework the electronics and interfacing!
-            if self.MySwitch == self.MySwitchDebounceReadA and self.MySwitch == self.MySwitchDebounceReadB and self.MySwitch == self.MySwitchDebounceReadC:
+            if self.MySwitch == self.MySwitchDebounceReadA and self.MySwitch == self.MySwitchDebounceReadB and self.MySwitch == self.MySwitchDebounceReadC and not self.MySwitchCurrentState:
 
                 # If we reach here, we believe the trigger was genuine.
-                print ("A trigger was acknowledged and passed the interference filter") # Dev code
+                print ("A new trigger was acknowledged and passed the interference filter") # Dev code
 
                 # Update the Circuit State.
                 self.changeCircuitState = True
@@ -258,19 +258,16 @@ class bmsl(object):
 
     def actionTrigger(self):
         
-        # A trigger passed our tests and appeared genuine.
+        # A trigger passed our tests and appeared genuine and was different to the current state.
 
-        # Compare this trigger to the previous trigger.  If it is NOT the same, do what is asked and record that as the current state, else ignore.        
-        if not self.MySwitch == self.MySwitchCurrentState:
-        
-            # The trigger is different, so we will show the trigger.
-            print ("A new trigger was acknowledged.  Bus Read Status : ", self.MySwitch)
+        # Show the trigger:
+        print ("A new trigger was acknowledged.  Bus Read Status : ", self.MySwitch)
 
-            # Action the request.
-            self.room_light_circuit_A_status_INVERT(1)
+        # Action the request.
+        self.room_light_circuit_A_status_INVERT(1)
 
-            # Then record the state actioned to MySwitchCurrentState
-            self.MySwitchCurrentState = self.MySwitch
+        # Then record the state actioned to MySwitchCurrentState
+        self.MySwitchCurrentState = self.MySwitch
 
                     
 
