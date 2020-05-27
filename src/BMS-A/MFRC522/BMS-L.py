@@ -206,8 +206,8 @@ class bmsl(object):
         self.MySwitch = self.bus.read_byte_data(self.DEVICEC, self.GPIOB)
     
         # This is really simply code for test.  If the state is different to the last actioned request, proceed to qualify the trigger.
-        if not self.MySwitch == self.MySwitchCurrentState
-        
+        if not self.MySwitch == self.MySwitchCurrentState:
+
 
             ########################################################################
             # Software EMF Interference and Debounce filter.
