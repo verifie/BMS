@@ -276,7 +276,7 @@ class bmsl(object):
         # Show the trigger:
         print ("A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)
         
-        for i in range(8):
+        for i in range(3,10):
             print ("Bit ", i," Bus Read Status : ", humanBus[i])
 
         # Action the request.
