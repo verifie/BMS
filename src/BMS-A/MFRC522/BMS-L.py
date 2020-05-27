@@ -137,15 +137,15 @@ class bmsl(object):
 
     #########################################################################################################################################    
     # Set Pin configuration as Input or Output.
-    # For our example, Bank A are OUTPUTs, Bank B are INPUTs
+    # For our example, Bank A are OUTPUTs, Bank B are INPUTs.
+    # The hex at the end translates into an 8 bit binary presentation.  Each bit refers to a pin.
+    # Syntax: bus.write_byte_data([device_ID], [Register to set direction for bank Bank A or B], [Direction (0 or 1)] )
 
-
-    bus.write_byte_data(DEVICEC,IODIRA,0x00)
-    bus.write_byte_data(DEVICEC,IODIRB,0xFF)
+    def setPinDirection(self):
+        bus.write_byte_data(self.DEVICEC,self.IODIRA,0x00)
+        bus.write_byte_data(self.DEVICEC,self.IODIRB,0xFF)
 
     
-
-
 
     #########################################################################################################################################    
     # Procedure to invert light state.  Fixed to light A for this test.
@@ -189,6 +189,11 @@ class bmsl(object):
     # Define the RunProgram
     def RunProgram(self):
     
+
+        # Setup Local GPIO expander ICs - sense or control
+        setPinDirection()
+
+
         # Read state of GPIOA register
         MySwitch = bus.read_byte_data(self.DEVICEC,self.GPIOB)
     
@@ -218,12 +223,12 @@ class bmsl(object):
             if self.MySwitch == self.MySwitchDebounceReadA and MySwitch == self.MySwitchDebounceReadB and MySwitch == MySwitchDebounceReadC:
                 
                 # Print note to screen ONCE this trigger.
-                if PrintOnce:
+                if self.PrintOnce:
                     print ("Switch was pressed!")
                     print ("Read Status : ", MySwitch)
                     PrintOnce = False
                 
-                    environmentController.room_light_circuit_A_status_INVERT()
+                    self.room_light_circuit_A_status_INVERT()
                     
 
         else:
@@ -242,4 +247,4 @@ environmentController = bmsl()
 # Loop until user presses CTRL-C
 while True:
 
-    RunProgram()
+    environmentController.RunProgram()
