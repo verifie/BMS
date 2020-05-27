@@ -276,8 +276,10 @@ class bmsl(object):
         # Show the trigger:
         print ("A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)
         
+        bitCount = 0
         for i in range(3,10):
-            print ("Bit ", i," Bus Read Status : ", humanBus[i])
+            bitCount = bitCount + 1
+            print ("Bit ", bitCount," Bus Read Status : ", humanBus[i])
 
         # Action the request.
         self.room_light_circuit_A_status_INVERT(1)
