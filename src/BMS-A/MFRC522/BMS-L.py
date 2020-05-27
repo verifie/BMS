@@ -260,7 +260,7 @@ class bmsl(object):
         # A trigger passed our tests and appeared genuine and was different to the current state.
 
         # Show the trigger:
-        print ("A new trigger was acknowledged.  Bus Read Status : ", self.MySwitch)
+        print ("A new trigger was acknowledged.  Bus Read Status : ", bin(self.MySwitch))
 
         # Action the request.
         self.room_light_circuit_A_status_INVERT(1)
