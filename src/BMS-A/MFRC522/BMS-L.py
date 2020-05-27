@@ -169,7 +169,7 @@ class bmsl(object):
             self.room_light_circuit_A_status = False
         
         else:
-            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 0)
+            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 1)
             print("   -- LIGHT OFF (debug)")
             self.room_light_circuit_A_status = True
 
