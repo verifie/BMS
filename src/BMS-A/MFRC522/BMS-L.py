@@ -249,12 +249,12 @@ class bmsl(object):
     #
     # This is called if a trigger has been found
 
-    def actionTrigger(self):
+    def actionTrigger(self, request):
         
         # A trigger passed our tests and appeared genuine.
 
         # Compare this trigger to the previous trigger.  If it is different, do something, else ignore.        
-        if not self.Myswitch == self.MySwitchCurrentState:
+        if not request == self.MySwitchCurrentState:
         
             # The trigger is different, so we will show the trigger.
             print ("A new trigger was acknowledged.  Bus Read Status : ", self.MySwitch)
@@ -308,7 +308,7 @@ class bmsl(object):
             if self.changeCircuitState:
 
                 # A trigger request was made. #TODO Pass request on to action.
-                self.actionTrigger()
+                self.actionTrigger(self.MySwitch)
 
             # End of RunProgram Loop. Restarting.
 
