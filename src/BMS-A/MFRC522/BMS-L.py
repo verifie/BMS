@@ -78,10 +78,6 @@ import time
 import smbus
 
 
-# Define Class Names
-
-environmentController = bmsl()
-
 
 
 #########################################################################################################################################    
@@ -249,6 +245,13 @@ class bmsl(object):
             PrintOnce = True
 
         time.sleep(self.debounceDelay)
+
+
+
+
+
+# Define Class Names
+environmentController = bmsl()
 
 
 
