@@ -203,7 +203,7 @@ class bmsl(object):
 
 
         # Read state of GPIOA register
-        self.MySwitch = bus.read_byte_data(self.DEVICEC,self.GPIOB)
+        self.MySwitch = self.bus.read_byte_data(self.DEVICEC,self.GPIOB)
     
 
         if self.MySwitch > 1:
