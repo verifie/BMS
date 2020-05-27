@@ -9,18 +9,31 @@
 # 
 # Description :         Building Management System Lighting Control Interface trials.
 #
-# Status :              25 - Start
+# Status :              25 - Start code interfacing tests and principle functions.
 #
 # Version History
 # 2020/05/23 2211 v0.00 PME - Start interface tests from demo at: https://www.raspberrypi-spy.co.uk/2013/07/how-to-use-a-mcp23017-i2c-port-expander-with-the-raspberry-pi-part-2/
-# 2020/05/23 2211 v0.01 PME - Interfacing tests complete.  Now develop the logic for light control.
+# 2020/05/23 2211 v0.01 PME - Interfacing tests complete.  Now develop the logic for light control. Move into a Class / Function Object Oriented Code structure.
+# 2020/05/27 2211 v0.01 PME - Installing class system.
 
 
 # Simple print screen introduction
 print("")
 print("=============================================================================================================================================")
 print("")
-print("  MCP23017 I2C Port Expander ")
+print("  _________  ________  ______       _ _     _ _              ___  ___                                                  _     _____           _                 ")
+print("  | ___ |  \/  /  ___| | ___ \     (_| |   | (_)             |  \/  |                                                 | |   /  ___|         | |                ")
+print("  | |_/ | .  . \ `--.  | |_/ /_   _ _| | __| |_ _ __   __ _  | .  . | __ _ _ __   __ _  __ _  ___ _ __ ___   ___ _ __ | |_  \ `--. _   _ ___| |_ ___ _ __ ___  ")
+print("  | ___ | |\/| |`--. \ | ___ | | | | | |/ _` | | '_ \ / _` | | |\/| |/ _` | '_ \ / _` |/ _` |/ _ | '_ ` _ \ / _ | '_ \| __|  `--. | | | / __| __/ _ | '_ ` _ \ ")
+print("  | |_/ | |  | /\__/ / | |_/ | |_| | | | (_| | | | | | (_| | | |  | | (_| | | | | (_| | (_| |  __| | | | | |  __| | | | |_  /\__/ | |_| \__ | ||  __| | | | | |")
+print("  \____/\_|  |_\____/  \____/ \__,_|_|_|\__,_|_|_| |_|\__, | \_|  |_/\__,_|_| |_|\__,_|\__, |\___|_| |_| |_|\___|_| |_|\__| \____/ \__, |___/\__\___|_| |_| |_|")
+print("                                                       __/ |                            __/ |                                       __/ |                      ")
+print("                                                      |___/                            |___/                                       |___/                       ")
+print(" BMS-L - Building Management System - Smart Lighting Control")
+print("")
+print(" Dependencies:")
+print("     1. Raspberry Pi 2,3 or 4. ")
+print("     2. MCP23017 I2C Port Expander ")
 print("                                ")
 print(" Copyright (c) Leighton Electronics 2020 Onwards. Patent Pending. NO UNAUTHORISED ACCESS PERMITTED. ")
 print(" www.LeightonElectronics.co.uk ")
@@ -72,6 +85,8 @@ class bmsa(object):
     #########################################################################################################################################    
     # Define Variables
 
+    print (" ... Setup default variables.")
+
     room_light_circuit_A = 0x00
     room_light_circuit_A_status = False
 
@@ -84,6 +99,7 @@ class bmsa(object):
     toggler = 0
     PrintOnce = True
 
+    print (" ... Setup default variables. DONE")
 
 
 
@@ -135,7 +151,7 @@ class bmsa(object):
     # TODO: design a method to invert generically based on which light chosen, OR duplicate for each lighting circuit status.
 
 
-    def room_light_circuit_A_status_INVERT():
+    def room_light_circuit_A_status_INVERT(self):
         
         print("   -- LIGHT Status Change.")
 
@@ -223,7 +239,7 @@ class bmsa(object):
     # Loop until user presses CTRL-C
     while True:
 
-        RunProgram(self)
+        RunProgram()
 
 
     #########################################################################################################################################    
