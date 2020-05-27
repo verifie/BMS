@@ -97,6 +97,7 @@ class bmsl(object):
 
     changeCircuitState = False
     MySwitchCurrentState = 0
+    inputBusStatus = 0x00
 
     room_light_circuit_A = 0x00
     room_light_circuit_A_status = False
@@ -137,6 +138,15 @@ class bmsl(object):
 
     print (" ... Setup default variables. DONE \n\n")
 
+
+
+    #########################################################################################################################################    
+    # When addressing the external GPIO interfaces, we address a block of 8 each time in binary.  The first digit is Pin 0, last is pin 7, etc.
+    # However, by default, the information is presented as a decimal, which is informative but not helpful for a quick human determination of
+    # what is going on.  Ideally, we will also deal with it as a sequence of binary digits as opposed to a decimal to make the program easier
+    # to read.
+    def binary(num, pre='0b', length=8, spacer=0):
+        return '{0}{{:{1}>{2}}}'.format(pre, spacer, length).format(bin(num)[2:])
 
 
     #########################################################################################################################################    
@@ -259,8 +269,11 @@ class bmsl(object):
         
         # A trigger passed our tests and appeared genuine and was different to the current state.
 
+        # Read the bus status and interpret as a binary string.
+        self.inputBusStatus = binary(self.MySwitch)
+
         # Show the trigger:
-        print ("A new trigger was acknowledged.  Bus Read Status : ", bin(self.MySwitch))
+        print ("A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)
 
         # Action the request.
         self.room_light_circuit_A_status_INVERT(1)
