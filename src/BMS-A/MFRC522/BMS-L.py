@@ -277,7 +277,7 @@ class bmsl(object):
         print ("A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)
         
         bitCount = 0
-        for i in range(3,11):
+        for i in range(2,10):
             bitCount = bitCount + 1
             print ("Bit ", bitCount," Bus Read Status : ", humanBus[i])
 
