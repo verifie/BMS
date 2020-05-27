@@ -270,7 +270,7 @@ class bmsl(object):
 
         # Loop until user presses CTRL-C
         while True:
-            lookForTriggers()
+            self.lookForTriggers()
 
 
 
