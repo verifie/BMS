@@ -169,7 +169,7 @@ class bmsl(object):
             self.room_light_circuit_A_status = False
         
         else:
-            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 1)
+            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 0)
             print("   -- LIGHT OFF (debug)")
             self.room_light_circuit_A_status = True
 
@@ -192,18 +192,13 @@ class bmsl(object):
         self.bus.write_byte_data(self.DEVICEC, self.setOutputStateA, 0)
 
 
-
-    # Define the RunProgram
-    def RunProgram(self):
-    
-
-        # Setup Local GPIO expander ICs - sense or control.  Then set the start state of pins.
-        environmentController.setPinDirection()
-        environmentController.setGPIOStartState()
+    #########################################################################################################################################    
+    # lookForTriggers
+    def lookForTriggers(self):
 
 
-        # Read state of GPIOA register
-        self.MySwitch = self.bus.read_byte_data(self.DEVICEC,self.GPIOB)
+        # Read state of GPIOB register
+        self.MySwitch = self.bus.read_byte_data(self.DEVICEC, self.GPIOB)
     
         # This is really simply code for test.  If ANY input is high, do something.  We'll need to break this up further and look for state changes, rather than any logic
         # high, but for now, it is sufficient to develop the basic control process.
@@ -246,7 +241,41 @@ class bmsl(object):
                     
 
 
+    #########################################################################################################################################   
+    # setBMSLive
+    #
+    # To offer some protection against system BMS microcontroller failure (any condition), the local circuit switch interfaces default to a simple
+    # local switch trigger, with the primary light circuit ON and the rest off.  We change that state by turning on pin 8 (0 to 7, so pin 7 really)
+    # at the local GPIO interface to make the local switch interface do what the BMS microcontroller tells it (SMART MODE)
+    #
+    # TODO: A bit-bash clock system (BMS heartbeat) would be better, so if the program ceases to function, the heartbeat would fail in an either on
+    # or off position, causing the local switch interface to revert to simple mode.  That will require local electronics to detect a bit-bashed irregular
+    # clock, however - so we'll leave that out of version 1 for now...
 
+    def setBMSLive(self):
+
+        # Read current state of pins.
+
+        # Set pin 7 HIGH.
+        print(" .. Sending SMART MODE signal to all Local Switch Interfaces")
+        #self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 1)      #TODO - this doesn't do anything useful. Do not enable!
+
+
+    #########################################################################################################################################    
+    # RunProgram
+    #
+    # This is run after everything is setup.
+
+    def RunProgram(self)
+
+        # Loop until user presses CTRL-C
+        while True:
+            lookForTriggers()
+
+
+
+
+###########################################################################################################################################################################
 # Define Class Names
 environmentController = bmsl()
 
@@ -254,8 +283,13 @@ environmentController = bmsl()
 
 ###########################################################################################################################################################################
 # Run the program
-# Loop until user presses CTRL-C
 
-while True:
+# Setup Local GPIO expander ICs - sense or control.  Then set the start state of pins.
+environmentController.setPinDirection()
+environmentController.setGPIOStartState()
 
-    environmentController.RunProgram()
+# Tell the local switch interfaces we're up and running.
+environmentController.setBMSLive()
+
+# Start the run program.  This is a loop.
+environmentController.RunProgram()
