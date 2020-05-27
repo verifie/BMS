@@ -14,8 +14,8 @@
 # Version History
 # 2020/05/23 2211 v0.00 PME - Start interface tests from demo at: https://www.raspberrypi-spy.co.uk/2013/07/how-to-use-a-mcp23017-i2c-port-expander-with-the-raspberry-pi-part-2/
 # 2020/05/23 2211 v0.01 PME - Interfacing tests complete.  Now develop the logic for light control. Move into a Class / Function Object Oriented Code structure.
-# 2020/05/27 2211 v0.02 PME - Installing class system. Remove test code that poked interface.  Changed variables to friendlier names, although they no longer match the example or datasheet.
-
+# 2020/05/27 0900 v0.02 PME - Installing class system. Remove test code that poked interface.  Changed variables to friendlier names, although they no longer match the example or datasheet.
+# 2020/05/27 1107 v0.03 PME - Fix control logic.  The prior software flips the light on for a moment.  Multiple read fails too. So tidy up code and logic sequence.
 
 # Simple print screen introduction
 print("")
@@ -157,9 +157,9 @@ class bmsl(object):
     #########################################################################################################################################    
     # Procedure to invert light state.  Fixed to light A for this test.
     # TODO: design a method to invert generically based on which light chosen, OR duplicate for each lighting circuit status.
+    # CircuitID is GPIO Pin we want to change the state of.
 
-
-    def room_light_circuit_A_status_INVERT(self):
+    def room_light_circuit_A_status_INVERT(self, CircuitID):
         
         print("   -- LIGHT Status Change.")
 
@@ -169,7 +169,7 @@ class bmsl(object):
             self.room_light_circuit_A_status = False
         
         else:
-            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 0) 
+            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 1) #debug test to keep LED on
             print("   -- LIGHT OFF (debug)")
             self.room_light_circuit_A_status = True
 
@@ -205,43 +205,50 @@ class bmsl(object):
         # Read state of GPIOA register
         self.MySwitch = self.bus.read_byte_data(self.DEVICEC,self.GPIOB)
     
-
+        # This is really simply code for test.  If ANY input is high, do something.  We'll need to break this up further and look for state changes, rather than any logic
+        # high, but for now, it is sufficient to develop the basic control process.
         if self.MySwitch > 1:
 
-            # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
+
+            ########################################################################
+            # Software EMF Interference and Debounce filter.
+            #
+            # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger. We do this by:
+            
+            # 1. Pausing for a moment so if this trigger was found as a result of momentary spike or interference, it has time to end (so the pause it acts as a software filter)..
             time.sleep(self.debounceDelay)
 
-            # Read again to check the reading is the same as the trigger.
+            # 2. Then we read the input again to check the reading is the same as the trigger.
             self.MySwitchDebounceReadA = self.bus.read_byte_data(self.DEVICEC, self.GPIOB)
             
-            # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
+            # 3. We then pause again, just in case the second read was also accidental.
             time.sleep(self.debounceDelay)
 
-            # Read again to check the reading is the same as the trigger.
+            # 4. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
+            # this technique should filter unintended triggers out.
             self.MySwitchDebounceReadB = self.bus.read_byte_data(self.DEVICEC, self.GPIOB)
-
-            # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
-            time.sleep(self.debounceDelay)
-
-            # Read again to check the reading is the same as the trigger.
-            self.MySwitchDebounceReadC = self.bus.read_byte_data(self.DEVICEC, self.GPIOB)
             
 
-            # If the trigger is the same, action the trigger, else it was probably electrical noise, so ignore.
-            if self.MySwitch == self.MySwitchDebounceReadA and self.MySwitch == self.MySwitchDebounceReadB and self.MySwitch == self.MySwitchDebounceReadC:
+            # 5. Now we compare the 3 reads.  If the trigger identified is the same on every read, action the trigger, else it was probably electrical noise, so ignore.
+            # Because the reads are done so closely together, (speed in fractions of a second) - no multiple trigger state changes could possibly occur.  Importantly, what
+            # we mere mortals consider fast is an age both in computer terms and EMF interference, so it's easy to spot.
+            # If there is enough interference to fool this filter - it's time to rework the electronics and interfacing!
+            if self.MySwitch == self.MySwitchDebounceReadA and self.MySwitch == self.MySwitchDebounceReadB:
                 
-                # Print note to screen ONCE this trigger.
+                # The trigger passed our tests and appeared genuine, so we will action the request.
+                # We aren't concerned with the state of the circuit, we just know a request has been made to change it, so we will action an inversion of the channel.
                 if self.PrintOnce:
-                    print ("Switch was pressed!")
+                    print ("A trigger was acknowledged and passed the interference filter") # Dev code
                     print ("Read Status : ", self.MySwitch)
                     PrintOnce = False
                 
-                    self.room_light_circuit_A_status_INVERT()
+                    self.room_light_circuit_A_status_INVERT(1)
                     
 
+        # DEV CODE.  If there was nothing registered as a trigger, turn all outputs off.
         else:
             
-            self.bus.write_byte_data(self.DEVICEB,self.setOutputStateA,0)
+            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 0)
             PrintOnce = True
 
         time.sleep(self.debounceDelay)
