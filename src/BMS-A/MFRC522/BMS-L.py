@@ -47,6 +47,9 @@ print("")
 #########################################################################################################################################    
 # Reference - useful information
 
+# Interface Variables - For 16 port MCP23017 GPIO Expander Chips.  We use these at each local lighting / device control site (e.g. one per room or block)
+# to sense and control.
+#
 # You set a bit in IODIRA (0x00) or IODIRB (0x01) to define whether the pin is in input or an output 1== input, 0 == output.
 # You read input bits from GPIOA (0x12) or GPIOB (0x13) reading 1 == high, 0 == low.
 # You write output bits to OLATA (0x14) or OLATB (0x15) where 1 == high and 0 == low.
@@ -85,6 +88,8 @@ class bmsl(object):
     #########################################################################################################################################    
     # Define Variables
 
+    # Software variables.
+
     print (" ... Setup default variables.")
 
     room_light_circuit_A = 0x00
@@ -103,17 +108,13 @@ class bmsl(object):
     print (" ... Setup default variables. DONE")
 
 
-
-
-    #########################################################################################################################################    
-    # Define Variables - Friendly names for I2C Bus registers.  It makes it easier to read the code and relates to datasheet names at:
+    #
+    # Friendly names for I2C Bus registers.  It makes it easier to read the code and relates to datasheet names at:
     # http://ww1.microchip.com/downloads/en/devicedoc/20001952c.pdf
-    
-    #bus = smbus.SMBus(0)  # Rev 1 Pi uses 0
-    bus = smbus.SMBus(1) # Rev 2 Pi uses 1
-
     # To use more than 8 MCP23017 chips, a multiplexer is required, allowing the same address to be used. These are the multiplexer names.
 
+    #bus = smbus.SMBus(0)  # Rev 1 Pi uses 0
+    bus = smbus.SMBus(1) # Rev 2 Pi uses 1
 
     # Address of MCP23017 being accessed.  Address can be changed to 1 of 8 options by setting pins A0, A1 and A2.
     DEVICEA = 0x22 # Device address (A0-A2)
@@ -134,7 +135,6 @@ class bmsl(object):
 
 
 
-
     #########################################################################################################################################    
     # Set Pin configuration as Input or Output.
     # For our example, Bank A are OUTPUTs, Bank B are INPUTs.
@@ -142,6 +142,14 @@ class bmsl(object):
     # Syntax: bus.write_byte_data([device_ID], [Register to set direction for bank Bank A or B], [Direction (0 or 1)] )
 
     def setPinDirection(self):
+
+        # Device A
+        bus.write_byte_data(self.DEVICEA, self.IODIRA, 0x00)
+
+        # Device B
+        bus.write_byte_data(self.DEVICEB, self.IODIRA, 0x00)
+
+        # Device C
         bus.write_byte_data(self.DEVICEC,self.IODIRA,0x00)
         bus.write_byte_data(self.DEVICEC,self.IODIRB,0xFF)
 
@@ -171,18 +179,18 @@ class bmsl(object):
 
 
     #########################################################################################################################################    
-    #INPUT DEMO
+    # setGPIOStartStat
+    # The "Pre-Startup / Power failure / BMS Failure" state of controls is determined by the local relay configuration.  For the safety of the site users, power is 
+    # directed to the primary room lights in the Normally Closed "NC" (normally connected or ON) state, with secondary (effect or supplementary) lighting wired to the
+    # Normally Open "NO" (Normally Disconnected or OFF) state.  This configuration means building users have sufficient basic light in the event of a BMS failure.
+    # However, it also means we have to determine and invert the control we send to the local relays to effect the demand.
 
-    # Set all GPA pins as outputs by setting
-    # all bits of IODIRA register to 0
-    bus.write_byte_data(self.DEVICEA,self.IODIRA,0x00)
-    bus.write_byte_data(self.DEVICEB,self.IODIRA,0x00)
-    bus.write_byte_data(self.DEVICEC,self.IODIRA,0x00)
-    
-    # Set output all 7 output bits to 0
-    bus.write_byte_data(self.DEVICEA,self.OLATA,0)
-    bus.write_byte_data(self.DEVICEB,self.OLATA,0)
-    bus.write_byte_data(self.DEVICEC,self.OLATA,0)
+    def setGPIOStartState(self):
+        
+        # Set output all 7 output bits to 0
+        bus.write_byte_data(self.DEVICEA, self.OLATA, 0)
+        bus.write_byte_data(self.DEVICEB, self.OLATA ,0)
+        bus.write_byte_data(self.DEVICEC, self.OLATA, 0)
 
 
 
@@ -190,42 +198,43 @@ class bmsl(object):
     def RunProgram(self):
     
 
-        # Setup Local GPIO expander ICs - sense or control
-        setPinDirection()
+        # Setup Local GPIO expander ICs - sense or control.  Then set the start state of pins.
+        environmentController.setPinDirection()
+        environmentController.setGPIOStartState()
 
 
         # Read state of GPIOA register
-        MySwitch = bus.read_byte_data(self.DEVICEC,self.GPIOB)
+        self.MySwitch = bus.read_byte_data(self.DEVICEC,self.GPIOB)
     
 
-        if MySwitch > 1:
+        if self.MySwitch > 1:
 
             # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
             time.sleep(self.debounceDelay)
 
             # Read again to check the reading is the same as the trigger.
-            self.MySwitchDebounceReadA = bus.read_byte_data(self.DEVICEC,self.GPIOB)
+            self.MySwitchDebounceReadA = bus.read_byte_data(self.DEVICEC, self.GPIOB)
             
             # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
             time.sleep(self.debounceDelay)
 
             # Read again to check the reading is the same as the trigger.
-            self.MySwitchDebounceReadB = bus.read_byte_data(self.DEVICEC,self.GPIOB)
+            self.MySwitchDebounceReadB = bus.read_byte_data(self.DEVICEC, self.GPIOB)
 
             # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
             time.sleep(self.debounceDelay)
 
             # Read again to check the reading is the same as the trigger.
-            self.MySwitchDebounceReadC = bus.read_byte_data(self.DEVICEC,self.GPIOB)
+            self.MySwitchDebounceReadC = bus.read_byte_data(self.DEVICEC, self.GPIOB)
             
 
             # If the trigger is the same, action the trigger, else it was probably electrical noise, so ignore.
-            if self.MySwitch == self.MySwitchDebounceReadA and MySwitch == self.MySwitchDebounceReadB and MySwitch == MySwitchDebounceReadC:
+            if self.MySwitch == self.MySwitchDebounceReadA and MySwitch == self.MySwitchDebounceReadB and MySwitch == self.MySwitchDebounceReadC:
                 
                 # Print note to screen ONCE this trigger.
                 if self.PrintOnce:
                     print ("Switch was pressed!")
-                    print ("Read Status : ", MySwitch)
+                    print ("Read Status : ", self.MySwitch)
                     PrintOnce = False
                 
                     self.room_light_circuit_A_status_INVERT()
