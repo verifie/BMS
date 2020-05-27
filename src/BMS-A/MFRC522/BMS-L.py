@@ -169,7 +169,7 @@ class bmsl(object):
             self.room_light_circuit_A_status = False
         
         else:
-            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 1) #debug test to keep LED on
+            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 0)
             print("   -- LIGHT OFF (debug)")
             self.room_light_circuit_A_status = True
 
@@ -244,16 +244,6 @@ class bmsl(object):
                 
                     self.room_light_circuit_A_status_INVERT(1)
                     
-
-        # DEV CODE.  If there was nothing registered as a trigger, turn all outputs off.
-        else:
-            
-            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 0)
-            PrintOnce = True
-
-        time.sleep(self.debounceDelay)
-
-
 
 
 
