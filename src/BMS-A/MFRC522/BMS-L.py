@@ -205,10 +205,9 @@ class bmsl(object):
         # Read state of GPIOB register
         self.MySwitch = self.bus.read_byte_data(self.DEVICEC, self.GPIOB)
     
-        # This is really simply code for test.  If ANY input is high, do something.  We'll need to break this up further and look for state changes, rather than any logic
-        # high, but for now, it is sufficient to develop the basic control process.
-        if self.MySwitch > 1:
-
+        # This is really simply code for test.  If the state is different to the last actioned request, proceed to qualify the trigger.
+        if not self.MySwitch == self.MySwitchCurrentState
+        
 
             ########################################################################
             # Software EMF Interference and Debounce filter.
@@ -240,7 +239,7 @@ class bmsl(object):
             # Because the reads are done so closely together, (speed in fractions of a second) - no multiple trigger state changes could possibly occur.  Importantly, what
             # we mere mortals consider fast is an age both in computer terms and EMF interference, so it's easy to spot.
             # If there is enough interference to fool this filter - it's time to rework the electronics and interfacing!
-            if self.MySwitch == self.MySwitchDebounceReadA and self.MySwitch == self.MySwitchDebounceReadB and self.MySwitch == self.MySwitchDebounceReadC and not self.MySwitch == self.MySwitchCurrentState:
+            if self.MySwitch == self.MySwitchDebounceReadA and self.MySwitch == self.MySwitchDebounceReadB and self.MySwitch == self.MySwitchDebounceReadC:
 
                 # If we reach here, we believe the trigger was genuine.
                 print ("A new trigger was acknowledged and passed the interference filter") # Dev code
@@ -271,7 +270,7 @@ class bmsl(object):
 
         # Finally, set the change request state to False as we've actioned the change and there is nothing left to do in this cycle.
         self.changeCircuitState = False
-        
+
 
 
     #########################################################################################################################################   
