@@ -145,7 +145,7 @@ class bmsl(object):
     # However, by default, the information is presented as a decimal, which is informative but not helpful for a quick human determination of
     # what is going on.  Ideally, we will also deal with it as a sequence of binary digits as opposed to a decimal to make the program easier
     # to read.
-    def binary(num, pre='0b', length=8, spacer=0):
+    def binary(self, num, pre='0b', length=8, spacer=0):
         return '{0}{{:{1}>{2}}}'.format(pre, spacer, length).format(bin(num)[2:])
 
 
