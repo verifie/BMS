@@ -109,6 +109,7 @@ class bmsl(object):
     room_light_circuit_A_status = False
 
     toggler = 0
+    actionTally = 0
     PrintOnce = True
     debounceDelay = 0.02
 
@@ -267,7 +268,9 @@ class bmsl(object):
 
     def actionTrigger(self):
         
-        # A trigger passed our tests and appeared genuine and was different to the current state.
+        # A trigger passed our tests and appeared genuine and was different to the current state. Increment the action tally
+        self.actionTally = self.actionTally + 1
+        print("Action Tally : ", self.actionTally)
 
         # Read the bus status and interpret as a binary string.
         self.inputBusStatus = self.binary(self.MySwitch)
