@@ -263,7 +263,7 @@ class bmsl(object):
             self.room_light_circuit_A_status_INVERT(1)
 
             # Then record the state actioned to MySwitchCurrentState
-            self.MySwitchCurrentState = self.Myswitch
+            self.MySwitchCurrentState = self.MySwitch
 
                     
 
