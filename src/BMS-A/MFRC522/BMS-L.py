@@ -109,7 +109,7 @@ class bmsl(object):
 
     toggler = 0
     PrintOnce = True
-    debounceDelay = 0.01
+    debounceDelay = 0.02
 
     # Friendly names for I2C Bus registers.  It makes it easier to read the code and relates to datasheet names at:
     # http://ww1.microchip.com/downloads/en/devicedoc/20001952c.pdf
@@ -228,12 +228,19 @@ class bmsl(object):
             # this technique should filter unintended triggers out.
             self.MySwitchDebounceReadB = self.bus.read_byte_data(self.DEVICEC, self.GPIOB)
             
+            
+            # 5. We then pause again, just in case the second read was also accidental.
+            time.sleep(self.debounceDelay)
 
-            # 5. Now we compare the 3 reads.  If the trigger identified is the same on every read, action the trigger, else it was probably electrical noise, so ignore.
+            # 6. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
+            # this technique should filter unintended triggers out.
+            self.MySwitchDebounceReadC = self.bus.read_byte_data(self.DEVICEC, self.GPIOB)
+            
+            # 5. Now we compare the 4 reads.  If the trigger identified is the same on every read, action the trigger, else it was probably electrical noise, so ignore.
             # Because the reads are done so closely together, (speed in fractions of a second) - no multiple trigger state changes could possibly occur.  Importantly, what
             # we mere mortals consider fast is an age both in computer terms and EMF interference, so it's easy to spot.
             # If there is enough interference to fool this filter - it's time to rework the electronics and interfacing!
-            if self.MySwitch == self.MySwitchDebounceReadA and self.MySwitch == self.MySwitchDebounceReadB:
+            if self.MySwitch == self.MySwitchDebounceReadA and self.MySwitch == self.MySwitchDebounceReadB and self.MySwitch == self.MySwitchDebounceReadC:
 
                 # If we reach here, we believe the trigger was genuine.
                 print ("A trigger was acknowledged and passed the interference filter") # Dev code
