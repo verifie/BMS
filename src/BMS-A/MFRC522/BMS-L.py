@@ -78,9 +78,14 @@ import time
 import smbus
 
 
+# Define Class Names
+
+environmentController = bmsl()
+
+
+
 #########################################################################################################################################    
 # Create class.
-
 
 class bmsl(object):
 
@@ -105,10 +110,6 @@ class bmsl(object):
     PrintOnce = True
     debounceDelay = 0.01
 
-    print (" ... Setup default variables. DONE")
-
-
-    #
     # Friendly names for I2C Bus registers.  It makes it easier to read the code and relates to datasheet names at:
     # http://ww1.microchip.com/downloads/en/devicedoc/20001952c.pdf
     # To use more than 8 MCP23017 chips, a multiplexer is required, allowing the same address to be used. These are the multiplexer names.
@@ -133,6 +134,8 @@ class bmsl(object):
     GPIOA  = 0x12 # Register for inputs A
     GPIOB  = 0x13 # Register for inputs B
 
+    print (" ... Setup default variables. DONE \n\n")
+
 
 
     #########################################################################################################################################    
@@ -144,14 +147,14 @@ class bmsl(object):
     def setPinDirection(self):
 
         # Device A
-        bus.write_byte_data(self.DEVICEA, self.IODIRA, 0x00)
+        self.bus.write_byte_data(self.DEVICEA, self.IODIRA, 0x00)            # All set to inputs for TEST.  Hex 0x00 = (00000000)
 
         # Device B
-        bus.write_byte_data(self.DEVICEB, self.IODIRA, 0x00)
+        self.bus.write_byte_data(self.DEVICEB, self.IODIRA, 0x00)            # All set to inputs for TEST.  Hex 0x00 = (00000000)
 
         # Device C
-        bus.write_byte_data(self.DEVICEC,self.IODIRA,0x00)
-        bus.write_byte_data(self.DEVICEC,self.IODIRB,0xFF)
+        self.bus.write_byte_data(self.DEVICEC, self.IODIRA, 0x00)            # Bank A set to inputs  - Hex 0x00 = (00000000)
+        self.bus.write_byte_data(self.DEVICEC, self.IODIRB, 0xFF)            # Bank B set to outputs - Hex 0xFF = (11111111)
 
     
 
@@ -165,12 +168,12 @@ class bmsl(object):
         print("   -- LIGHT Status Change.")
 
         if room_light_circuit_A_status:
-            bus.write_byte_data(self.DEVICEB,self.OLATA,1) 
+            self.bus.write_byte_data(self.DEVICEB,self.OLATA,1) 
             print("   -- LIGHT ON (debug)")
             self.room_light_circuit_A_status = False
         
         else:
-            bus.write_byte_data(self.DEVICEB,self.OLATA,0) 
+            self.bus.write_byte_data(self.DEVICEB,self.OLATA,0) 
             print("   -- LIGHT OFF (debug)")
             self.room_light_circuit_A_status = True
 
@@ -188,9 +191,9 @@ class bmsl(object):
     def setGPIOStartState(self):
         
         # Set output all 7 output bits to 0
-        bus.write_byte_data(self.DEVICEA, self.OLATA, 0)
-        bus.write_byte_data(self.DEVICEB, self.OLATA ,0)
-        bus.write_byte_data(self.DEVICEC, self.OLATA, 0)
+        self.bus.write_byte_data(self.DEVICEA, self.OLATA, 0)
+        self.bus.write_byte_data(self.DEVICEB, self.OLATA ,0)
+        self.bus.write_byte_data(self.DEVICEC, self.OLATA, 0)
 
 
 
@@ -213,19 +216,19 @@ class bmsl(object):
             time.sleep(self.debounceDelay)
 
             # Read again to check the reading is the same as the trigger.
-            self.MySwitchDebounceReadA = bus.read_byte_data(self.DEVICEC, self.GPIOB)
+            self.MySwitchDebounceReadA = self.bus.read_byte_data(self.DEVICEC, self.GPIOB)
             
             # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
             time.sleep(self.debounceDelay)
 
             # Read again to check the reading is the same as the trigger.
-            self.MySwitchDebounceReadB = bus.read_byte_data(self.DEVICEC, self.GPIOB)
+            self.MySwitchDebounceReadB = self.bus.read_byte_data(self.DEVICEC, self.GPIOB)
 
             # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger.
             time.sleep(self.debounceDelay)
 
             # Read again to check the reading is the same as the trigger.
-            self.MySwitchDebounceReadC = bus.read_byte_data(self.DEVICEC, self.GPIOB)
+            self.MySwitchDebounceReadC = self.bus.read_byte_data(self.DEVICEC, self.GPIOB)
             
 
             # If the trigger is the same, action the trigger, else it was probably electrical noise, so ignore.
@@ -242,18 +245,17 @@ class bmsl(object):
 
         else:
             
-            bus.write_byte_data(self.DEVICEB,self.OLATA,0)
+            self.bus.write_byte_data(self.DEVICEB,self.OLATA,0)
             PrintOnce = True
 
         time.sleep(self.debounceDelay)
 
 
 
-
-
-environmentController = bmsl()
-
+###########################################################################################################################################################################
+# Run the program
 # Loop until user presses CTRL-C
+
 while True:
 
     environmentController.RunProgram()
