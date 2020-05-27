@@ -266,7 +266,7 @@ class bmsl(object):
     #
     # This is run after everything is setup.
 
-    def RunProgram(self)
+    def RunProgram(self):
 
         # Loop until user presses CTRL-C
         while True:
