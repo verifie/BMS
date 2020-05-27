@@ -14,7 +14,7 @@
 # Version History
 # 2020/05/23 2211 v0.00 PME - Start interface tests from demo at: https://www.raspberrypi-spy.co.uk/2013/07/how-to-use-a-mcp23017-i2c-port-expander-with-the-raspberry-pi-part-2/
 # 2020/05/23 2211 v0.01 PME - Interfacing tests complete.  Now develop the logic for light control. Move into a Class / Function Object Oriented Code structure.
-# 2020/05/27 2211 v0.01 PME - Installing class system. Remove test code that poked interface.
+# 2020/05/27 2211 v0.02 PME - Installing class system. Remove test code that poked interface.  Changed variables to friendlier names, although they no longer match the example or datasheet.
 
 
 # Simple print screen introduction
@@ -50,14 +50,14 @@ print("")
 # Interface Variables - For 16 port MCP23017 GPIO Expander Chips.  We use these at each local lighting / device control site (e.g. one per room or block)
 # to sense and control.
 #
-# You set a bit in IODIRA (0x00) or IODIRB (0x01) to define whether the pin is in input or an output 1== input, 0 == output.
+# You set a bit in setPinInputOutputStateA (0x00) or setPinInputOutputStateB (0x01) to define whether the pin is in input or an output 1== input, 0 == output.
 # You read input bits from GPIOA (0x12) or GPIOB (0x13) reading 1 == high, 0 == low.
-# You write output bits to OLATA (0x14) or OLATB (0x15) where 1 == high and 0 == low.
+# You write output bits to setOutputStateA (0x14) or setOutputStateB (0x15) where 1 == high and 0 == low.
 #
 # Syntax 
 # bus.write_byte_data([device],[command],[Pin 7,6,5,4,3,2,1,0 addressed as an 8 bit binary number presented in HEX]
 # e.g.
-# bus.write_byte_data(DEVICEC,IODIRA,0x80)
+# bus.write_byte_data(DEVICEC,setPinInputOutputStateA,0x80)
 #
 #                                                7 6 5 4 3 2 1 0
 # ... tells device C, sets direction for pins    1 0 0 0 0 0 0 0
@@ -119,12 +119,12 @@ class bmsl(object):
     DEVICEC = 0x25 # Device address (A0-A2)
 
     # Register to access Input / Output Direction Configuration.
-    IODIRA = 0x00 # Pin direction register A
-    IODIRB = 0x01 # Pin direction register B
+    setPinInputOutputStateA = 0x00 # Pin direction register A
+    setPinInputOutputStateB = 0x01 # Pin direction register B
 
     # Register to Output Latches
-    OLATA  = 0x14 # Register for outputs A
-    OLATB  = 0x15 # Register for outputs B
+    setOutputStateA  = 0x14 # Register for outputs A
+    setOutputStateB  = 0x15 # Register for outputs B
 
     # Register for Input
     GPIOA  = 0x12 # Register for inputs A
@@ -143,14 +143,14 @@ class bmsl(object):
     def setPinDirection(self):
 
         # Device A
-        self.bus.write_byte_data(self.DEVICEA, self.IODIRA, 0x00)            # All set to inputs for TEST.  Hex 0x00 = (00000000)
+        self.bus.write_byte_data(self.DEVICEA, self.setPinInputOutputStateA, 0x00)            # All set to inputs for TEST.  Hex 0x00 = (00000000)
 
         # Device B
-        self.bus.write_byte_data(self.DEVICEB, self.IODIRA, 0x00)            # All set to inputs for TEST.  Hex 0x00 = (00000000)
+        self.bus.write_byte_data(self.DEVICEB, self.setPinInputOutputStateA, 0x00)            # All set to inputs for TEST.  Hex 0x00 = (00000000)
 
         # Device C
-        self.bus.write_byte_data(self.DEVICEC, self.IODIRA, 0x00)            # Bank A set to inputs  - Hex 0x00 = (00000000)
-        self.bus.write_byte_data(self.DEVICEC, self.IODIRB, 0xFF)            # Bank B set to outputs - Hex 0xFF = (11111111)
+        self.bus.write_byte_data(self.DEVICEC, self.setPinInputOutputStateA, 0x00)            # Bank A set to inputs  - Hex 0x00 = (00000000)
+        self.bus.write_byte_data(self.DEVICEC, self.setPinInputOutputStateB, 0xFF)            # Bank B set to outputs - Hex 0xFF = (11111111)
 
     
 
@@ -164,12 +164,12 @@ class bmsl(object):
         print("   -- LIGHT Status Change.")
 
         if self.room_light_circuit_A_status:
-            self.bus.write_byte_data(self.DEVICEB,self.OLATA,1) 
+            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 1) 
             print("   -- LIGHT ON (debug)")
             self.room_light_circuit_A_status = False
         
         else:
-            self.bus.write_byte_data(self.DEVICEB,self.OLATA,0) 
+            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 0) 
             print("   -- LIGHT OFF (debug)")
             self.room_light_circuit_A_status = True
 
@@ -187,9 +187,9 @@ class bmsl(object):
     def setGPIOStartState(self):
         
         # Set output all 7 output bits to 0
-        self.bus.write_byte_data(self.DEVICEA, self.OLATA, 0)
-        self.bus.write_byte_data(self.DEVICEB, self.OLATA ,0)
-        self.bus.write_byte_data(self.DEVICEC, self.OLATA, 0)
+        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateA, 0)
+        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA ,0)
+        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateA, 0)
 
 
 
@@ -241,7 +241,7 @@ class bmsl(object):
 
         else:
             
-            self.bus.write_byte_data(self.DEVICEB,self.OLATA,0)
+            self.bus.write_byte_data(self.DEVICEB,self.setOutputStateA,0)
             PrintOnce = True
 
         time.sleep(self.debounceDelay)
