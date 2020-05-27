@@ -270,7 +270,7 @@ class bmsl(object):
         # A trigger passed our tests and appeared genuine and was different to the current state.
 
         # Read the bus status and interpret as a binary string.
-        self.inputBusStatus = binary(self.MySwitch)
+        self.inputBusStatus = self.binary(self.MySwitch)
 
         # Show the trigger:
         print ("A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)
