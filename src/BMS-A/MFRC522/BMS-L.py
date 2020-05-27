@@ -305,7 +305,7 @@ class bmsl(object):
             self.lookForTriggers()
 
             # Test to see if an action has been requested.
-            if self.changeCircuitState
+            if self.changeCircuitState:
 
                 # A trigger request was made. #TODO Pass request on to action.
                 self.actionTrigger()
