@@ -28,7 +28,6 @@ print("  | ___ | |\/| |`--. \ ")
 print("  | |_/ | |  | /\__/ /    BMS-L - Building Management System - Smart Environment Control (Lighting)")
 print("  \____/\_|  |_\____/  ")
 print("                       ")
-print(" 
 print("")
 print(" Dependencies:")
 print("     1. Raspberry Pi 2,3 or 4. ")
