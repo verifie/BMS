@@ -79,7 +79,7 @@ import smbus
 # Create class.
 
 
-class bmsa(object):
+class bmsl(object):
 
 
     #########################################################################################################################################    
@@ -222,7 +222,7 @@ class bmsa(object):
                     print ("Read Status : ", MySwitch)
                     PrintOnce = False
                 
-                    room_light_circuit_A_status_INVERT()
+                    environmentController.room_light_circuit_A_status_INVERT()
                     
 
         else:
@@ -236,6 +236,8 @@ class bmsa(object):
 
 
 
+environmentController = bmsl()
+
 # Loop until user presses CTRL-C
 while True:
 
@@ -247,26 +249,26 @@ while True:
 
 # Set all GPA pins as outputs by setting
 # all bits of IODIRA register to 0
-bus.write_byte_data(DEVICEA,IODIRA,0x00)
-bus.write_byte_data(DEVICEB,IODIRA,0x00)
-bus.write_byte_data(DEVICEC,IODIRA,0x00)
+bus.write_byte_data(environmentController.DEVICEA,environmentController.IODIRA,0x00)
+bus.write_byte_data(environmentController.DEVICEB,environmentController.IODIRA,0x00)
+bus.write_byte_data(environmentController.DEVICEC,environmentController.IODIRA,0x00)
 
 # Set output all 7 output bits to 0
-bus.write_byte_data(DEVICEA,OLATA,0)
-bus.write_byte_data(DEVICEB,OLATA,0)
-bus.write_byte_data(DEVICEC,OLATA,0)
+bus.write_byte_data(environmentController.DEVICEA,environmentController.OLATA,0)
+bus.write_byte_data(environmentController.DEVICEB,environmentController.OLATA,0)
+bus.write_byte_data(environmentController.DEVICEC,environmentController.OLATA,0)
 
 # Count from 1 to 8 which in binary will count
 # from 001 to 111
-bus.write_byte_data(DEVICEA,OLATA,mydatainv)
-bus.write_byte_data(DEVICEB,OLATA,MyData)
-bus.write_byte_data(DEVICEC,OLATA,MyData)
+bus.write_byte_data(environmentController.DEVICEA,environmentController.OLATA,environmentController.mydatainv)
+bus.write_byte_data(environmentController.DEVICEB,environmentController.OLATA,environmentController.MyData)
+bus.write_byte_data(environmentController.DEVICEC,environmentController.OLATA,environmentController.MyData)
 
-print (MyData)
+print (environmentController.MyData)
 time.sleep(0.05)
 
 # Set all bits to zero
-bus.write_byte_data(DEVICEA,OLATA,0)
-bus.write_byte_data(DEVICEB,OLATA,0)
-bus.write_byte_data(DEVICEC,OLATA,0)
+bus.write_byte_data(environmentController.DEVICEA,environmentController.OLATA,0)
+bus.write_byte_data(environmentController.DEVICEB,environmentController.OLATA,0)
+bus.write_byte_data(environmentController.DEVICEC,environmentController.OLATA,0)
 
