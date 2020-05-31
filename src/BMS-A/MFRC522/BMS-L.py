@@ -59,7 +59,7 @@ print("")
 # Syntax 
 # bus.write_byte_data([device],[command],[Pin 7,6,5,4,3,2,1,0 addressed as an 8 bit binary number presented in HEX]
 # e.g.
-# bus.write_byte_data(DEVICEC,setPinInputOutputStateA,0x80)
+# bus.write_byte_data(Device003,setPinInputOutputStateA,0x80)
 #
 #                                                7 6 5 4 3 2 1 0
 # ... tells device C, sets direction for pins    1 0 0 0 0 0 0 0
@@ -92,11 +92,147 @@ class bmsl(object):
     # Define Variables
 
 
+    # Switch types and settings.
+    print (" BOOT ... Setup Switch types and settings.")
+
+    # Switch Types
+    Latch = 0
+    Momentary = 1
+    Timer = 2
+    Movement = 3
+
+    # Device and Switch / sensor
+
+    # Device 001
+    Network = 0
+    Device001 = 0x20 # I2C Device address (A0-A2)
+    Device001Input0 = Latch
+    Device001Input1 = Latch
+    Device001Input2 = Latch
+    Device001Input3 = Latch
+    Device001Input4 = Latch
+    Device001Input5 = Latch
+    Device001Input6 = Latch
+    Device001Input7 = Latch
+
+    # Device 002
+    Network = 0
+    Device002 = 0x21 # I2C Device address (A0-A2)
+    Device002Input0 = Latch
+    Device002Input1 = Latch
+    Device002Input2 = Latch
+    Device002Input3 = Latch
+    Device002Input4 = Latch
+    Device002Input5 = Latch
+    Device002Input6 = Latch
+    Device002Input7 = Latch
+
+    # Device 003
+    Network = 0
+    Device003 = 0x22 # Device address (A0-A2) Address of MCP23017 being accessed.  Address can be changed to 1 of 8 options by setting pins A0, A1 and A2.
+    Device003Input0 = Latch
+    Device003Input1 = Latch
+    Device003Input2 = Latch
+    Device003Input3 = Latch
+    Device003Input4 = Latch
+    Device003Input5 = Latch
+    Device003Input6 = Latch
+    Device003Input7 = Latch
+
+    # Device 004
+    Network = 0
+    Device002 = 0x23
+    Device004Input0 = Latch
+    Device004Input1 = Latch
+    Device004Input2 = Latch
+    Device004Input3 = Latch
+    Device004Input4 = Latch
+    Device004Input5 = Latch
+    Device004Input6 = Latch
+    Device004Input7 = Latch
+
+    # Device 005
+    Network = 0
+    Device002 = 0x24
+    Device005Input0 = Latch
+    Device005Input1 = Latch
+    Device005Input2 = Latch
+    Device005Input3 = Latch
+    Device005Input4 = Latch
+    Device005Input5 = Latch
+    Device005Input6 = Latch
+    Device005Input7 = Latch
+
+    # Device 006
+    Network = 0
+    Device002 = 0x25
+    Device006Input0 = Latch
+    Device006Input1 = Latch
+    Device006Input2 = Latch
+    Device006Input3 = Latch
+    Device006Input4 = Latch
+    Device006Input5 = Latch
+    Device006Input6 = Latch
+    Device006Input7 = Latch
+
+    # Device 007
+    Network = 0
+    Device002 = 0x26
+    Device007Input0 = Latch
+    Device007Input1 = Latch
+    Device007Input2 = Latch
+    Device007Input3 = Latch
+    Device007Input4 = Latch
+    Device007Input5 = Latch
+    Device007Input6 = Latch
+    Device007Input7 = Latch
+
+    # Device 008
+    Network = 0
+    Device002 = 0x27
+    Device008Input0 = Latch
+    Device008Input1 = Latch
+    Device008Input2 = Latch
+    Device008Input3 = Latch
+    Device008Input4 = Latch
+    Device008Input5 = Latch
+    Device008Input6 = Latch
+    Device008Input7 = Latch
+
+    # Device 009
+    Network = 1
+    Device001 = 0x20 # I2C Device address (A0-A2)
+    Device009Input0 = Latch
+    Device009Input1 = Latch
+    Device009Input2 = Latch
+    Device009Input3 = Latch
+    Device009Input4 = Latch
+    Device009Input5 = Latch
+    Device009Input6 = Latch
+    Device009Input7 = Latch
+
+    # Device 010
+    Network = 1
+    Device002 = 0x21 # I2C Device address (A0-A2)
+    Device010Input0 = Latch
+    Device010Input1 = Latch
+    Device010Input2 = Latch
+    Device010Input3 = Latch
+    Device010Input4 = Latch
+    Device010Input5 = Latch
+    Device010Input6 = Latch
+    Device010Input7 = Latch
 
 
+
+    # DEBUG - Verbose announcer.
+    if debug_verbose:
+        print (" BOOT ... Setup Switch types and settings. DONE \n\n")
+    # DEBUG end
+
+    
 
     # Software variables.
-
     print (" BOOT ... Setup default variables.")
 
     # Debug verbose screen print
@@ -126,11 +262,6 @@ class bmsl(object):
 
     #bus = smbus.SMBus(0)  # Rev 1 Pi uses 0
     bus = smbus.SMBus(1) # Rev 2 Pi uses 1
-
-    # Address of MCP23017 being accessed.  Address can be changed to 1 of 8 options by setting pins A0, A1 and A2.
-    DEVICEA = 0x20 # Device address (A0-A2)
-    DEVICEB = 0x21 # Device address (A0-A2)
-    DEVICEC = 0x22 # Device address (A0-A2)
 
     # Register to access Input / Output Direction Configuration.
     setPinInputOutputStateA = 0x00 # Pin direction register A. 0 = Output.
@@ -174,15 +305,15 @@ class bmsl(object):
 
 
         # Device A
-        self.bus.write_byte_data(self.DEVICEA, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
-        self.bus.write_byte_data(self.DEVICEA, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
+        self.bus.write_byte_data(self.Device001, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
+        self.bus.write_byte_data(self.Device001, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
 
         # Device B
-        self.bus.write_byte_data(self.DEVICEB, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
-        self.bus.write_byte_data(self.DEVICEB, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
+        self.bus.write_byte_data(self.Device002, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
+        self.bus.write_byte_data(self.Device002, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
 
-        self.bus.write_byte_data(self.DEVICEC, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
-        self.bus.write_byte_data(self.DEVICEC, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
+        self.bus.write_byte_data(self.Device003, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
+        self.bus.write_byte_data(self.Device003, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
 
         # DEBUG - Verbose announcer.
         if self.debug_verbose:
@@ -204,9 +335,9 @@ class bmsl(object):
         # DEBUG endprint
 
         if not self.room_light_circuit_A_status:
-            self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0xFF) 
-            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0xFF) 
-            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00) 
+            self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0xFF) 
+            self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0xFF) 
+            self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0x00) 
 
             # DEBUG - Verbose announcer.
             if self.debug_verbose:
@@ -216,9 +347,9 @@ class bmsl(object):
             self.room_light_circuit_A_status = True
         
         else:
-            self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
-            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
-            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
+            self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0xFF)
 
             # DEBUG - Verbose announcer.
             if self.debug_verbose:
@@ -238,56 +369,56 @@ class bmsl(object):
         
         # Set output all 7 output bits to 0
         print("Test outputs 0.")
-        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0x00)
         print("Test outputs 0... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 1
         print("Setting all outputs.")
-        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0xFF)
-        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0xFF)
-        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0xFF)
         print("Setting all outputs... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 0
         print("Test outputs 0.")
-        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0x00)
         print("Test outputs 0... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 1
         print("Setting all outputs.")
-        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0xFF)
-        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0xFF)
-        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0xFF)
         print("Setting all outputs... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 0
         print("Test outputs 0.")
-        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0x00)
         print("Test outputs 0... done.")
         
         while False: # Debug - turn all outputs high or low.
 
             time.sleep(0.5)
             print("Setting all outputs. ON")
-            self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0xFF)
-            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0xFF)
-            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
+            self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0xFF)
+            self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0xFF)
+            self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0xFF)
             print("Setting all outputs... ON done.")
             time.sleep(0.5)
             print("Setting all outputs.")
-            self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
-            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
-            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0x00)
             print("Setting all outputs... done.")
 
 
@@ -304,9 +435,9 @@ class bmsl(object):
         
         # Set output all 7 output bits to 0
         print("BOOT : Setting all outputs.")
-        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0x00)
 
         # DEBUG - Verbose announcer.
         if self.debug_verbose:
@@ -325,7 +456,7 @@ class bmsl(object):
         time.sleep(self.debounceDelay)
 
         # Read state of GPIOB register
-        self.MySwitch = self.bus.read_byte_data(self.DEVICEA, self.GPIOA)
+        self.MySwitch = self.bus.read_byte_data(self.Device001, self.GPIOA)
         # print("A input state:", self.MySwitch) # Debug print after first read.
     
         # This is really simply code for test.  If the state is different to the last actioned request, proceed to qualify the trigger.
@@ -346,14 +477,14 @@ class bmsl(object):
             time.sleep(self.debounceDelay)
 
             # 2. Then we read the input again to check the reading is the same as the trigger.
-            self.MySwitchDebounceReadA = self.bus.read_byte_data(self.DEVICEA, self.GPIOA)
+            self.MySwitchDebounceReadA = self.bus.read_byte_data(self.Device001, self.GPIOA)
             
             # 3. We then pause again, just in case the second read was also accidental.
             time.sleep(self.debounceDelay)
 
             # 4. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
             # this technique should filter unintended triggers out.
-            self.MySwitchDebounceReadB = self.bus.read_byte_data(self.DEVICEA, self.GPIOA)
+            self.MySwitchDebounceReadB = self.bus.read_byte_data(self.Device001, self.GPIOA)
             
             
             # 5. We then pause again, just in case the second read was also accidental.
@@ -361,7 +492,7 @@ class bmsl(object):
 
             # 6. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
             # this technique should filter unintended triggers out.
-            self.MySwitchDebounceReadC = self.bus.read_byte_data(self.DEVICEA, self.GPIOA)
+            self.MySwitchDebounceReadC = self.bus.read_byte_data(self.Device001, self.GPIOA)
             
             # 5. Now we compare the 4 reads.  If the trigger identified is the same on every read, action the trigger, else it was probably electrical noise, so ignore.
             # Because the reads are done so closely together, (speed in fractions of a second) - no multiple trigger state changes could possibly occur.  Importantly, what
@@ -439,7 +570,7 @@ class bmsl(object):
 
         # Set pin 7 HIGH.
         print(" BOOT .. Sending SMART MODE signal to all Local Switch Interfaces")
-        #self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 1)      #TODO - this doesn't do anything useful. Do not enable yet!
+        #self.bus.write_byte_data(self.Device002, self.setOutputStateA, 1)      #TODO - this doesn't do anything useful. Do not enable yet!
 
 
 
