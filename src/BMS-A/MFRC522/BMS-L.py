@@ -184,15 +184,15 @@ class bmsl(object):
         if not self.room_light_circuit_A_status:
             self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0xFF) 
             self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0xFF) 
-            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF) 
-            print("   -- Turn LIGHT ON (debug)")
+            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00) 
+            print("   -- Turn LIGHTs ON (debug)")
             self.room_light_circuit_A_status = True
         
         else:
             self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
             self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
-            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
-            print("   -- Turn LIGHT OFF (debug)")
+            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
+            print("   -- Turn LIGHTs OFF (debug)")
             self.room_light_circuit_A_status = False
 
 
@@ -204,7 +204,6 @@ class bmsl(object):
 
     def setGPIOStartTest(self):
         
-        time.sleep(1)
         # Set output all 7 output bits to 0
         print("Test outputs 0.")
         self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
@@ -290,7 +289,7 @@ class bmsl(object):
 
         # Read state of GPIOB register
         self.MySwitch = self.bus.read_byte_data(self.DEVICEA, self.GPIOA)
-        print("A input state:", self.MySwitch)
+        # print("A input state:", self.MySwitch) # Debug print after first read.
     
         # This is really simply code for test.  If the state is different to the last actioned request, proceed to qualify the trigger.
         if not self.MySwitch == self.MySwitchCurrentState:
