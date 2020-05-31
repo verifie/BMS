@@ -91,10 +91,16 @@ class bmsl(object):
     #########################################################################################################################################    
     # Define Variables
 
+
+
+
+
     # Software variables.
 
-    print (" ... Setup default variables.")
+    print (" BOOT ... Setup default variables.")
 
+    # Debug verbose screen print
+    debug_verbose = True
 
     changeCircuitState = False
     MySwitchCurrentState = 0
@@ -138,7 +144,10 @@ class bmsl(object):
     GPIOA  = 0x12 # Register for inputs A
     GPIOB  = 0x13 # Register for inputs B
 
-    print (" ... Setup default variables. DONE \n\n")
+    # DEBUG - Verbose announcer.
+    if debug_verbose:
+        print (" BOOT ... Setup default variables. DONE \n\n")
+    # DEBUG end
 
 
 
@@ -151,6 +160,7 @@ class bmsl(object):
         return '{0}{{:{1}>{2}}}'.format(pre, spacer, length).format(bin(num)[2:])
 
 
+
     #########################################################################################################################################    
     # Set Pin configuration as Input or Output.
     # For our example, Bank A are OUTPUTs, Bank B are INPUTs.
@@ -158,6 +168,10 @@ class bmsl(object):
     # Syntax: bus.write_byte_data([device_ID], [Register to set direction for bank Bank A or B], [Direction (0 or 1)] )
 
     def setPinDirection(self):
+
+
+        print (" BOOT ... Setup IO function. \n\n")
+
 
         # Device A
         self.bus.write_byte_data(self.DEVICEA, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
@@ -170,6 +184,10 @@ class bmsl(object):
         self.bus.write_byte_data(self.DEVICEC, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
         self.bus.write_byte_data(self.DEVICEC, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
 
+        # DEBUG - Verbose announcer.
+        if debug_verbose:
+            print (" BOOT ... Setup IO function. Done. \n\n")
+        # DEBUG end
     
 
     #########################################################################################################################################    
@@ -179,20 +197,34 @@ class bmsl(object):
 
     def room_light_circuit_A_status_INVERT(self, CircuitID):
         
-        print("   -- LIGHT Status Change.")
+        
+        # DEBUG - Verbose announcer.
+        if debug_verbose:
+            print (" ACTION : LIGHT Status Change. \n\n")
+        # DEBUG endprint
 
         if not self.room_light_circuit_A_status:
             self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0xFF) 
             self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0xFF) 
             self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00) 
-            print("   -- Turn LIGHTs ON (debug)")
+
+            # DEBUG - Verbose announcer.
+            if debug_verbose:
+                print ("   -- Turn LIGHTs ON")
+             # DEBUG endprint
+
             self.room_light_circuit_A_status = True
         
         else:
             self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
             self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
             self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
-            print("   -- Turn LIGHTs OFF (debug)")
+
+            # DEBUG - Verbose announcer.
+            if debug_verbose:
+                print ("   -- Turn LIGHTs OFF")
+             # DEBUG endprint
+             
             self.room_light_circuit_A_status = False
 
 
@@ -271,11 +303,16 @@ class bmsl(object):
     def setGPIOStartState(self):
         
         # Set output all 7 output bits to 0
-        print("Setting all outputs.")
+        print("BOOT : Setting all outputs.")
         self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
-        print("Setting all outputs... done.")
+
+        # DEBUG - Verbose announcer.
+        if debug_verbose:
+            print ("BOOT : Setting all outputs... done.")
+        # DEBUG end
+            
 
 
 
@@ -299,7 +336,12 @@ class bmsl(object):
             # Software EMF Interference and Debounce filter.
             #
             # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger. We do this by:
-            
+
+            # DEBUG - Verbose announcer.
+            if debug_verbose:
+                print ("A new trigger was acknowledged but not yet put through our interference / debounce filter") # Dev code
+            # DEBUG end
+
             # 1. Pausing for a moment so if this trigger was found as a result of momentary spike or interference, it has time to end (so the pause it acts as a software filter)..
             time.sleep(self.debounceDelay)
 
@@ -328,7 +370,11 @@ class bmsl(object):
             if self.MySwitch == self.MySwitchDebounceReadA and self.MySwitch == self.MySwitchDebounceReadB and self.MySwitch == self.MySwitchDebounceReadC:
 
                 # If we reach here, we believe the trigger was genuine.
-                print ("A new trigger was acknowledged and passed the interference filter") # Dev code
+
+                # DEBUG - Verbose announcer.
+                if debug_verbose:
+                    print ("A new trigger was acknowledged and passed the interference filter") # Dev code
+                # DEBUG end
 
                 # Update the Circuit State.
                 self.changeCircuitState = True
@@ -345,19 +391,25 @@ class bmsl(object):
         
         # A trigger passed our tests and appeared genuine and was different to the current state. Increment the action tally
         self.actionTally = self.actionTally + 1
-        print("Action Tally : ", self.actionTally)
+
+        # DEBUG - Verbose announcer.
+        if debug_verbose:
+            print("Action Tally : ", self.actionTally)
+        # DEBUG end
 
         # Read the bus status and interpret as a binary string.
         self.inputBusStatus = self.binary(self.MySwitch)
         humanBus = str(self.inputBusStatus)
 
-        # Show the trigger:
-        print ("A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)
+        # DEBUG - Verbose announcer.
+        if debug_verbose:
+            print ("A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)  # Show the trigger:
         
-        bitCount = 0
-        for i in range(9, 1, -1):
-            print ("Bit ", bitCount," Bus Read Status : ", humanBus[i])
-            bitCount = bitCount + 1
+            bitCount = 0
+            for i in range(9, 1, -1):
+                print ("Bit ", bitCount," Bus Read Status : ", humanBus[i])
+                bitCount = bitCount + 1
+        # DEBUG end
 
         # Action the request.
         self.room_light_circuit_A_status_INVERT(1)
@@ -386,8 +438,8 @@ class bmsl(object):
         # Read current state of pins.
 
         # Set pin 7 HIGH.
-        print(" .. Sending SMART MODE signal to all Local Switch Interfaces")
-        #self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 1)      #TODO - this doesn't do anything useful. Do not enable!
+        print(" BOOT .. Sending SMART MODE signal to all Local Switch Interfaces")
+        #self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 1)      #TODO - this doesn't do anything useful. Do not enable yet!
 
 
 
