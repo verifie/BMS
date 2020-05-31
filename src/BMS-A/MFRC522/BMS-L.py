@@ -160,16 +160,16 @@ class bmsl(object):
     def setPinDirection(self):
 
         # Device A
-        self.bus.write_byte_data(self.DEVICEA, self.setPinInputOutputStateA, 0x00)            # All set to inputs for TEST.   Hex 0x00 = (00000000)
-        self.bus.write_byte_data(self.DEVICEA, self.setPinInputOutputStateB, 0xFF)            # All set to outputs for TEST.  Hex 0xFF = (11111111)
+        self.bus.write_byte_data(self.DEVICEA, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
+        self.bus.write_byte_data(self.DEVICEA, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
 
         # Device B
-        self.bus.write_byte_data(self.DEVICEB, self.setPinInputOutputStateA, 0x00)            # All set to inputs for TEST.   Hex 0x00 = (00000000)
-        self.bus.write_byte_data(self.DEVICEB, self.setPinInputOutputStateB, 0xFF)            # All set to outputs for TEST.  Hex 0xFF = (11111111)
+        self.bus.write_byte_data(self.DEVICEB, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
+        self.bus.write_byte_data(self.DEVICEB, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
 
-        # Device C
-        self.bus.write_byte_data(self.DEVICEC, self.setPinInputOutputStateA, 0x00)            # All set to inputs for TEST.   Hex 0x00 = (00000000)
-        self.bus.write_byte_data(self.DEVICEC, self.setPinInputOutputStateB, 0xFF)            # All set to outputs for TEST.  Hex 0xFF = (11111111)
+        self.bus.write_byte_data(self.DEVICEC, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
+        self.bus.write_byte_data(self.DEVICEC, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
+11)
 
     
 
