@@ -210,9 +210,9 @@ class bmsl(object):
         
         # Set output all 7 output bits to 0
         print("Setting all outputs.")
-        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0xFF)
-        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0xFF)
-        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
         print("Setting all outputs... done.")
 
 
