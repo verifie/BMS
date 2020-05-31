@@ -91,6 +91,8 @@ class bmsl(object):
     #########################################################################################################################################    
     # Define Variables
 
+    # Debug verbose screen print
+    debug_verbose = True
 
     # Switch types and settings.
     print (" BOOT ... Setup Switch types and settings.")
@@ -234,9 +236,6 @@ class bmsl(object):
 
     # Software variables.
     print (" BOOT ... Setup default variables.")
-
-    # Debug verbose screen print
-    debug_verbose = True
 
     changeCircuitState = False
     MySwitchCurrentState = 0
