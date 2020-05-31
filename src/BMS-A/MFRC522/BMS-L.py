@@ -210,9 +210,9 @@ class bmsl(object):
     def setGPIOStartState(self):
         
         # Set output all 7 output bits to 0
-        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0)
-        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB ,0)
-        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0)
+        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 1)
+        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB ,1)
+        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 1)
 
 
     #########################################################################################################################################    
