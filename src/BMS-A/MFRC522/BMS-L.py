@@ -236,6 +236,13 @@ class bmsl(object):
         self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
         print("Setting all outputs... done.")
 
+        time.sleep(1)
+        # Set output all 7 output bits to 0
+        print("Test outputs 0.")
+        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
+        print("Test outputs 0... done.")
 
 
     #########################################################################################################################################    
