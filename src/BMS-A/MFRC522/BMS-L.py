@@ -102,6 +102,8 @@ class bmsl(object):
     Momentary = 1
     Timer = 2
     Movement = 3
+    on = 1
+    off = 2
 
     # Device and Switch / sensor
 
@@ -116,6 +118,15 @@ class bmsl(object):
     Device001Input5 = Latch
     Device001Input6 = Latch
     Device001Input7 = Latch
+    # Default Circuit Startup State.
+    Device001Output0 = on
+    Device001Output1 = off
+    Device001Output2 = off
+    Device001Output3 = off
+    Device001Output4 = off
+    Device001Output5 = off
+    Device001Output6 = off
+    Device001Output7 = off
 
     # Device 002
     Network = 0
@@ -128,6 +139,15 @@ class bmsl(object):
     Device002Input5 = Latch
     Device002Input6 = Latch
     Device002Input7 = Latch
+    # Default Circuit Startup State.
+    Device002Output0 = on
+    Device002Output1 = off
+    Device002Output2 = off
+    Device002Output3 = off
+    Device002Output4 = off
+    Device002Output5 = off
+    Device002Output6 = off
+    Device002Output7 = off
 
     # Device 003
     Network = 0
@@ -140,10 +160,19 @@ class bmsl(object):
     Device003Input5 = Latch
     Device003Input6 = Latch
     Device003Input7 = Latch
+    # Default Circuit Startup State.
+    Device003Output0 = on
+    Device003Output1 = off
+    Device003Output2 = off
+    Device003Output3 = off
+    Device003Output4 = off
+    Device003Output5 = off
+    Device003Output6 = off
+    Device003Output7 = off
 
     # Device 004
     Network = 0
-    Device002 = 0x23
+    Device004 = 0x23
     Device004Input0 = Latch
     Device004Input1 = Latch
     Device004Input2 = Latch
@@ -152,10 +181,19 @@ class bmsl(object):
     Device004Input5 = Latch
     Device004Input6 = Latch
     Device004Input7 = Latch
+    # Default Circuit Startup State.
+    Device004Output0 = on
+    Device004Output1 = off
+    Device004Output2 = off
+    Device004Output3 = off
+    Device004Output4 = off
+    Device004Output5 = off
+    Device004Output6 = off
+    Device004Output7 = off
 
     # Device 005
     Network = 0
-    Device002 = 0x24
+    Device005 = 0x24
     Device005Input0 = Latch
     Device005Input1 = Latch
     Device005Input2 = Latch
@@ -164,10 +202,19 @@ class bmsl(object):
     Device005Input5 = Latch
     Device005Input6 = Latch
     Device005Input7 = Latch
+    # Default Circuit Startup State.
+    Device005Output0 = on
+    Device005Output1 = off
+    Device005Output2 = off
+    Device005Output3 = off
+    Device005Output4 = off
+    Device005Output5 = off
+    Device005Output6 = off
+    Device005Output7 = off
 
     # Device 006
     Network = 0
-    Device002 = 0x25
+    Device006 = 0x25
     Device006Input0 = Latch
     Device006Input1 = Latch
     Device006Input2 = Latch
@@ -176,10 +223,19 @@ class bmsl(object):
     Device006Input5 = Latch
     Device006Input6 = Latch
     Device006Input7 = Latch
+    # Default Circuit Startup State.
+    Device006Output0 = on
+    Device006Output1 = off
+    Device006Output2 = off
+    Device006Output3 = off
+    Device006Output4 = off
+    Device006Output5 = off
+    Device006Output6 = off
+    Device006Output7 = off
 
     # Device 007
     Network = 0
-    Device002 = 0x26
+    Device007 = 0x26
     Device007Input0 = Latch
     Device007Input1 = Latch
     Device007Input2 = Latch
@@ -188,10 +244,19 @@ class bmsl(object):
     Device007Input5 = Latch
     Device007Input6 = Latch
     Device007Input7 = Latch
+    # Default Circuit Startup State.
+    Device007Output0 = on
+    Device007Output1 = off
+    Device007Output2 = off
+    Device007Output3 = off
+    Device007Output4 = off
+    Device007Output5 = off
+    Device007Output6 = off
+    Device007Output7 = off
 
     # Device 008
     Network = 0
-    Device002 = 0x27
+    Device008 = 0x27
     Device008Input0 = Latch
     Device008Input1 = Latch
     Device008Input2 = Latch
@@ -200,10 +265,19 @@ class bmsl(object):
     Device008Input5 = Latch
     Device008Input6 = Latch
     Device008Input7 = Latch
+    # Default Circuit Startup State.
+    Device008Output0 = on
+    Device008Output1 = off
+    Device008Output2 = off
+    Device008Output3 = off
+    Device008Output4 = off
+    Device008Output5 = off
+    Device008Output6 = off
+    Device008Output7 = off
 
     # Device 009
     Network = 1
-    Device001 = 0x20 # I2C Device address (A0-A2)
+    Device009 = 0x20 # I2C Device address (A0-A2)
     Device009Input0 = Latch
     Device009Input1 = Latch
     Device009Input2 = Latch
@@ -212,10 +286,19 @@ class bmsl(object):
     Device009Input5 = Latch
     Device009Input6 = Latch
     Device009Input7 = Latch
+    # Default Circuit Startup State.
+    Device009Output0 = on
+    Device009Output1 = off
+    Device009Output2 = off
+    Device009Output3 = off
+    Device009Output4 = off
+    Device009Output5 = off
+    Device009Output6 = off
+    Device009Output7 = off
 
     # Device 010
     Network = 1
-    Device002 = 0x21 # I2C Device address (A0-A2)
+    Device010 = 0x21 # I2C Device address (A0-A2)
     Device010Input0 = Latch
     Device010Input1 = Latch
     Device010Input2 = Latch
@@ -224,6 +307,15 @@ class bmsl(object):
     Device010Input5 = Latch
     Device010Input6 = Latch
     Device010Input7 = Latch
+    # Default Circuit Startup State.
+    Device010Output0 = on
+    Device010Output1 = off
+    Device010Output2 = off
+    Device010Output3 = off
+    Device010Output4 = off
+    Device010Output5 = off
+    Device010Output6 = off
+    Device010Output7 = off
 
 
 
@@ -449,13 +541,13 @@ class bmsl(object):
 
     #########################################################################################################################################    
     # lookForTriggers
-    def lookForTriggers(self):
+    def lookForTriggers(self, selectedDevice):
 
         # Pause in loop to allow OS Recovery and debug
         time.sleep(self.debounceDelay)
 
         # Read state of GPIOB register
-        self.MySwitch = self.bus.read_byte_data(self.Device001, self.GPIOA)
+        self.MySwitch = self.bus.read_byte_data(self.selectedDevice, self.GPIOA)
         # print("A input state:", self.MySwitch) # Debug print after first read.
     
         # This is really simply code for test.  If the state is different to the last actioned request, proceed to qualify the trigger.
@@ -476,14 +568,14 @@ class bmsl(object):
             time.sleep(self.debounceDelay)
 
             # 2. Then we read the input again to check the reading is the same as the trigger.
-            self.MySwitchDebounceReadA = self.bus.read_byte_data(self.Device001, self.GPIOA)
+            self.MySwitchDebounceReadA = self.bus.read_byte_data(self.selectedDevice, self.GPIOA)
             
             # 3. We then pause again, just in case the second read was also accidental.
             time.sleep(self.debounceDelay)
 
             # 4. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
             # this technique should filter unintended triggers out.
-            self.MySwitchDebounceReadB = self.bus.read_byte_data(self.Device001, self.GPIOA)
+            self.MySwitchDebounceReadB = self.bus.read_byte_data(self.selectedDevice, self.GPIOA)
             
             
             # 5. We then pause again, just in case the second read was also accidental.
@@ -491,7 +583,7 @@ class bmsl(object):
 
             # 6. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
             # this technique should filter unintended triggers out.
-            self.MySwitchDebounceReadC = self.bus.read_byte_data(self.Device001, self.GPIOA)
+            self.MySwitchDebounceReadC = self.bus.read_byte_data(self.selectedDevice, self.GPIOA)
             
             # 5. Now we compare the 4 reads.  If the trigger identified is the same on every read, action the trigger, else it was probably electrical noise, so ignore.
             # Because the reads are done so closely together, (speed in fractions of a second) - no multiple trigger state changes could possibly occur.  Importantly, what
@@ -542,7 +634,9 @@ class bmsl(object):
         # DEBUG end
 
         # Action the request.
-        self.room_light_circuit_A_status_INVERT(1)
+        self.room_light_circuit_A_status_INVERT(1)   # This toggles outputs on device A. For early development only.
+
+
 
         # Then record the state actioned to MySwitchCurrentState
         self.MySwitchCurrentState = self.MySwitch
@@ -586,8 +680,11 @@ class bmsl(object):
         # Loop until user presses CTRL-C
         while True:
 
+            # Select the switch device. #TODO Fixed at device 1 for now. Hook for dev.
+            selectedDevice = self.Device001
+
             # Look for trigger (changes)
-            self.lookForTriggers()
+            self.lookForTriggers(self.selectedDevice)
 
             # Test to see if an action has been requested.
             if self.changeCircuitState:
