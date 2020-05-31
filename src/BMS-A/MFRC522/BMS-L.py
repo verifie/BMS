@@ -216,6 +216,22 @@ class bmsl(object):
         print("Setting all outputs... done.")
 
 
+        while True:
+
+        time.sleep(0.5)
+        print("Setting all outputs. ON")
+        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
+        print("Setting all outputs... ON done.")
+        time.sleep(0.5)
+        print("Setting all outputs.")
+        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
+        print("Setting all outputs... done.")
+
+
     #########################################################################################################################################    
     # lookForTriggers
     def lookForTriggers(self):
