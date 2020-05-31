@@ -198,6 +198,46 @@ class bmsl(object):
 
 
 
+    #########################################################################################################################################    
+    # setGPIOStartTest
+    # The "Pre-Startup / Power failure / BMS Failure" state of controls is determined by the local relay configuration.  For the safety of the site users, power is 
+    # directed to the primary room lights in the Normally Closed "NC" (normally connected or ON) state, with secondary (effect or supplementary) lighting wired to the
+    # Normally Open "NO" (Normally Disconnected or OFF) state.  This configuration means building users have sufficient basic light in the event of a BMS failure.
+    # However, it also means we have to determine and invert the control we send to the local relays to effect the demand.
+
+    def setGPIOStartTest(self):
+        
+        time.sleep(1)
+        # Set output all 7 output bits to 0
+        print("Test outputs 0.")
+        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
+        print("Test outputs 0... done.")
+
+        time.sleep(1)
+        # Set output all 7 output bits to 1
+        print("Setting all outputs.")
+        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
+        print("Setting all outputs... done.")
+
+        time.sleep(1)
+        # Set output all 7 output bits to 0
+        print("Test outputs 0.")
+        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
+        print("Test outputs 0... done.")
+
+        time.sleep(1)
+        # Set output all 7 output bits to 1
+        print("Setting all outputs.")
+        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
+        print("Setting all outputs... done.")
 
     #########################################################################################################################################    
     # setGPIOStartStat
@@ -378,6 +418,7 @@ environmentController = bmsl()
 
 # Setup Local GPIO expander ICs - sense or control.  Then set the start state of pins.
 environmentController.setPinDirection()
+setGPIOStartTest()
 environmentController.setGPIOStartState()
 
 # Tell the local switch interfaces we're up and running.
