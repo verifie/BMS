@@ -145,7 +145,7 @@ class bmsl(object):
     GPIOB  = 0x13 # Register for inputs B
 
     # DEBUG - Verbose announcer.
-    if self.debug_verbose:
+    if debug_verbose:
         print (" BOOT ... Setup default variables. DONE \n\n")
     # DEBUG end
 
