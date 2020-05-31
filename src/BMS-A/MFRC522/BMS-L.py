@@ -127,8 +127,8 @@ class bmsl(object):
     DEVICEC = 0x22 # Device address (A0-A2)
 
     # Register to access Input / Output Direction Configuration.
-    setPinInputOutputStateA = 0x00 # Pin direction register A
-    setPinInputOutputStateB = 0x01 # Pin direction register B
+    setPinInputOutputStateA = 0x00 # Pin direction register A. 0 = Output.
+    setPinInputOutputStateB = 0x01 # Pin direction register B. 1 = Inputs.
 
     # Register to Output Latches
     setOutputStateA  = 0x14 # Register for outputs A
@@ -243,6 +243,23 @@ class bmsl(object):
         self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
         print("Test outputs 0... done.")
+        
+        while False: # Debug - turn all outputs high or low.
+
+            time.sleep(0.5)
+            print("Setting all outputs. ON")
+            self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0xFF)
+            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0xFF)
+            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
+            print("Setting all outputs... ON done.")
+            time.sleep(0.5)
+            print("Setting all outputs.")
+            self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
+            print("Setting all outputs... done.")
+
+
 
 
     #########################################################################################################################################    
@@ -262,20 +279,6 @@ class bmsl(object):
         print("Setting all outputs... done.")
 
 
-        while False: # Debug - turn all outputs high or low.
-
-            time.sleep(0.5)
-            print("Setting all outputs. ON")
-            self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0xFF)
-            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0xFF)
-            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
-            print("Setting all outputs... ON done.")
-            time.sleep(0.5)
-            print("Setting all outputs.")
-            self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
-            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
-            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
-            print("Setting all outputs... done.")
 
 
     #########################################################################################################################################    
