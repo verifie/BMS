@@ -236,9 +236,12 @@ class bmsl(object):
     # lookForTriggers
     def lookForTriggers(self):
 
+        # Pause in loop to allow OS Recovery and debug
+        time.sleep(1)
 
         # Read state of GPIOB register
         self.MySwitch = self.bus.read_byte_data(self.DEVICEA, self.GPIOA)
+        print("A input state:", self.MySwitch)
     
         # This is really simply code for test.  If the state is different to the last actioned request, proceed to qualify the trigger.
         if not self.MySwitch == self.MySwitchCurrentState:
