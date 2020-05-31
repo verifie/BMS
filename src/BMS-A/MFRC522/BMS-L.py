@@ -145,7 +145,7 @@ class bmsl(object):
     GPIOB  = 0x13 # Register for inputs B
 
     # DEBUG - Verbose announcer.
-    if debug_verbose:
+    if self.debug_verbose:
         print (" BOOT ... Setup default variables. DONE \n\n")
     # DEBUG end
 
@@ -185,7 +185,7 @@ class bmsl(object):
         self.bus.write_byte_data(self.DEVICEC, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
 
         # DEBUG - Verbose announcer.
-        if debug_verbose:
+        if self.debug_verbose:
             print (" BOOT ... Setup IO function. Done. \n\n")
         # DEBUG end
     
@@ -199,7 +199,7 @@ class bmsl(object):
         
         
         # DEBUG - Verbose announcer.
-        if debug_verbose:
+        if self.debug_verbose:
             print (" ACTION : LIGHT Status Change. \n\n")
         # DEBUG endprint
 
@@ -209,7 +209,7 @@ class bmsl(object):
             self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00) 
 
             # DEBUG - Verbose announcer.
-            if debug_verbose:
+            if self.debug_verbose:
                 print ("   -- Turn LIGHTs ON")
              # DEBUG endprint
 
@@ -221,7 +221,7 @@ class bmsl(object):
             self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
 
             # DEBUG - Verbose announcer.
-            if debug_verbose:
+            if self.debug_verbose:
                 print ("   -- Turn LIGHTs OFF")
              # DEBUG endprint
              
@@ -309,7 +309,7 @@ class bmsl(object):
         self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
 
         # DEBUG - Verbose announcer.
-        if debug_verbose:
+        if self.debug_verbose:
             print ("BOOT : Setting all outputs... done.")
         # DEBUG end
             
@@ -338,7 +338,7 @@ class bmsl(object):
             # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger. We do this by:
 
             # DEBUG - Verbose announcer.
-            if debug_verbose:
+            if self.debug_verbose:
                 print ("A new trigger was acknowledged but not yet put through our interference / debounce filter") # Dev code
             # DEBUG end
 
@@ -372,7 +372,7 @@ class bmsl(object):
                 # If we reach here, we believe the trigger was genuine.
 
                 # DEBUG - Verbose announcer.
-                if debug_verbose:
+                if self.debug_verbose:
                     print ("A new trigger was acknowledged and passed the interference filter") # Dev code
                 # DEBUG end
 
@@ -393,7 +393,7 @@ class bmsl(object):
         self.actionTally = self.actionTally + 1
 
         # DEBUG - Verbose announcer.
-        if debug_verbose:
+        if self.debug_verbose:
             print("Action Tally : ", self.actionTally)
         # DEBUG end
 
@@ -402,7 +402,7 @@ class bmsl(object):
         humanBus = str(self.inputBusStatus)
 
         # DEBUG - Verbose announcer.
-        if debug_verbose:
+        if self.debug_verbose:
             print ("A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)  # Show the trigger:
         
             bitCount = 0
