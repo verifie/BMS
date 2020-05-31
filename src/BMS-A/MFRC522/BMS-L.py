@@ -221,14 +221,14 @@ class bmsl(object):
             time.sleep(0.5)
             print("Setting all outputs. ON")
             self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0xFF)
-            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0xFF)
-            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
+            #self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0xFF)
+            #self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0xFF)
             print("Setting all outputs... ON done.")
             time.sleep(0.5)
             print("Setting all outputs.")
             self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0x00)
-            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
-            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
+            #self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB, 0x00)
+            #self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0x00)
             print("Setting all outputs... done.")
 
 
@@ -348,6 +348,7 @@ class bmsl(object):
 
     def RunProgram(self):
 
+        print("Starting BMS-L Sequence")
         # Loop until user presses CTRL-C
         while True:
 
