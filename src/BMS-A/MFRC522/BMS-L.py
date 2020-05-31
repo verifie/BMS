@@ -17,6 +17,7 @@
 # 2020/05/27 0900 v0.02 PME - Installing class system. Remove test code that poked interface.  Changed variables to friendlier names, although they no longer match the example or datasheet.
 # 2020/05/27 1107 v0.03 PME - Fix control logic.  The prior software flips the light on for a moment.  Multiple read fails too. So tidy up code and logic sequence.
 # 2020/05/27 1208 v0.04 PME - Improve trigger detection - If switch is pressed, dont toggle on or off all the time. A plan will be needed, but lets test some ideas.
+# 2020/05/31 1035 v0.05 PME - Trialing next stage breadboard.  All B IO is Led control output.  All A IO is Input.
 
 # Simple print screen introduction
 print("")
@@ -121,9 +122,9 @@ class bmsl(object):
     bus = smbus.SMBus(1) # Rev 2 Pi uses 1
 
     # Address of MCP23017 being accessed.  Address can be changed to 1 of 8 options by setting pins A0, A1 and A2.
-    DEVICEA = 0x22 # Device address (A0-A2)
-    DEVICEB = 0x23 # Device address (A0-A2)
-    DEVICEC = 0x25 # Device address (A0-A2)
+    DEVICEA = 0x20 # Device address (A0-A2)
+    DEVICEB = 0x21 # Device address (A0-A2)
+    DEVICEC = 0x22 # Device address (A0-A2)
 
     # Register to access Input / Output Direction Configuration.
     setPinInputOutputStateA = 0x00 # Pin direction register A
@@ -159,14 +160,16 @@ class bmsl(object):
     def setPinDirection(self):
 
         # Device A
-        self.bus.write_byte_data(self.DEVICEA, self.setPinInputOutputStateA, 0x00)            # All set to inputs for TEST.  Hex 0x00 = (00000000)
+        self.bus.write_byte_data(self.DEVICEA, self.setPinInputOutputStateA, 0x00)            # All set to inputs for TEST.   Hex 0x00 = (00000000)
+        self.bus.write_byte_data(self.DEVICEA, self.setPinInputOutputStateB, 0xFF)            # All set to outputs for TEST.  Hex 0xFF = (11111111)
 
         # Device B
-        self.bus.write_byte_data(self.DEVICEB, self.setPinInputOutputStateA, 0x00)            # All set to inputs for TEST.  Hex 0x00 = (00000000)
+        self.bus.write_byte_data(self.DEVICEB, self.setPinInputOutputStateA, 0x00)            # All set to inputs for TEST.   Hex 0x00 = (00000000)
+        self.bus.write_byte_data(self.DEVICEB, self.setPinInputOutputStateB, 0xFF)            # All set to outputs for TEST.  Hex 0xFF = (11111111)
 
         # Device C
-        self.bus.write_byte_data(self.DEVICEC, self.setPinInputOutputStateA, 0x00)            # Bank A set to inputs  - Hex 0x00 = (00000000)
-        self.bus.write_byte_data(self.DEVICEC, self.setPinInputOutputStateB, 0xFF)            # Bank B set to outputs - Hex 0xFF = (11111111)
+        self.bus.write_byte_data(self.DEVICEC, self.setPinInputOutputStateA, 0x00)            # All set to inputs for TEST.   Hex 0x00 = (00000000)
+        self.bus.write_byte_data(self.DEVICEC, self.setPinInputOutputStateB, 0xFF)            # All set to outputs for TEST.  Hex 0xFF = (11111111)
 
     
 
@@ -180,12 +183,12 @@ class bmsl(object):
         print("   -- LIGHT Status Change.")
 
         if not self.room_light_circuit_A_status:
-            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 1) 
+            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 1) 
             print("   -- Turn LIGHT ON (debug)")
             self.room_light_circuit_A_status = True
         
         else:
-            self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA, 0)
+            self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0)
             print("   -- Turn LIGHT OFF (debug)")
             self.room_light_circuit_A_status = False
 
@@ -203,9 +206,9 @@ class bmsl(object):
     def setGPIOStartState(self):
         
         # Set output all 7 output bits to 0
-        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateA, 0)
-        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateA ,0)
-        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateA, 0)
+        self.bus.write_byte_data(self.DEVICEA, self.setOutputStateB, 0)
+        self.bus.write_byte_data(self.DEVICEB, self.setOutputStateB ,0)
+        self.bus.write_byte_data(self.DEVICEC, self.setOutputStateB, 0)
 
 
     #########################################################################################################################################    
@@ -214,7 +217,7 @@ class bmsl(object):
 
 
         # Read state of GPIOB register
-        self.MySwitch = self.bus.read_byte_data(self.DEVICEC, self.GPIOB)
+        self.MySwitch = self.bus.read_byte_data(self.DEVICEC, self.GPIOA)
     
         # This is really simply code for test.  If the state is different to the last actioned request, proceed to qualify the trigger.
         if not self.MySwitch == self.MySwitchCurrentState:
@@ -229,14 +232,14 @@ class bmsl(object):
             time.sleep(self.debounceDelay)
 
             # 2. Then we read the input again to check the reading is the same as the trigger.
-            self.MySwitchDebounceReadA = self.bus.read_byte_data(self.DEVICEC, self.GPIOB)
+            self.MySwitchDebounceReadA = self.bus.read_byte_data(self.DEVICEC, self.GPIOA)
             
             # 3. We then pause again, just in case the second read was also accidental.
             time.sleep(self.debounceDelay)
 
             # 4. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
             # this technique should filter unintended triggers out.
-            self.MySwitchDebounceReadB = self.bus.read_byte_data(self.DEVICEC, self.GPIOB)
+            self.MySwitchDebounceReadB = self.bus.read_byte_data(self.DEVICEC, self.GPIOA)
             
             
             # 5. We then pause again, just in case the second read was also accidental.
@@ -244,7 +247,7 @@ class bmsl(object):
 
             # 6. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
             # this technique should filter unintended triggers out.
-            self.MySwitchDebounceReadC = self.bus.read_byte_data(self.DEVICEC, self.GPIOB)
+            self.MySwitchDebounceReadC = self.bus.read_byte_data(self.DEVICEC, self.GPIOA)
             
             # 5. Now we compare the 4 reads.  If the trigger identified is the same on every read, action the trigger, else it was probably electrical noise, so ignore.
             # Because the reads are done so closely together, (speed in fractions of a second) - no multiple trigger state changes could possibly occur.  Importantly, what
