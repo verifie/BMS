@@ -285,7 +285,7 @@ class bmsl(object):
     def lookForTriggers(self):
 
         # Pause in loop to allow OS Recovery and debug
-        time.sleep(1)
+        time.sleep(self.debounceDelay)
 
         # Read state of GPIOB register
         self.MySwitch = self.bus.read_byte_data(self.DEVICEA, self.GPIOA)
@@ -400,6 +400,7 @@ class bmsl(object):
     def RunProgram(self):
 
         print("Starting BMS-L Sequence")
+
         # Loop until user presses CTRL-C
         while True:
 
