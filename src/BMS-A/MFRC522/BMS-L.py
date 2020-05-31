@@ -681,7 +681,7 @@ class bmsl(object):
         while True:
 
             # Select the switch device. #TODO Fixed at device 1 for now. Hook for dev.
-            selectedDevice = self.Device001
+            self.selectedDevice = self.Device001
 
             # Look for trigger (changes)
             self.lookForTriggers(self.selectedDevice)
