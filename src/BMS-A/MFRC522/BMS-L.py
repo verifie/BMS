@@ -216,7 +216,7 @@ class bmsl(object):
         print("Setting all outputs... done.")
 
 
-        while False: # Debug - turn all outputs high or low.
+        while True: # Debug - turn all outputs high or low.
 
             time.sleep(0.5)
             print("Setting all outputs. ON")
