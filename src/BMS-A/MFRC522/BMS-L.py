@@ -104,7 +104,7 @@ class bmsl(object):
     Movement = 3
     on = 1
     off = 2
-
+    debounceFail = 0
     # Device and Switch / sensor
 
     # Device 001
@@ -600,6 +600,10 @@ class bmsl(object):
 
                 # Update the Circuit State.
                 self.changeCircuitState = True
+            
+            else:
+                # We want to keep a tally of triggers that do not pass our debounce check.  This information will help us determine if there is excess interference causing false triggers
+                self.debounceFail = self.debounceFail + 1
 
 
             
@@ -616,7 +620,7 @@ class bmsl(object):
 
         # DEBUG - Verbose announcer.
         if self.debug_verbose:
-            print("Action Tally : ", self.actionTally)
+            print("Action Tally : ", self.actionTally, " and Triggers that did not pass the debounce test :", self.debounceFail) # Shoe triggers - successful and unsuccessful.
         # DEBUG end
 
         # Read the bus status and interpret as a binary string.
