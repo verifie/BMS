@@ -22,7 +22,7 @@
 
 # Simple print screen introduction
 print("")
-print("=============================================================================================================================================")
+print("==================================================================================================================")
 print("")
 print("  _________  ________  ")
 print("  | ___ |  \/  /  ___| ")
@@ -37,11 +37,11 @@ print("     1. Raspberry Pi 2,3 or 4. ")
 print("     2. MCP23017 I2C Port Expanders at each local control location. ")
 print("     3. I2C for local electronic communication, converting to Differential I2C for location to location comms. ")
 print("     4. 24v DC supply, regulated to 5v and 3.3v at each local site.")
-print("                                ")
+print("")
 print(" Copyright (c) Leighton Electronics 2020 Onwards. Patent Pending. NO UNAUTHORISED ACCESS PERMITTED. ")
 print(" www.LeightonElectronics.co.uk ")
 print("")
-print("=============================================================================================================================================")
+print("==================================================================================================================")
 print("")
 print("")
 
