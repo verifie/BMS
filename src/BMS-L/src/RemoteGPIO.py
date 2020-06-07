@@ -118,7 +118,7 @@ class RemoteGPIO(object):
             print ("[DEBUG] ACTION : LIGHT Status Change. \n\n")
         # DEBUG endprint
 
-        if not self.room_light_circuit_A_status:
+        if not v.room_light_circuit_A_status:
             self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0xFF) 
             self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0xFF) 
             self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00) 
@@ -128,7 +128,7 @@ class RemoteGPIO(object):
                 print ("[DEBUG]   -- Turn ALL LIGHTs ON")
                 # DEBUG endprint
 
-            self.room_light_circuit_A_status = True
+            v.room_light_circuit_A_status = True
         
         else:
             self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
@@ -140,7 +140,7 @@ class RemoteGPIO(object):
                 print ("[DEBUG]   -- Turn ALL LIGHTs OFF")
                 # DEBUG endprint
                 
-            self.room_light_circuit_A_status = False
+            v.room_light_circuit_A_status = False
 
 
 
@@ -295,6 +295,6 @@ class RemoteGPIO(object):
             
             else:
                 # We want to keep a tally of triggers that do not pass our debounce check.  This information will help us determine if there is excess interference causing false triggers
-                self.debounceFail = self.debounceFail + 1
+                v.debounceFail = v.debounceFail + 1
 
 
