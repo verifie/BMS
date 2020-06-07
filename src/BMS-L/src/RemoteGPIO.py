@@ -24,7 +24,6 @@ class RemoteGPIO(object):
         print ("init RemoteGPIO") # never prints
 
 
-
     #########################################################################################################################################    
     # Import External Libraries.
     import smbus
