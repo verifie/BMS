@@ -1,0 +1,140 @@
+.inventory-plugin {
+	line-height: 1.8;
+}
+
+.inventory-plugin .buy-spacer {
+	width: 48.42px;
+}
+
+.inventory-plugin .logo-spacer {
+	width: 50px;
+}
+
+.inventory-plugin .sort{
+	font-size: 10px;
+}
+
+.inventory-plugin a:hover {
+	text-decoration: none;
+}
+
+.inventory-plugin .text-transparent {
+	color: transparent !important;
+}
+
+.inventory-plugin .text-black {
+	color: #000000 !important;
+}
+
+.inventory-plugin .text-feint{
+	color: #a8a8a8;
+}
+
+.inventory-plugin .btn-brand {
+	background: #c62020;
+	color: #ffffff;
+}
+
+.inventory-plugin .btn-brand:hover {
+	color: #ffffff;
+}
+
+.inventory-plugin .brand-highlight {
+	color:  #c62020;
+}
+
+.inventory-plugin .modal {
+	line-height: 1.3;
+}
+
+.inventory-plugin .groups-footer a:hover{
+	text-decoration: underline;
+	border-bottom: 0px solid transparent;
+}
+
+.inventory-plugin .arrow-up {
+  width: 10px; 
+  height: 10px; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #555555;
+}
+
+.inventory-plugin .arrow-up.selected{
+	border-bottom: 5px solid  #c62020;
+}
+
+.inventory-plugin .border-brand {
+	border-color: #C2C4C5 !important;
+}
+
+.inventory-plugin .arrow-down {
+  width: 10px; 
+  height: 10px; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #555555;
+}
+
+.inventory-plugin .arrow-down.selected{
+	border-top: 5px solid #c62020;
+}
+
+.inventory-plugin .pricing {
+	line-height: 1.5;
+}
+
+.inventory-plugin .fade-in {
+	-webkit-animation: fade-in 1.5s ease-in infinite alternate both;
+	        animation: fade-in 1.5s ease-in infinite alternate both;
+}
+
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.inventory-plugin .loading span {
+  animation-name: blink;
+  animation-duration: 1.4s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+}
+
+.inventory-plugin .loading span:nth-child(2) {
+  animation-delay: .2s;
+}
+
+.inventory-plugin .loading span:nth-child(3) {
+  animation-delay: .4s;
+}
+
+@keyframes blink {
+  0% {
+    opacity: .2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: .2;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .inventory-plugin .border-sm-none {
+    border-width: 0px !important;
+  }
+}

@@ -1,0 +1,1058 @@
+(function (){
+	loadLibraries();
+	var $j = jQuery.noConflict(true);
+	initContainerDisplay();
+	initDataCall();
+
+	function loadLibraries(){
+		loadDistributorInventoryjQueryLibrary();
+		loadDistributorInventoryBootstrapLibrary();
+	}
+
+	function getScriptAttribute(attribute){
+		var fetchedAttribute = 	$j('script[src$="oemsecrets.com/init.js"]').data(attribute);
+		return fetchedAttribute;
+	}
+
+	function removeNonAlphaNumChars(stringToClean){
+		var string = stringToClean;
+		string = string.replace(/\W/g, '');
+		return string;
+	}
+
+	function initContainerDisplay(){
+		createZone();
+		createDisplay();
+		function createZone(){
+			$j('script[src$="init.js"]').after(
+				'<div class="inventory-plugin">'+
+				'</div>');
+		}
+
+		function createDisplay(){
+			$j('.inventory-plugin').html( buildDisplay() );
+		}
+
+		function buildDisplay(){
+			var display = '<div class="results-display py-2">' + buildLoadingDisplay() + '</div>';
+			return display;
+		}
+
+		function buildLoadingDisplay(){
+			var searchTerm = getScriptAttribute('plugin-search-term');
+			var loadingDisplay = 
+				'<div class="py-5 border border-brand my-1">'+
+					'<div class="d-flex justify-content-center">'+
+						'<img src="https://plugin.oemsecrets.com/views/components101-articles/images/logo.png" class="fade-in" style="max-width: 200px; max-height: 45px;">'+
+					'</div>'+
+					'<div class="d-flex justify-content-center py-3">'+
+						'<div>Loading Distributor Results for ' + searchTerm + '<span class="loading"><span>.</span><span>.</span><span>.</span></span></div>'+
+					'</div>'+
+				'</div>';
+			return loadingDisplay;
+		}
+	}
+
+	function initDataCall(){
+			$j.ajax({
+		    url:  'https://beta.api.oemsecrets.com/partsearch',
+		    type: 'POST',
+		    data: { 
+		    	apiKey : getScriptAttribute('plugin-key'),
+		    	searchTerm : getScriptAttribute('plugin-search-term'),
+		    	currency: ['AUD', 'CAD', 'CHF', 'CNY', 'DKK', 'EUR', 'GBP', 'HKD', 'ILS', 'INR', 'JPY', 'KRW', 'NOK', 'NZD', 'RUB', 'SEK', 'SGD', 'TWD', 'USD'],
+		    },
+	        success: function (data) {
+	        	if(data['parts_returned'] != 0){
+	        		initDataDisplay(data);
+	        	} else {
+	        		initNoResults();
+	        	}
+	        }
+		});
+
+		function initNoResults(){
+			$j('.results-display').html('');
+		}
+
+		function initDataDisplay(data){
+			
+			var originalData = data;
+
+			var setGroupType = typeof getScriptAttribute('plugin-grouping') != 'undefined' ? getScriptAttribute('plugin-grouping') : 'part';
+			var setGroupOrder = typeof getScriptAttribute('plugin-group-order') != 'undefined' ? getScriptAttribute('plugin-group-order') : 'part-asc';
+			var setResultsOrder = typeof getScriptAttribute('plugin-result-order') != 'undefined' ? getScriptAttribute('plugin-result-order') : 'stock-asc';
+			var setPartPriority = typeof getScriptAttribute('plugin-part-priority') != 'undefined' ? getScriptAttribute('plugin-part-priority') : 'stock';
+			var setCurrency = typeof getScriptAttribute('plugin-currency') != 'undefined' ? getScriptAttribute('plugin-currency') : 'USD';
+
+			var originalResults = originalData['stock'];
+			
+			var allowedResults = [];
+
+			var allowedDistributorResults = [];
+			var allowedManufacturerResults = [];
+			var allowedPartResults = [];
+			var allowedResults = [];
+			
+			var uniqueParts = [];
+			var uniqueDistributors = [];
+			var uniqueManufacturers = [];
+			var uniqueManufacturerParts = [];
+
+			var sortedData = [];
+			var groupsData =[]; 
+
+			var amountOfGroups = typeof getScriptAttribute('plugin-groups') != 'undefined' ? getScriptAttribute('plugin-groups') : 'default';
+			var allowedManufacturers = typeof getScriptAttribute('plugin-manufacturers') != 'undefined' ? getScriptAttribute('plugin-manufacturers') : [];
+			var allowedDistributors = typeof getScriptAttribute('plugin-distributors') != 'undefined' ? getScriptAttribute('plugin-distributors') : [];
+			var partExclusion = typeof getScriptAttribute('plugin-part-exclusions') != 'undefined' ? getScriptAttribute('plugin-part-exclusions') : [];
+			var shownGroups = typeof getScriptAttribute('plugin-shown-groups') != 'undefined' ? getScriptAttribute('plugin-shown-groups') : 'default';
+			var shownResults = typeof getScriptAttribute('plugin-shown-results') != 'undefined' ? getScriptAttribute('plugin-shown-results') : 'default';
+
+
+			var viewTogglesSelected = {};
+
+			var currencies = {'AUD': '&#36;', 'CAD': '&#36;', 'CHF': '&#67;&#72;&#70;', 'CNY': '&#165;', 'DKK': '&#107;&#114;', 'EUR': '&#8364;', 'GBP': '&#163;', 'HKD': '&#36;', 'ILS': '&#8362;', 'INR': '&#8377;', 'JPY': '&#165;', 'KRW': '&#8361;', 'NOK': '&#107;&#114;', 'NZD': '&#36;', 'RUB': '&#1088;&#1091;&#1073;', 'SEK': '&#107;&#114;', 'SGD': '&#36;', 'TWD': '&#78;&#84;&#36;', 'USD': '&#36;'};
+
+			function init(){
+				standardiseUserInputs();
+				getAllowedResults();
+				getUnqiueData();
+				createGroupsDisplay();
+				interactivity();
+			}
+
+			function standardiseUserInputs(){
+				Array.isArray(allowedManufacturers) ? allowedManufacturers = allowedManufacturers.map(function(manufacturerName){ return manufacturerName.toUpperCase() }) : console.log('Inventory Plugin: Included manufacturers must be a valid array');
+				Array.isArray(allowedDistributors) ? allowedDistributors = allowedDistributors.map(function(distributorID){ return parseInt(distributorID) }): console.log('Inventory Plugin: Included distributors must be a valid array');
+				Array.isArray(partExclusion) ? partExclusion = partExclusion.map(function(partNumber){ return removeNonAlphaNumChars(partNumber.toUpperCase() ) }) : console.log('Inventory Plugin: Excluded parts must be a valid array');;
+			}
+
+			function getAllowedResults(){
+				getAllowedDistributorResults();
+				getAllowedManufacturerResults();
+				getAllowedPartResults();
+				$j.each(allowedPartResults, function(key, result){
+					allowedResults.push(result);
+				});
+			}
+
+			function getAllowedDistributorResults(){
+				$j.each(originalResults, function(key, result){
+					var distributorID = parseInt(result['distributor']['distributor_common_id']);
+					if (allowedDistributors.length != 0){
+						if ($j.inArray(distributorID, allowedDistributors) != -1){
+							allowedDistributorResults.push(result);
+						}
+					} else {
+						allowedDistributorResults.push(result);
+					}
+				});
+			}
+
+			function getAllowedManufacturerResults(){
+				$j.each(allowedDistributorResults, function(key, result){
+					var manufacturerName = result['manufacturer'].toUpperCase();
+					if (allowedManufacturers.length != 0){
+						if ($j.inArray(manufacturerName, allowedManufacturers) != -1){
+							allowedManufacturerResults.push(result);
+						}
+					} else {
+						allowedManufacturerResults.push(result);
+					}
+				});
+			}
+
+			function getAllowedPartResults(){
+				$j.each(allowedManufacturerResults, function(key, result){
+					var partNumber = result['part_number'].toUpperCase();
+					if ($j.inArray(partNumber, partExclusion) == -1){
+						allowedPartResults.push(result);
+					}
+				});
+			}
+
+
+
+
+
+
+			function getUnqiueData(){
+				$j.each(allowedResults, function(key, result){
+					if (uniqueParts.indexOf(result['part_number']) == -1){
+						uniqueParts.push(result['part_number']);
+					}
+
+					if (uniqueDistributors.indexOf(result['distributor']['distributor_name']) == -1){
+						uniqueDistributors.push(result['distributor']['distributor_name']);
+					}
+
+					if (uniqueManufacturers.indexOf(result['manufacturer']) == -1){
+						uniqueManufacturers.push(result['manufacturer']);
+					}
+
+					if (uniqueManufacturerParts.indexOf(result['manufacturer'] + '|' + result['part_number']) == -1){
+						uniqueManufacturerParts.push(result['manufacturer'] + '|' + result['part_number']);
+					}
+				});
+			}
+
+
+
+			function sortData(groupType, groupOrder, resultOrder, partPriority){
+				
+				var groups = [];
+				var groupsResults = [];
+
+				var orderedGroupedMultiples = [];
+				var orderedGroups = [];
+				var orderedGroupsResults = [];
+				
+				groupDataBy(groupType);
+				groupMultiples();
+				
+				orderGroupedMultiples(partPriority);
+				orderGroup(groupOrder); 
+				orderGroupsResults(resultOrder);
+
+				sortedData = orderedGroupsResults;
+
+				function getFilteredResults(){
+				}
+
+				function groupDataBy(groupType){
+					switch(groupType) {
+					  	case 'part':
+						  	$j.each(uniqueParts, function(key, value){
+								var individualGroup = [];
+								var totalStock = 0;
+								var manufacturersForGroup = [];
+								var datasheetsForGroup = [];
+								$j.each(allowedResults, function(key, result){
+									if(value == result['part_number']){
+										individualGroup.push(result);
+										totalStock += parseInt(result['quantity_in_stock']);
+										datasheetsForGroup.push([result['datasheet_url'], result['distributor']['distributor_name']]);
+										if (manufacturersForGroup.indexOf(result['manufacturer']) == -1){
+											manufacturersForGroup.push(result['manufacturer']);
+										}
+									}
+								});
+								groups.push([individualGroup, totalStock, datasheetsForGroup, manufacturersForGroup]);
+							});
+					    	break;
+					  	case 'distributor':
+						  	$j.each(uniqueDistributors, function(key, value){
+								var individualGroup = [];
+								var totalStock = 0;
+								var manufacturersForGroup = [];
+								var datasheetsForGroup = [];
+								$j.each(allowedResults, function(key, result){
+									if(value == result['distributor']['distributor_name']){
+										individualGroup.push(result);
+										totalStock += parseInt(result['quantity_in_stock']);
+										datasheetsForGroup.push([result['datasheet_url'], result['distributor']['distributor_name']]);
+										if (manufacturersForGroup.indexOf(result['manufacturer']) == -1){
+											manufacturersForGroup.push(result['manufacturer']);
+										}
+									}
+								});
+								groups.push([individualGroup, totalStock, datasheetsForGroup, manufacturersForGroup]);
+							});
+						    break;
+					  	case 'manufacturer':
+						  	$j.each(uniqueManufacturers, function(key, value){
+								var individualGroup = [];
+								var totalStock = 0;
+								var manufacturersForGroup = [];
+								var datasheetsForGroup = [];
+								$j.each(allowedResults, function(key, result){
+									if(value == result['manufacturer']){
+										individualGroup.push(result);
+										totalStock += parseInt(result['quantity_in_stock']);
+										datasheetsForGroup.push([result['datasheet_url'], result['distributor']['distributor_name']]);
+										if (manufacturersForGroup.indexOf(result['manufacturer']) == -1){
+											manufacturersForGroup.push(result['manufacturer']);
+										}
+									}
+								});
+								groups.push([individualGroup, totalStock, datasheetsForGroup, manufacturersForGroup]);
+							});
+						    break;
+						case 'manufacturer-part':
+						  	$j.each(uniqueManufacturerParts, function(key, value){
+								var individualGroup = [];
+								var totalStock = 0;
+								var uniqueManufacturer = value.split('|')[0];
+								var uniqueManufacturerPart = value.split('|')[1];
+								var manufacturersForGroup = [];
+								var datasheetsForGroup = [];
+								$j.each(allowedResults, function(key, result){
+									if(uniqueManufacturerPart == result['part_number']){
+										if(uniqueManufacturer == result['manufacturer'] ){					
+											individualGroup.push(result);
+											totalStock += parseInt(result['quantity_in_stock']);
+											datasheetsForGroup.push([result['datasheet_url'], result['distributor']['distributor_name']]);
+											if (manufacturersForGroup.indexOf(result['manufacturer']) == -1){
+												manufacturersForGroup.push(result['manufacturer']);
+											}
+										}
+									}
+								});
+								groups.push([individualGroup, totalStock, datasheetsForGroup, manufacturersForGroup]);
+							});
+						    break;
+					}
+				}
+
+				function groupMultiples(){
+					$j.each(groups, function(key, value){
+						var resultSet = value[0];
+						var totalStock = value[1];
+						var datasheetsForGroup = value[2];
+						var manufacturersForGroup = value[3];
+						var individualGroup = [];
+						var uniqueDistributorParts = [];
+						
+						$j.each(resultSet, function(key, result){
+							if (uniqueDistributorParts.indexOf(result['distributor']['distributor_common_id'] + '|' + result['part_number']) == -1){
+								uniqueDistributorParts.push(result['distributor']['distributor_common_id'] + '|' + result['part_number']);
+							}
+						});
+
+						$j.each(uniqueDistributorParts, function(key, distributorPart){
+							var uniquePartData = [];
+							var uniqueDistributorID = distributorPart.split('|')[0];
+							var uniquePartNumber = distributorPart.split('|')[1];
+							$j.each(resultSet, function(key, result) {
+								if(result['distributor']['distributor_common_id'] == uniqueDistributorID){
+									if(result['part_number'] == uniquePartNumber){
+										uniquePartData.push(result);
+									}
+								}
+							});
+							individualGroup.push(uniquePartData)
+						});
+						groupsResults.push([individualGroup, totalStock, datasheetsForGroup, manufacturersForGroup])
+					});
+				}
+
+				function orderGroupedMultiples(distributorPartPriority){
+						$j.each(groupsResults, function(key, groupedResultsData){
+							var totalStock = groupedResultsData[1];
+							var datasheetsForGroup = groupedResultsData[2];
+							var manufacturersForGroup = groupedResultsData[3];
+							var orderdedSingleGroupMulitples = [];
+							$j.each(groupedResultsData[0], function(key, result){
+								var individualMultiples = [];
+								switch(distributorPartPriority) {
+									case 'stock':
+										individualMultiples = result.sort(function(a, b) {
+															   	if (parseInt(a.quantity_in_stock) > parseInt(b.quantity_in_stock)) {return -1;}
+															   	if (parseInt(a.quantity_in_stock) < parseInt(b.quantity_in_stock)){return 1;}
+															   	return 0;
+															});
+										break;
+									case 'price':
+										individualMultiples = result.sort(function(a, b) {
+															   	if (parseInt(a.prices[setCurrency][0]['unit_price']) < parseInt(b.prices[setCurrency][0]['unit_price'])) {return -1;}
+															   	if (parseInt(a.prices[setCurrency][0]['unit_price']) > parseInt(b.prices[setCurrency][0]['unit_price'])){return 1;}
+															   	return 0;
+															});
+										break;
+									case 'min-order':
+										individualMultiples = result.sort(function(a, b) {
+															   	if (parseInt(a.prices[setCurrency][0]['unit_break']) < parseInt(b.prices[setCurrency][0]['unit_break'])) {return -1;}
+															   	if (parseInt(a.prices[setCurrency][0]['unit_break']) > parseInt(b.prices[setCurrency][0]['unit_break'])){return 1;}
+															   	return 0;
+															});
+										break;
+								}
+								orderdedSingleGroupMulitples.push(individualMultiples);
+							});
+
+						orderedGroupedMultiples.push([orderdedSingleGroupMulitples, totalStock, datasheetsForGroup, manufacturersForGroup]);
+						});
+				}
+
+				function orderGroup(groupOrder){
+					switch(groupOrder) {
+						case 'part-asc':
+							orderedGroups = orderedGroupedMultiples.sort(function(a, b) {
+												   	if (a[0][0][0].part_number < b[0][0][0].part_number) {return -1;}
+												   	if (a[0][0][0].part_number > b[0][0][0].part_number) {return 1;}
+												   	return 0;
+												});
+							break;
+						case 'part-desc':
+							orderedGroups = orderedGroupedMultiples.sort(function(a, b) {
+												   	if (a[0][0][0].part_number > b[0][0][0].part_number) {return -1;}
+												   	if (a[0][0][0].part_number < b[0][0][0].part_number) {return 1;}
+												   	return 0;
+												});
+							break;
+						case 'manufacturer-asc':
+							orderedGroups = orderedGroupedMultiples.sort(function(a, b) {
+												   	if (a[0][0][0].manufacturer.toUpperCase() < b[0][0][0].manufacturer.toUpperCase()) {return -1;}
+												   	if (a[0][0][0].manufacturer.toUpperCase() > b[0][0][0].manufacturer.toUpperCase()) {return 1;}
+												   	return 0;
+												});
+							break;
+						case 'manufacturer-desc':
+							orderedGroups = orderedGroupedMultiples.sort(function(a, b) {
+												   	if (a[0][0][0].manufacturer.toUpperCase() > b[0][0][0].manufacturer.toUpperCase()) {return -1;}
+												   	if (a[0][0][0].manufacturer.toUpperCase() < b[0][0][0].manufacturer.toUpperCase()) {return 1;}
+												   	return 0;
+												});
+							break;
+						case 'distributor-asc':
+							orderedGroups = orderedGroupedMultiples.sort(function(a, b) {
+												   	if (a[0][0][0].distributor['distributor_name'].toUpperCase() < b[0][0][0].distributor['distributor_name'].toUpperCase()) {return -1;}
+												   	if (a[0][0][0].distributor['distributor_name'].toUpperCase() > b[0][0][0].distributor['distributor_name'].toUpperCase()) {return 1;}
+												   	return 0;
+												});
+							break;
+						case 'distributor-desc':
+							orderedGroups = orderedGroupedMultiples.sort(function(a, b) {
+												   	if (a[0][0][0].distributor['distributor_name'].toUpperCase() > b[0][0][0].distributor['distributor_name'].toUpperCase()) {return -1;}
+												   	if (a[0][0][0].distributor['distributor_name'].toUpperCase() < b[0][0][0].distributor['distributor_name'].toUpperCase()) {return 1;}
+												   	return 0;
+												});
+							break;
+
+						case 'stock':
+							orderedGroups = orderedGroupedMultiples.sort(function(a, b) {
+												    return b[1] - a[1];
+												});
+							break;
+					}
+				}
+
+				function orderGroupsResults(distributorResultOrder){
+					$j.each(orderedGroups, function(key, results){
+						var resultSet = results[0];
+						var totalStock = results[1];
+						var datasheetsForGroup = results[2];
+						var manufacturersForGroup = results[3];
+						var individualGroupOrder = [];
+						switch(distributorResultOrder) {
+							case 'stock-asc':
+								individualGroupOrder = resultSet.sort(function(a, b) {
+													   	if (parseInt(a[0]['quantity_in_stock']) > parseInt(b[0].quantity_in_stock)) {return -1;}
+													   	if (parseInt(a[0]['quantity_in_stock']) < parseInt(b[0].quantity_in_stock)){return 1;}
+													   	return 0;
+													});
+								break;
+							case 'stock-desc':
+								individualGroupOrder = resultSet.sort(function(a, b) {
+													   	if (parseInt(a[0].quantity_in_stock) < parseInt(b[0].quantity_in_stock)) {return -1;}
+													   	if (parseInt(a[0].quantity_in_stock) > parseInt(b[0].quantity_in_stock)){return 1;}
+													   	return 0;
+													});
+								break;
+							case 'minorder-asc':
+								individualGroupOrder = resultSet.sort(function(a, b) {
+													   	if (parseInt(a[0].prices[setCurrency][0]['unit_break']) > parseInt(b[0].prices[setCurrency][0]['unit_break'])) {return -1;}
+													   	if (parseInt(a[0].prices[setCurrency][0]['unit_break']) < parseInt(b[0].prices[setCurrency][0]['unit_break'])){return 1;}
+													   	return 0;
+													});
+								break;
+							case 'minorder-desc':
+								individualGroupOrder = resultSet.sort(function(a, b) {
+													   	if (parseInt(a[0].prices[setCurrency][0]['unit_break']) < parseInt(b[0].prices[setCurrency][0]['unit_break'])) {return -1;}
+													   	if (parseInt(a[0].prices[setCurrency][0]['unit_break']) > parseInt(b[0].prices[setCurrency][0]['unit_break'])){return 1;}
+													   	return 0;
+													});
+								break;
+							case 'price-asc':
+								individualGroupOrder = resultSet.sort(function(a, b) {
+													   	if (parseFloat(a[0].prices[setCurrency][0]['unit_price']) > parseFloat(b[0].prices[setCurrency][0]['unit_price'])) {return -1;}
+													   	if (parseFloat(a[0].prices[setCurrency][0]['unit_price']) < parseFloat(b[0].prices[setCurrency][0]['unit_price'])){return 1;}
+													   	return 0;
+													});
+								break;
+							case 'price-desc':
+								individualGroupOrder = resultSet.sort(function(a, b) {
+													   	if (parseFloat(a[0].prices[setCurrency][0]['unit_price']) < parseFloat(b[0].prices[setCurrency][0]['unit_price'])) {return -1;}
+													   	if (parseFloat(a[0].prices[setCurrency][0]['unit_price']) > parseFloat(b[0].prices[setCurrency][0]['unit_price'])){return 1;}
+													   	return 0;
+													});
+								break;
+							case 'distributor-asc':
+								individualGroupOrder = resultSet.sort(function(a, b) {
+													   	if (a[0].distributor['distributor_name'].toUpperCase() < b[0].distributor['distributor_name'].toUpperCase()){return -1;}
+													   	if (a[0].distributor['distributor_name'].toUpperCase() > b[0].distributor['distributor_name'].toUpperCase()){return 1;}
+													   	return 0;
+													});
+								break;
+							case 'distributor-desc':
+								individualGroupOrder = resultSet.sort(function(a, b) {
+													   	if (a[0].distributor['distributor_name'].toUpperCase() > b[0].distributor['distributor_name'].toUpperCase()){return -1;}
+													   	if (a[0].distributor['distributor_name'].toUpperCase() < b[0].distributor['distributor_name'].toUpperCase()){return 1;}
+													   	return 0;
+													});
+								break;
+							case 'manufacturer-asc':
+								individualGroupOrder = resultSet.sort(function(a, b) {
+													   	if (a[0].manufacturer.toUpperCase() < b[0].manufacturer.toUpperCase()){return -1;}
+													   	if (a[0].manufacturer.toUpperCase() > b[0].manufacturer.toUpperCase()){return 1;}
+													   	return 0;
+													});
+								break;
+							case 'manufacturer-desc':
+								individualGroupOrder = resultSet.sort(function(a, b) {
+													   	if (a[0].manufacturer.toUpperCase() > b[0].manufacturer.toUpperCase()){return -1;}
+													   	if (a[0].manufacturer.toUpperCase() < b[0].manufacturer.toUpperCase()){return 1;}
+													   	return 0;
+													});
+								break;
+							case 'part-asc':
+								individualGroupOrder = resultSet.sort(function(a, b) {
+													   	if (a[0].part_number.toUpperCase() < b[0].part_number.toUpperCase()){return -1;}
+													   	if (a[0].part_number.toUpperCase() > b[0].part_number.toUpperCase()){return 1;}
+													   	return 0;
+													});
+								break;
+							case 'part-desc':
+								individualGroupOrder = resultSet.sort(function(a, b) {
+													   	if (a[0].part_number.toUpperCase() > b[0].part_number.toUpperCase()){return -1;}
+													   	if (a[0].part_number.toUpperCase() < b[0].part_number.toUpperCase()){return 1;}
+													   	return 0;
+													});
+								break;
+						}
+						orderedGroupsResults.push([individualGroupOrder, totalStock, datasheetsForGroup, manufacturersForGroup]);
+					});
+				}
+			}
+
+			function getGroupsData(amountOfGroups){
+				var groupsData = [];
+				sortData(setGroupType, setGroupOrder, setResultsOrder, setPartPriority);
+				$j.each(sortedData, function(key, groupResults){
+					viewTogglesSelected[key];
+					if(amountOfGroups != 'default'){
+						if (key < amountOfGroups){
+							groupsData.push(groupResults);
+						}
+					} else {
+						groupsData.push(groupResults);
+					}
+				});		
+				return groupsData;
+			}
+
+			function createGroupsDisplay(){
+				$j('.results-display').html(
+					'<div class="group-display border border-brand border-sm-none p-0 p-sm-5">' + buildGroupsDisplay( getGroupsData(amountOfGroups) ) + '</div>'
+				);
+			}
+
+			function buildGroupsDisplay(groupsData){
+				var groupResults = '';
+				var groupsCount = 0;
+				getShownGroups(groupsData);
+				groupResults += buildGroupsHeader();
+				groupResults += buildGroupsFilters();
+				$j.each(groupsData, function(key, groupedResultsData){
+					var hideGroup = false;
+					hideGroup = viewTogglesSelected[key]['group'] == 'hidden';
+					groupResults += '<div class="group py-3" data-group-key="' + groupsCount + '">';
+					groupResults += buildGroup(groupedResultsData, hideGroup);
+					groupResults += '</div>';
+					groupsCount++
+				});
+				groupResults += buildGroupsFooter();
+				return groupResults;
+
+				function getShownGroups(groupsData){
+					if(Object.keys(viewTogglesSelected).length == 0){
+						$j.each(groupsData, function(key, groupedResultsData){
+							shownGroups <= key ? viewTogglesSelected[key] = {'group' : 'hidden', 'results' : 'limited'} : viewTogglesSelected[key] = {'group' : 'showing', 'results' : 'limited'}
+						});
+					}
+				}	
+
+				function buildGroupsHeader(){
+					var displayHeader = '';
+					return displayHeader;
+				}
+
+				function buildGroupsFooter(){
+					var displayFooter = '<div class="d-flex justify-content-end groups-footer">'+
+											'<a tagret="_BLANK" href="https://www.oemsecrets.com">Powered by <img src="https://plugin.oemsecrets.com/images/logo-color.png" style="max-width: 100px"></a>'+
+										'</div>';
+					return displayFooter;
+				}
+
+				function buildGroupsFilters(){
+					var displayFilters ='';
+					displayFilters += 	'<div class="d-flex justify-content-end align-items-center py-1">'+
+											'<div class="d-flex flex-wrap align-items-center">'+
+												'<i class="fas fa-question-circle priority-help mr-2" data-toggle="modal" data-target="#priorityHelpModal"></i>'+
+												'Display Results with' +
+												'<div class="part-priority d-flex align-items-center ml-3">' +
+													'<i data-plugin-part-priority="stock" class="far ' + checkedPriority('stock') + ' mr-2' + allowPriorty('stock') + '"></i>'+
+													'<div>Most Stock</div>' +
+												'</div>' +
+												'<div class="part-priority d-flex align-items-center ml-3">' +
+													'<i data-plugin-part-priority="min-order" class="far ' + checkedPriority('min-order') + ' mr-2' + allowPriorty('min-order') + '"></i>'+
+													'<div>Lowest MOQ</div>' +
+												'</div>' +
+												'<div class="part-priority d-flex align-items-center ml-3">' +
+													'<i data-plugin-part-priority="price" class="far ' + checkedPriority('price') + ' mr-2' + allowPriorty('price') + '"></i>'+
+													'<div>Lowest Price</div>' +
+												'</div>' +
+											'</div>'+
+										'</div>'
+					return displayFilters;
+
+					function allowPriorty(priority){
+						var allowed = ' allow-priority';
+						if(priority == setPartPriority){
+							allowed = '';
+						}
+						return allowed;
+					}
+
+					function checkedPriority(priority){
+						var icon = 'fa-square';
+						if(priority == setPartPriority){
+							icon = 'fa-check-square';
+						}
+						return icon;
+					}
+				}
+
+
+
+				function buildGroup(groupedResultsData, hideGroup){
+					var groupResult = '';
+					var hiddenGroupStyle = hideGroup ? ' style="display:none"' : '';
+					groupResult += buildGroupTitle(groupedResultsData, hideGroup);
+					groupResult += '<div class="group-content"' + hiddenGroupStyle + '>';
+					groupResult += buildGroupHeader(groupedResultsData);
+					groupResult += buildGroupResults(groupedResultsData);
+					groupResult += buildGroupResultToggle(groupedResultsData);
+					groupResult += buildGroupFooter(groupedResultsData);
+					groupResult += '</div>';
+					groupResult += buildPriorityHelpModal();
+					groupResult += buildMultipleManufacturerHelpModal();
+					return groupResult
+
+					
+					function buildGroupTitle(groupedResultsData, hideGroup){
+						var partNumber = groupedResultsData[0][0][0]['source_part_number'];
+						var datasheets = groupedResultsData[2]
+						var datasheetURL = findDatasheet(datasheets);
+						var viewToggleButton = hideGroup ? '<div class="mx-2 group-toggle shown-group"><span class="group-text-toggle">Show</span><span class="group-text-toggle d-none">Hide</span> Results</div>' : '<div class="mx-2 group-toggle hidden-group"><span class="group-text-toggle">Hide</span><span class="group-text-toggle d-none">Show</span> Results</div>'
+						var datasheet = datasheetURL != '' ? '<a href="' + datasheetURL + '" target="_BLANK"><i class="far fa-file-pdf pl-2 text-danger"></i></a>' : '';
+						var info = '<i data-toggle="modal" data-target="#multipleManufacturerHelpModal" class="fas fa-info-circle mx-2"></i>';
+						var manufacturer = groupedResultsData[3].length > 1 ? 'Multiple Manufacturers' + info : groupedResultsData[3][0];
+						var titleControl = '';
+						var groupTitle = 	'<div class="container-fluid p-0 group-title">'+
+												'<div class="row no-gutters align-items-center py-2 border">'+
+													'<div class="col px-3">'+
+														'<div class="py-1 m-0 d-flex align-items-center">Distributor Inventory for&nbsp;<b>' + partNumber + '</b>&nbsp;from ' + manufacturer + datasheet + viewToggleButton + '</div>' +
+													'</div>'+
+												'</div>'+
+											'</div>';
+						return groupTitle;
+
+						function findDatasheet(datasheets){
+							var singleDatasheet = '';
+							$j.each(datasheets, function(key, datasheetInfo){
+								if(datasheetInfo[0] != ''){
+									singleDatasheet = datasheetInfo[0];
+								}
+							});	
+							return singleDatasheet;
+						}
+					}
+
+					function buildGroupHeader(groupedResultsData){
+						var groupHeader = 	'<div class="container-fluid p-0 group-header-labels">'+
+												'<div class="row no-gutters align-items-center border border-bottom-0 border-top-0 py-1">'+
+													'<div class="col-3 col-sm-5">'+
+														'<div class="container-fluid-fluid p-0">'+
+															'<div class="row no-gutters">'+
+																'<div class="col-auto px-4 d-none d-sm-block"><div class="logo-spacer"></div></div>'+
+																'<div class="col pl-4 pl-sm-0 font-weight-bold d-flex align-items-center">'+
+																	'<div>Distributor</div>'+
+																	'<div class="d-inline-flex flex-column sort pl-2 sort mb-1">'+
+																		'<div data-plugin-sort="distributor-asc" class="arrow-up mb-1' + sortSelected('distributor-asc') + '"></div>'+
+																		'<div data-plugin-sort="distributor-desc" class="arrow-down' + sortSelected('distributor-desc') + '"></div>'+
+																	'</div>'+
+																'</div>'+
+															'</div>'+
+														'</div>'+
+													'</div>'+
+													'<div class="col">'+
+														'<div class="container-fluid-fluid p-0">'+
+															'<div class="row no-gutters">'+
+																'<div class="col font-weight-bold justify-content-end d-flex align-items-center">'+
+																	'<div>Stock</div>'+
+																	'<div class="d-inline-flex flex-column sort pl-2 sort mb-1">'+
+																		'<div data-plugin-sort="stock-asc" class="arrow-up mb-1' + sortSelected('stock-asc') + '"></div>'+
+																		'<div data-plugin-sort="stock-desc" class="arrow-down' + sortSelected('stock-desc') + '"></div>'+
+																	'</div>'+
+																'</div>'+
+																'<div class="col-auto px-2">'+
+																	'<i class="fas fa-info-circle text-transparent"></i>'+
+																'</div>'+
+																'<div class="col font-weight-bold justify-content-end d-flex align-items-center">'+
+																	'<div>MOQ</div>'+
+																	'<div class="d-inline-flex flex-column sort pl-2 sort mb-1">'+
+																		'<div data-plugin-sort="minorder-asc" class="arrow-up mb-1' + sortSelected('minorder-asc') + '"></div>'+
+																		'<div data-plugin-sort="minorder-desc" class="arrow-down' + sortSelected('minorder-desc') + '"></div>'+
+																	'</div>'+
+																'</div>'+
+																'<div class="col font-weight-bold justify-content-end d-flex align-items-center">'+
+																	'<div>Price</div>'+
+																	'<div class="d-inline-flex flex-column sort pl-2 sort mb-1">'+
+																		'<div data-plugin-sort="price-asc" class="arrow-up mb-1' + sortSelected('price-asc') + '"></div>'+
+																		'<div data-plugin-sort="price-desc" class="arrow-down' + sortSelected('price-desc') + '"></div>'+
+																	'</div>'+
+																'</div>'+
+																'<div class="col-auto">'+
+																	'<i class="fas fa-caret-down text-transparent ml-2"></i>'+
+																'</div>'+
+																'<div class="col-auto px-4"><div class="buy-spacer"></div></div>'+
+															'</div>'+
+														'</div>'+
+													'</div>'+
+												'</div>'+
+											'</div>';
+						return groupHeader;
+
+						function sortSelected(sortMethod){
+							var selected = ' allow-sort';
+							if(sortMethod == setResultsOrder){
+								selected = ' selected';
+							}
+							return selected;
+						}
+					}
+
+					function buildGroupResults(groupedResultsData){
+						var resultsLimiterStyle = viewTogglesSelected[groupsCount]['results'] == 'limited' ? ' style="display: none;"' : '';
+						var openMoreResultContainer = '<div class="row no-gutters align-items-center"><div class="col"><div class="container-fluid p-0 more-results"'+ resultsLimiterStyle +'>';
+						var closeMoreResultContainer = '</div></div></div>';
+						var resultsSet = groupedResultsData[0];
+						var totalStock = groupedResultsData[1];
+						var resultCounter = 0;
+						var resultLength = resultsSet.length
+						
+						var groupedResults = '';
+						groupedResults += '<div class="container-fluid p-0 group-results border border-bottom-0">';
+						
+						$j.each(resultsSet, function(key, results){
+							if(shownResults != 'default'){
+								groupedResults += shownResults < resultLength  && resultCounter + 1 == (shownResults+1) ? openMoreResultContainer : '';
+							
+							}
+							groupedResults += buildDistributorResult(results, resultCounter);
+							if(shownResults != 'default'){
+								groupedResults += shownResults < resultLength && resultCounter + 1 == resultLength ? closeMoreResultContainer : '';
+							
+							}
+							resultCounter ++;
+						});
+						groupedResults += '</div>';
+						return groupedResults;
+
+						
+						function buildDistributorResult(results, resultCounter){
+							var alternativeRow = resultCounter % 2 ? ' bg-light' : '';
+							var distributorName = results[0]['distributor']['distributor_common_name'];
+							var distributorLogoURL = results[0]['distributor']['distributor_logo'];
+							var distributorRegion = results[0]['distributor']['distributor_region'];
+							var partsLength = results.length;
+							var dropdownIcon = partsLength > 1 ? '<i class="fas fa-caret-down dropdown-parts ml-2"></i>' : '<i class="fas fa-caret-down text-transparent ml-2"></i>'
+							var distributorResult = '';
+							distributorResult += '<div class="row border-bottom no-gutters py-1 align-items-center' + alternativeRow + '">';
+							distributorResult += 	'<div class="col-3 col-sm-5">'+ 
+														'<div class="container-fluid-fluid p-0">'+
+															'<div class="row no-gutters align-items-center">'+
+																'<div class="col-auto d-none d-sm-block px-4">'+
+																	'<img src="' + distributorLogoURL +  '" style="width: 50px">'+
+																'</div>'+
+																'<div class="col pl-4 pl-sm-0">' +
+																	distributorName + dropdownIcon +
+																'</div>'+
+															'</div>'+
+														'</div>'+
+												  	'</div>';
+							distributorResult += '<div class="col">' + buildDistributorParts(results) + '</div>';
+							distributorResult += '</div>';
+							return distributorResult;
+
+							function buildDistributorParts(results){
+								var distributorParts = '';
+								var partsCount = 1;
+								var partsLength = results.length;
+								var openMorePartContainer = '<div class="row no-gutters align-items-center"><div class="col"><div class="container-fluid p-0 more-parts" style="display: none">';
+								var closeMorePartContainer = '</div></div></div>';
+								distributorParts += '<div class="container-fluid p-0">';
+								$j.each(results, function(key, result){
+									distributorParts += partsCount == 2 ? openMorePartContainer : '';
+									distributorParts += buildDistributorPart(result);
+									distributorParts += partsCount != 1 && partsCount == partsLength ? closeMorePartContainer : '';
+									partsCount ++;
+								});
+								distributorParts += '</div>';
+								return distributorParts;
+
+								function buildDistributorPart(result){
+									var distributorPart = '';
+									var pricesLength = result['prices'][setCurrency].length;
+									var borderTop = partsCount != 1 ? ' border-top' : '';
+									var uniqueID = 'g' + groupsCount + 'r' + resultCounter + 'p' + partsCount;
+									var dropdownIcon = pricesLength > 1 ? '<i class="fas fa-caret-down ml-2 dropdown-prices"></i>' : '<i class="fas fa-caret-down ml-2 text-transparent"></i>'
+									distributorPart += '<div class="row no-gutters align-items-center' + borderTop + '">' +
+															'<div class="col text-right">'+
+																result['quantity_in_stock'] + 
+															'</div>'+
+															'<div class="col-auto px-2">'+
+																'<i data-toggle="modal" data-target="#partInfoModal'+uniqueID+'" class="fas fa-info-circle text-feint"></i>'+
+															'</div>'+
+															'<div class="col text-right pricing">'+
+																buildPricing(result, 'unit_break')+
+															'</div>'+
+															'<div class="col text-right pricing">'+
+																buildPricing(result, 'unit_price')+
+															'</div>'+
+															'<div class="col-auto">'+
+																dropdownIcon +
+															'</div>'+
+															'<div class="col-auto px-4">'+
+																'<a href="' + result['buy_now_url'] + '" class="btn btn-sm btn-brand" target="_BLANK">Buy Now</a>' +
+															'</div>'+
+														'</div>';
+									distributorPart += buildPartInfoModal(result);	
+									return distributorPart;
+
+									function buildPartInfoModal(result){
+										var datasheet = checkField('datasheet_url') ? '<a class="px-2" href="' +result['datasheet_url'] + '" target="_BLANK"><i class="far fa-file-pdf pl-2"></i> Datasheet</a>' : '';
+										var partNumber = checkField('source_part_number') ? '<div><b>'+result['source_part_number']+'</b></div>' : '';
+										var manufacturer = checkField('manufacturer') ? '<div>'+result['manufacturer']+'</div>' : '';
+										var sku = checkField('sku') ? '<div class="border-bottom my-1 py-1"><span class="text-black pr-2">SKU</span>' + result['sku'] + '</div>' : '';
+										var packaging = checkField('packaging') ? '<div class="border-bottom my-1 py-1"><span class="text-black pr-2">Packaging</span>' + result['packaging'] + '</div>' : '';
+										var packSize = checkField('packsize') ? '<div class="border-bottom my-1 py-1"><span class="text-black pr-2">Pack Size</span>' + result['packsize'] + '</div>' : '';
+										var description = checkField('description') ? '<div class="border-bottom my-1 py-1"><span class="text-black pr-2">Description <i class="fas fa-caret-down dropdown-description"></i></span>' + '<div class="description-toggle" style="display: none">' + result['description'] + '</div></div>' : '';
+										var leadTime = checkField('lead_time') ? '<div class="border-bottom my-1 py-1"><span class="text-black pr-2">Additional Stock Lead Time</span>' + result['lead_time'] + '</div>' : '';
+										
+
+										var partInfoModal = '';
+										partInfoModal += 
+											'<div class="modal fade" id="partInfoModal' + uniqueID + '" tabindex="-1" role="dialog" aria-labelledby="partInfoLabel" aria-hidden="true">'+
+											  	'<div class="modal-dialog modal-dialog-centered" role="document">'+
+											    	'<div class="modal-content">'+
+											      		'<div class="modal-body part-info">'+
+											      			'<div class="border-bottom d-flex align-items-center">'+
+											      				'<div class="flex-fill">'+ partNumber + manufacturer +'</div>' + datasheet +
+											      			'</div>'+
+
+											        		'<div class="d-flex">'+				
+																'<div style="min-width: 150px; max-width: 150px" class="pr-3 py-2 d-flex flex-column justify-content-center">' +
+																	'<div class="text-center"><img src="' + distributorLogoURL +  '" style="min-width: 100px; max-width: 100px"></div>'+
+																	'<div class="text-center">' + distributorName + '</div>'+
+																	'<a href="' + result['buy_now_url'] + '" class="btn btn-sm btn-brand my-2" target="_BLANK">Buy Now</a>' +
+																'</div>'+
+																'<div class="border-left pl-3 py-2 flex-fill">'+
+																	sku +
+																	packaging +
+																	packSize +
+																	description +
+																	leadTime +
+																'</div>'+
+															'</div>'+
+														'</div>'+
+											    	'</div>'+
+											  	'</div>'+
+											'</div>';
+										return partInfoModal;
+
+										function checkField(fieldName){
+											var available = false;
+											if(typeof result[fieldName] != 'undefined'){
+												if (result[fieldName] != ''){
+													available = true
+												}
+											}
+											return available;
+										}
+
+									}
+									
+									function buildPricing(result, field){
+										var priceCount = 1;
+										var priceLength = result['prices'][setCurrency].length;
+		
+										var openMorePriceContainer = '<div class="row no-gutters align-items-center"><div class="col"><div class="container-fluid p-0 more-prices" style="display: none">';
+										var closeMorePriceContainer = '</div></div></div>';
+										var symbol = field == 'unit_price' ? currencies[setCurrency] : '';
+										
+										var pricing = '';
+										pricing += '<div class="container-fluid p-0">';
+										$j.each(result['prices'][setCurrency], function(key, prices){
+											
+											pricing += priceCount == 2 ? openMorePriceContainer : '';
+											pricing += 	'<div class="row no-gutters align-items-center">' +
+															'<div class="col">' +
+																symbol + prices[field] +
+															'</div>' +
+														'</div>';
+											pricing += priceCount != 1 && priceCount == priceLength ? closeMorePriceContainer : '';
+											priceCount ++;
+										});
+										pricing += '</div>';
+										return pricing;
+									}
+								}
+							}
+						}
+					}
+
+					function buildGroupResultToggle(groupedResultsData){
+						var groupResultToggle ='';
+						var resultLength = groupedResultsData[0].length;
+						var userOpened = viewTogglesSelected[groupsCount]['results'] == 'unlimited';
+						var textToggleTrue = userOpened ? 'Fewer' : 'More';
+						var classToggleTrue = userOpened ? 'fewer' : 'more';
+						var textToggleFalse = userOpened ? 'More' : 'Fewer';
+						var iconDirecton = userOpened ? 'up' : 'down';
+						if (resultLength > shownResults) {
+							groupResultToggle = '<div class="container-fluid p-0 ' + classToggleTrue + '">'+
+													'<div class="row no-gutters py-1 border border-top-0">'+
+														'<div class="col text-center more-results-dropdown">'+
+															'View <span class="view-text-toggle">' + textToggleTrue + '</span><span class="view-text-toggle d-none">' + textToggleFalse + '</span>' + '<i class="fas fa-caret-' + iconDirecton + ' more-results-icon pl-2"></i>' + 
+														'</div>'+
+													'</div>'+
+												'</div>';
+
+						}
+						return groupResultToggle;
+					}
+					
+					function buildGroupFooter(groupedResultsData){
+						var groupFooter = '';
+						return groupFooter;
+					}
+
+					function buildPriorityHelpModal(){
+							var priorityHelpModal = '';
+							priorityHelpModal += 
+								'<div class="modal fade" id="priorityHelpModal" tabindex="-1" role="dialog" aria-labelledby="priorityHelpModalLabel" aria-hidden="true">'+
+								  	'<div class="modal-dialog modal-dialog-centered" role="document">'+
+								    	'<div class="modal-content">'+
+								      		'<div class="modal-body priority-help">'+
+								        		'<div class="d-flex align-items-center py-4">'+				
+													'<div><i class="fas fa-question-circle fa-3x pr-3 brand-highlight"></i></div>'+
+													'<div>'+
+														'<h3>Choosing a Display Priority</h3>'+
+														'A distributor may sometimes have more than one product for sale under the same part number or sku. This could be as they sell it in various packaging options. You can use the dropdown icon next to the distributor name to see all the results or use the priority selection to indicate which is the most important for you.'+
+													'</div>'+
+												'</div>'+
+											'</div>'+
+								    	'</div>'+
+								  	'</div>'+
+								'</div>';
+							return priorityHelpModal;
+					}
+
+					function buildMultipleManufacturerHelpModal(){
+						var priorityHelpModal = '';
+						priorityHelpModal += 
+							'<div class="modal fade" id="multipleManufacturerHelpModal" tabindex="-1" role="dialog" aria-labelledby="multipleManufacturerHelpModalLabel" aria-hidden="true">'+
+							  	'<div class="modal-dialog modal-dialog-centered" role="document">'+
+							    	'<div class="modal-content">'+
+							      		'<div class="modal-body multiple-manufacturer-help">'+
+							        		'<div class="d-flex align-items-center py-4">'+				
+												'<div><i class="fas fa-question-circle fa-3x pr-3 brand-highlight"></i></div>'+
+												'<div>'+
+													'<h3>This product has multiple manufacturers</h3>'+
+													'Use the information icon next to each distributor\'s stock to view more information on the product'+
+												'</div>'+
+											'</div>'+
+										'</div>'+
+							    	'</div>'+
+							  	'</div>'+
+							'</div>';
+						return priorityHelpModal;
+					}
+				}
+			}
+
+			function interactivity(){
+				$j('.dropdown-parts').on('click', function(){
+					$j(this).parent().parent().parent().parent().parent().find('.more-parts').slideToggle();
+					$j(this).toggleClass('fa-caret-up').toggleClass('fa-caret-down');
+				});
+
+				$j('.dropdown-prices').on('click', function(){
+					$j(this).parent().parent().find('.more-prices').slideToggle();
+					$j(this).toggleClass('fa-caret-up').toggleClass('fa-caret-down');
+				});
+
+				$j('.allow-sort').on('click', function(){
+					setResultsOrder = $j(this).data('plugin-sort');
+					getGroupsData(amountOfGroups);
+					createGroupsDisplay();
+					interactivity();
+				});
+
+				$j('.allow-priority').on('click', function(){
+					setPartPriority = $j(this).data('plugin-part-priority');
+					getGroupsData(amountOfGroups);
+					createGroupsDisplay();
+					interactivity();
+				});
+
+				$j('.dropdown-description').on('click', function(){
+					$j(this).parent().parent().find('.description-toggle').slideToggle();
+					$j(this).toggleClass('fa-caret-up').toggleClass('fa-caret-down');
+				});
+
+				$j('.more-results-dropdown').on('click', function(){
+					var groupKey = $j(this).parent().parent().parent().parent().data('group-key')
+					var toggleType = $j(this).parent().parent().attr('class').split(' ')[2];
+
+					if(toggleType == 'more'){
+						viewTogglesSelected[groupKey]['results'] = 'unlimited';
+						$j(this).parent().parent().toggleClass('more').toggleClass('fewer');
+					} else {
+						viewTogglesSelected[groupKey]['results'] = 'limited';
+						$j(this).parent().parent().toggleClass('fewer').toggleClass('more');
+					}
+
+					$j(this).parent().parent().parent().find('.more-results').slideToggle();
+					$j(this).find('.more-results-icon').toggleClass('fa-caret-up').toggleClass('fa-caret-down');
+					$j(this).find('.view-text-toggle').toggleClass('d-none');
+					
+				});
+
+				$j('.group-toggle').on('click', function(){
+					var groupKey = $j(this).parent().parent().parent().parent().parent().data('group-key');
+					var toggleType = $j(this).attr('class').split(' ')[2];
+
+					if (toggleType == 'shown-group'){
+						viewTogglesSelected[groupKey]['group'] = 'showing';
+						$j(this).toggleClass('shown-group').toggleClass('hidden-group');
+					} else {
+						viewTogglesSelected[groupKey]['group'] = 'hidden';
+						$j(this).toggleClass('hidden-group').toggleClass('shown-group');
+					}
+
+					$j(this).parent().parent().parent().parent().parent().find('.group-content').slideToggle();
+					$j(this).find('.group-text-toggle').toggleClass('d-none');
+
+				})
+
+
+			}
+
+			init();
+		}
+	}
+}() );
