@@ -20,7 +20,7 @@
 # Create class.
 
 
-print ("[BOOT]     Variables") # never prints
+print ("[BOOT]    Variables") # never prints
 
 
 
@@ -31,7 +31,7 @@ print ("[BOOT]     Variables") # never prints
 debug_verbose = True
 
 # Switch types and settings.
-print ("[BOOT]     Setup Switch types and settings.")
+print ("[BOOT]    Setup Switch types and settings.")
 
 # Switch Types
 Latch = 0
