@@ -91,6 +91,10 @@ from RemoteGPIO import RemoteGPIO
 
 class bmsl(object):
 
+    def __init__(self):
+        print ("init BMS-L") # never prints
+
+
 
     #########################################################################################################################################    
     # Define Variables
