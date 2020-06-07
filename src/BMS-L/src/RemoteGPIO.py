@@ -29,8 +29,11 @@ print("\n\n [BOOT] Can I read variables? Device 001 ID is ", v.Device001, "\n\n"
 class RemoteGPIO(object):
 
     def __init__(self):
-        print ("[INIT] RemoteGPIO") # never prints
-
+        print ("[INIT] RemoteGPIO")
+        
+        print("\n\n [BOOT] Can I read variables? Device 001 ID is ", v.Device001, "\n\n")
+    
+    print("\n\n [BOOT] Can I read variables? Device 001 ID is ", v.Device001, "\n\n")
 
 
     #########################################################################################################################################    
