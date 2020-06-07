@@ -82,7 +82,7 @@ import smbus
 
 
 # Import Local Library
-import RemoteGPIO
+import RemoteGPIO as RemoteGPIO
 
 
 
@@ -567,9 +567,9 @@ environmentController = bmsl()
 # Run the program
 
 # Setup Local GPIO expander ICs - sense or control.  Then set the start state of pins.
-setPinDirection()
-setGPIOStartTest()
-setGPIOStartState()
+RemoteGPIO.setPinDirection()
+RemoteGPIO.setGPIOStartTest()
+RemoteGPIO.setGPIOStartState()
 
 # Tell the local switch interfaces we're up and running.
 environmentController.setBMSLive()
