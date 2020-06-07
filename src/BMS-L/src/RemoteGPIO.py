@@ -22,7 +22,6 @@ import time
 
 # Import internal Libraries
 import Variables as v
-print("\n\n [BOOT] Can I read variables? Device 001 ID is ", v.Device001, "\n\n")
 
 #########################################################################################################################################    
 # Initiate class.
@@ -30,10 +29,6 @@ class RemoteGPIO(object):
 
     def __init__(self):
         print ("[INIT] RemoteGPIO")
-        
-        print("\n\n [BOOT] Can I read variables? Device 001 ID is ", v.Device001, "\n\n")
-    
-    print("\n\n [BOOT] Can I read variables? Device 001 ID is ", v.Device001, "\n\n")
 
 
     #########################################################################################################################################    
@@ -94,15 +89,15 @@ class RemoteGPIO(object):
 
 
         # Device A
-        self.bus.write_byte_data(self.v.Device001, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
-        self.bus.write_byte_data(self.v.Device001, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
+        self.bus.write_byte_data(v.Device001, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
+        self.bus.write_byte_data(v.Device001, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
 
         # Device B
-        self.bus.write_byte_data(self.v.Device002, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
-        self.bus.write_byte_data(self.v.Device002, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
+        self.bus.write_byte_data(v.Device002, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
+        self.bus.write_byte_data(v.Device002, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
 
-        self.bus.write_byte_data(self.v.Device003, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
-        self.bus.write_byte_data(self.v.Device003, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
+        self.bus.write_byte_data(v.Device003, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
+        self.bus.write_byte_data(v.Device003, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
 
         # DEBUG - Verbose announcer.
         if self.v.debug_verbose:
@@ -124,9 +119,9 @@ class RemoteGPIO(object):
         # DEBUG endprint
 
         if not self.room_light_circuit_A_status:
-            self.bus.write_byte_data(self.v.Device001, self.setOutputStateB, 0xFF) 
-            self.bus.write_byte_data(self.v.Device002, self.setOutputStateB, 0xFF) 
-            self.bus.write_byte_data(self.v.Device003, self.setOutputStateB, 0x00) 
+            self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0xFF) 
+            self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0xFF) 
+            self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00) 
 
             # DEBUG - Verbose announcer.
             if self.v.debug_verbose:
@@ -136,9 +131,9 @@ class RemoteGPIO(object):
             self.room_light_circuit_A_status = True
         
         else:
-            self.bus.write_byte_data(self.v.Device001, self.setOutputStateB, 0x00)
-            self.bus.write_byte_data(self.v.Device002, self.setOutputStateB, 0x00)
-            self.bus.write_byte_data(self.v.Device003, self.setOutputStateB, 0xFF)
+            self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0xFF)
 
             # DEBUG - Verbose announcer.
             if self.v.debug_verbose:
@@ -158,56 +153,56 @@ class RemoteGPIO(object):
         
         # Set output all 7 output bits to 0
         print("[DEBUG] Test outputs 0.")
-        self.bus.write_byte_data(self.v.Device001, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.v.Device002, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.v.Device003, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
         print("[DEBUG]Test outputs 0... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 1
         print("[DEBUG] Setting all outputs.")
-        self.bus.write_byte_data(self.v.Device001, self.setOutputStateB, 0xFF)
-        self.bus.write_byte_data(self.v.Device002, self.setOutputStateB, 0xFF)
-        self.bus.write_byte_data(self.v.Device003, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0xFF)
         print("[DEBUG] Setting all outputs... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 0
         print("[DEBUG] Test outputs 0.")
-        self.bus.write_byte_data(self.v.Device001, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.v.Device002, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.v.Device003, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
         print("[DEBUG] Test outputs 0... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 1
         print("[DEBUG] Setting all outputs.")
-        self.bus.write_byte_data(self.v.Device001, self.setOutputStateB, 0xFF)
-        self.bus.write_byte_data(self.v.Device002, self.setOutputStateB, 0xFF)
-        self.bus.write_byte_data(self.v.Device003, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0xFF)
+        self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0xFF)
         print("[DEBUG] Setting all outputs... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 0
         print("[DEBUG] Test outputs 0.")
-        self.bus.write_byte_data(self.v.Device001, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.v.Device002, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.v.Device003, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
         print("[DEBUG] Test outputs 0... done.")
         
         while False: # Debug - turn all outputs high or low.
 
             time.sleep(0.5)
             print("[DEBUG] Setting all outputs. ON")
-            self.bus.write_byte_data(self.v.Device001, self.setOutputStateB, 0xFF)
-            self.bus.write_byte_data(self.v.Device002, self.setOutputStateB, 0xFF)
-            self.bus.write_byte_data(self.v.Device003, self.setOutputStateB, 0xFF)
+            self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0xFF)
+            self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0xFF)
+            self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0xFF)
             print("[DEBUG] Setting all outputs... ON done.")
             time.sleep(0.5)
             print("[DEBUG] Setting all outputs.")
-            self.bus.write_byte_data(self.v.Device001, self.setOutputStateB, 0x00)
-            self.bus.write_byte_data(self.v.Device002, self.setOutputStateB, 0x00)
-            self.bus.write_byte_data(self.v.Device003, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
             print("[DEBUG] Setting all outputs... done.")
 
 
@@ -224,9 +219,9 @@ class RemoteGPIO(object):
         
         # Set output all 7 output bits to 0
         print("[BOOT] : Setting all outputs.")
-        self.bus.write_byte_data(self.v.Device001, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.v.Device002, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(self.v.Device003, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
+        self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
 
         # DEBUG - Verbose announcer.
         if self.v.debug_verbose:
