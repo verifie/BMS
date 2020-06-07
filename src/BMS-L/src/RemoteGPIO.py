@@ -20,6 +20,29 @@
 import smbus
 
 
+#########################################################################################################################################    
+# Define Variables
+
+
+# Friendly names for I2C Bus registers.  It makes it easier to read the code and relates to datasheet names at:
+# http://ww1.microchip.com/downloads/en/devicedoc/20001952c.pdf
+# To use more than 8 MCP23017 chips, a multiplexer is required, allowing the same address to be used. These are the multiplexer names.
+
+#bus = smbus.SMBus(0)  # Rev 1 Pi uses 0
+bus = smbus.SMBus(1) # Rev 2 Pi uses 1
+
+# Register to access Input / Output Direction Configuration.
+setPinInputOutputStateA = 0x00 # Pin direction register A. 0 = Output.
+setPinInputOutputStateB = 0x01 # Pin direction register B. 1 = Inputs.
+
+# Register to Output Latches
+setOutputStateA  = 0x14 # Register for outputs A
+setOutputStateB  = 0x15 # Register for outputs B
+
+# Register for Input
+GPIOA  = 0x12 # Register for inputs A
+GPIOB  = 0x13 # Register for inputs B
+
 
 #########################################################################################################################################    
 # Initiate class.
