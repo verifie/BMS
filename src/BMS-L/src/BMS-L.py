@@ -78,7 +78,7 @@ import RPi.GPIO as GPIO
 # import MFRC522
 # import signal
 import time
-
+import datetime
 
 # Import Local Library
 from RemoteGPIO import RemoteGPIO
@@ -146,6 +146,11 @@ class bmsl(object):
                 print ("[LOG]     Bit ", bitCount," Bus Read Status : ", humanBus[i])
                 bitCount = bitCount + 1
         # DEBUG end
+
+        # Log the request
+        now = datetime.datetime.now()
+        print ("[LOG]     Current date and time : ", now.strftime("%Y-%m-%d %H:%M:%S"))
+
 
         # Action the request.
         RemoteGPIO.room_light_circuit_A_status_INVERT(1)   # This toggles outputs on device A. For early development only.
