@@ -22,6 +22,7 @@ import time
 
 # Import internal Libraries
 import Variables as v
+print("\n\n [BOOT] Can I read variables? Device 001 ID is ", v.Device001, "\n\n")
 
 #########################################################################################################################################    
 # Initiate class.
