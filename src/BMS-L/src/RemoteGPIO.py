@@ -33,8 +33,7 @@ class RemoteGPIO(object):
     import Variables as v
 
     #########################################################################################################################################    
-    # Define Variables
-
+    # Define Variables and MCP23017 chip pin configuration:
 
     # Friendly names for I2C Bus registers.  It makes it easier to read the code and relates to datasheet names at:
     # http://ww1.microchip.com/downloads/en/devicedoc/20001952c.pdf
@@ -102,7 +101,7 @@ class RemoteGPIO(object):
         self.bus.write_byte_data(self.v.Device003, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
 
         # DEBUG - Verbose announcer.
-        if self.debug_verbose:
+        if self.v.debug_verbose:
             print ("[BOOT] ... Setup IO function. Done. \n\n")
         # DEBUG end
 
@@ -116,7 +115,7 @@ class RemoteGPIO(object):
         
         
         # DEBUG - Verbose announcer.
-        if self.debug_verbose:
+        if self.v.debug_verbose:
             print ("[DEBUG] ACTION : LIGHT Status Change. \n\n")
         # DEBUG endprint
 
@@ -126,7 +125,7 @@ class RemoteGPIO(object):
             self.bus.write_byte_data(self.v.Device003, self.setOutputStateB, 0x00) 
 
             # DEBUG - Verbose announcer.
-            if self.debug_verbose:
+            if self.v.debug_verbose:
                 print ("[DEBUG]   -- Turn ALL LIGHTs ON")
                 # DEBUG endprint
 
@@ -138,7 +137,7 @@ class RemoteGPIO(object):
             self.bus.write_byte_data(self.v.Device003, self.setOutputStateB, 0xFF)
 
             # DEBUG - Verbose announcer.
-            if self.debug_verbose:
+            if self.v.debug_verbose:
                 print ("[DEBUG]   -- Turn ALL LIGHTs OFF")
                 # DEBUG endprint
                 
@@ -226,7 +225,7 @@ class RemoteGPIO(object):
         self.bus.write_byte_data(self.v.Device003, self.setOutputStateB, 0x00)
 
         # DEBUG - Verbose announcer.
-        if self.debug_verbose:
+        if self.v.debug_verbose:
             print ("[BOOT] : Setting all outputs... done.")
         # DEBUG end
             
