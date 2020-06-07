@@ -174,7 +174,7 @@ class bmsl(object):
         # Read current state of pins.
 
         # Set pin 7 HIGH.
-        print("[BOOT]     Sending SMART MODE signal to all Local Switch Interfaces")
+        print("[BOOT]    Sending SMART MODE signal to all Local Switch Interfaces")
         #self.bus.write_byte_data(self.Device002, self.setOutputStateA, 1)      #TODO - this doesn't do anything useful. Do not enable yet!
 
 
