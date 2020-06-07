@@ -201,7 +201,7 @@ class bmsl(object):
             # Test to see if an action has been requested.
             if v.changeCircuitState:
 
-                # A trigger request was made. #TODO Pass request on to action.
+                # A trigger request was made. #TODO Pass request on to action.  At the moment, it just calls the function which turns everything on or off (inverts).
                 self.actionTrigger()
 
             # End of RunProgram Loop. Restarting.

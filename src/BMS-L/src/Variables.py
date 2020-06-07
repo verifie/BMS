@@ -267,6 +267,7 @@ print (" [BOOT] ... Setup default variables.")
 
 changeCircuitState = False
 MySwitchCurrentState = 0
+MySwitch = 0
 inputBusStatus = 0x00
 
 room_light_circuit_A = 0x00
