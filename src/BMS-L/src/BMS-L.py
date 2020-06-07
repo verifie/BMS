@@ -105,75 +105,6 @@ class bmsl(object):
         return '{0}{{:{1}>{2}}}'.format(pre, spacer, length).format(bin(num)[2:])
 
     
-
-    #########################################################################################################################################    
-    # lookForTriggers
-    def lookForTriggers(self, selectedDevice):
-
-        # Pause in loop to allow OS Recovery and debug
-        time.sleep(v.debounceDelay)
-
-        # Read state of GPIOB register
-        self.MySwitch = self.bus.read_byte_data(self.selectedDevice, self.GPIOA)
-        # print("A input state:", self.MySwitch) # Debug print after first read.
-    
-        # This is really simply code for test.  If the state is different to the last actioned request, proceed to qualify the trigger.
-        if not self.MySwitch == self.MySwitchCurrentState:
-
-
-            ########################################################################
-            # Software EMF Interference and Debounce filter.
-            #
-            # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger. We do this by:
-
-            # DEBUG - Verbose announcer.
-            if self.debug_verbose:
-                print (" [TRIGGER] A new trigger was acknowledged but not yet put through our interference / debounce filter") # Dev code
-            # DEBUG end
-
-            # 1. Pausing for a moment so if this trigger was found as a result of momentary spike or interference, it has time to end (so the pause it acts as a software filter)..
-            time.sleep(v.debounceDelay)
-
-            # 2. Then we read the input again to check the reading is the same as the trigger.
-            self.MySwitchDebounceReadA = self.bus.read_byte_data(self.selectedDevice, self.GPIOA)
-            
-            # 3. We then pause again, just in case the second read was also accidental.
-            time.sleep(v.debounceDelay)
-
-            # 4. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
-            # this technique should filter unintended triggers out.
-            self.MySwitchDebounceReadB = self.bus.read_byte_data(self.selectedDevice, self.GPIOA)
-            
-            
-            # 5. We then pause again, just in case the second read was also accidental.
-            time.sleep(v.debounceDelay)
-
-            # 6. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
-            # this technique should filter unintended triggers out.
-            self.MySwitchDebounceReadC = self.bus.read_byte_data(self.selectedDevice, self.GPIOA)
-            
-            # 5. Now we compare the 4 reads.  If the trigger identified is the same on every read, action the trigger, else it was probably electrical noise, so ignore.
-            # Because the reads are done so closely together, (speed in fractions of a second) - no multiple trigger state changes could possibly occur.  Importantly, what
-            # we mere mortals consider fast is an age both in computer terms and EMF interference, so it's easy to spot.
-            # If there is enough interference to fool this filter - it's time to rework the electronics and interfacing!
-            if self.MySwitch == self.MySwitchDebounceReadA and self.MySwitch == self.MySwitchDebounceReadB and self.MySwitch == self.MySwitchDebounceReadC:
-
-                # If we reach here, we believe the trigger was genuine.
-
-                # DEBUG - Verbose announcer.
-                if self.debug_verbose:
-                    print (" [TRIGGER] A new trigger was acknowledged and passed the interference filter") # Dev code
-                # DEBUG end
-
-                # Update the Circuit State.
-                self.changeCircuitState = True
-            
-            else:
-                # We want to keep a tally of triggers that do not pass our debounce check.  This information will help us determine if there is excess interference causing false triggers
-                self.debounceFail = self.debounceFail + 1
-
-
-
        
     #########################################################################################################################################   
     # convertBinaryString
@@ -265,7 +196,7 @@ class bmsl(object):
             self.selectedDevice = v.Device001
 
             # Look for trigger (changes)
-            self.lookForTriggers(self.selectedDevice)
+            RemoteGPIO.lookForTriggers(self.selectedDevice)
 
             # Test to see if an action has been requested.
             if self.changeCircuitState:
