@@ -85,7 +85,7 @@ from RemoteGPIO import RemoteGPIO
 RemoteGPIO = RemoteGPIO()
 
 import Variables as v
-print("\n\n [BOOT] Debug state =", v.debug_verbose, "\n\n")
+print("\n\n[BOOT]    Debug state =", v.debug_verbose, "\n\n")
 
 #########################################################################################################################################    
 # Create class.
@@ -93,7 +93,7 @@ print("\n\n [BOOT] Debug state =", v.debug_verbose, "\n\n")
 class bmsl(object):
 
     def __init__(self):
-        print ("[INIT] BMS-L") # never prints
+        print ("[INIT]    BMS-L") # never prints
 
 
     #########################################################################################################################################    
