@@ -125,7 +125,7 @@ class RemoteGPIO(object):
 
             # DEBUG - Verbose announcer.
             if v.debug_verbose:
-                print ("[ACTION]   Turn ALL LIGHTs ON. /n/n")
+                print ("[ACTION]   Turn ALL LIGHTs ON. \n\n")
                 # DEBUG endprint
 
             v.room_light_circuit_A_status = True
@@ -137,7 +137,7 @@ class RemoteGPIO(object):
 
             # DEBUG - Verbose announcer.
             if v.debug_verbose:
-                print ("[ACTION]   Turn ALL LIGHTs OFF. /n/n")
+                print ("[ACTION]   Turn ALL LIGHTs OFF. \n\n")
                 # DEBUG endprint
                 
             v.room_light_circuit_A_status = False
