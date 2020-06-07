@@ -82,7 +82,7 @@ import smbus
 
 
 # Import Local Library
-import RemoteGPIO as RemoteGPIO
+from RemoteGPIO import RemoteGPIO
 
 
 

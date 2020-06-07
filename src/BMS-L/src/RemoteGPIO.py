@@ -14,6 +14,9 @@
 # Version History
 # 2020/06/07 v0.00 PME - Initial creation of module and transfer of functions from the main program.
 
+class RemoteGPIO(object):
+
+
 
 #########################################################################################################################################    
 # Reference - useful information
