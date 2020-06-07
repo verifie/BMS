@@ -14,6 +14,15 @@
 # Version History
 # 2020/06/07 v0.00 PME - Initial creation of module and transfer of functions from the main program.
 
+
+#########################################################################################################################################    
+# Import External Libraries.
+import smbus
+
+
+
+#########################################################################################################################################    
+# Initiate class.
 class RemoteGPIO(object):
 
     def __init__(self):
