@@ -127,7 +127,7 @@ class bmsl(object):
         
         # Log the request
         now = datetime.datetime.now()
-        print ("[ACTION]  A lighting state change was acknowledged.")
+        print ("\n\n[ACTION]  A lighting state change was acknowledged.")
         print ("[LOG]     Current date and time : ", now.strftime("%Y-%m-%d %H:%M:%S"))
 
         # A trigger passed our tests and appeared genuine and was different to the current state. Increment the action tally
