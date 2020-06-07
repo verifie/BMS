@@ -115,7 +115,7 @@ class RemoteGPIO(object):
         
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
-            print ("[DEBUG] ACTION : LIGHT Status Change. \n\n")
+            print ("[DEBUG]   ACTION : LIGHT Status Change. \n\n")
         # DEBUG endprint
 
         if not v.room_light_circuit_A_status:
@@ -125,7 +125,7 @@ class RemoteGPIO(object):
 
             # DEBUG - Verbose announcer.
             if v.debug_verbose:
-                print ("[DEBUG]   -- Turn ALL LIGHTs ON")
+                print ("[DEBUG]     -- Turn ALL LIGHTs ON")
                 # DEBUG endprint
 
             v.room_light_circuit_A_status = True
@@ -137,7 +137,7 @@ class RemoteGPIO(object):
 
             # DEBUG - Verbose announcer.
             if v.debug_verbose:
-                print ("[DEBUG]   -- Turn ALL LIGHTs OFF")
+                print ("[DEBUG]     -- Turn ALL LIGHTs OFF")
                 # DEBUG endprint
                 
             v.room_light_circuit_A_status = False
@@ -152,58 +152,58 @@ class RemoteGPIO(object):
     def setGPIOStartTest(self):
         
         # Set output all 7 output bits to 0
-        print("[DEBUG] Test outputs 0.")
+        print("[DEBUG]   Test outputs 0.")
         self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
-        print("[DEBUG] Test outputs 0... done.")
+        print("[DEBUG]   Test outputs 0... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 1
-        print("[DEBUG] Setting all outputs.")
+        print("[DEBUG]   Setting all outputs.")
         self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0xFF)
         self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0xFF)
         self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0xFF)
-        print("[DEBUG] Setting all outputs... done.")
+        print("[DEBUG]   Setting all outputs... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 0
-        print("[DEBUG] Test outputs 0.")
+        print("[DEBUG]   Test outputs 0.")
         self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
-        print("[DEBUG] Test outputs 0... done.")
+        print("[DEBUG]   Test outputs 0... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 1
-        print("[DEBUG] Setting all outputs.")
+        print("[DEBUG]   Setting all outputs.")
         self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0xFF)
         self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0xFF)
         self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0xFF)
-        print("[DEBUG] Setting all outputs... done.")
+        print("[DEBUG]   Setting all outputs... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 0
-        print("[DEBUG] Test outputs 0.")
+        print("[DEBUG]   Test outputs 0.")
         self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
-        print("[DEBUG] Test outputs 0... done.")
+        print("[DEBUG]   Test outputs 0... done.")
         
         while False: # Debug - turn all outputs high or low.
 
             time.sleep(0.5)
-            print("[DEBUG] Setting all outputs. ON")
+            print("[DEBUG]   Setting all outputs. ON")
             self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0xFF)
             self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0xFF)
             self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0xFF)
-            print("[DEBUG] Setting all outputs... ON done.")
+            print("[DEBUG]   Setting all outputs... ON done.")
             time.sleep(0.5)
-            print("[DEBUG] Setting all outputs.")
+            print("[DEBUG]   Setting all outputs.")
             self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
             self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
             self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
-            print("[DEBUG] Setting all outputs... done.")
+            print("[DEBUG]   Setting all outputs... done.")
 
 
 
