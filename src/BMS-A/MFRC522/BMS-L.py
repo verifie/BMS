@@ -368,7 +368,7 @@ class bmsl(object):
 
     # DEBUG - Verbose announcer.
     if debug_verbose:
-        print (" BOOT ... Setup default variables. DONE \n\n")
+        print ("[BOOT] ... Setup default variables. DONE \n\n")
     # DEBUG end
 
 
@@ -392,7 +392,7 @@ class bmsl(object):
     def setPinDirection(self):
 
 
-        print (" BOOT ... Setup IO function. \n\n")
+        print ("[BOOT] ... Setup IO function. \n\n")
 
 
         # Device A
@@ -408,7 +408,7 @@ class bmsl(object):
 
         # DEBUG - Verbose announcer.
         if self.debug_verbose:
-            print (" BOOT ... Setup IO function. Done. \n\n")
+            print ("[BOOT] ... Setup IO function. Done. \n\n")
         # DEBUG end
     
 
@@ -422,7 +422,7 @@ class bmsl(object):
         
         # DEBUG - Verbose announcer.
         if self.debug_verbose:
-            print (" ACTION : LIGHT Status Change. \n\n")
+            print ("[DEBUG] ACTION : LIGHT Status Change. \n\n")
         # DEBUG endprint
 
         if not self.room_light_circuit_A_status:
@@ -432,7 +432,7 @@ class bmsl(object):
 
             # DEBUG - Verbose announcer.
             if self.debug_verbose:
-                print ("   -- Turn LIGHTs ON")
+                print ("[DEBUG]   -- Turn ALL LIGHTs ON")
              # DEBUG endprint
 
             self.room_light_circuit_A_status = True
@@ -444,7 +444,7 @@ class bmsl(object):
 
             # DEBUG - Verbose announcer.
             if self.debug_verbose:
-                print ("   -- Turn LIGHTs OFF")
+                print ("[DEBUG]   -- Turn ALL LIGHTs OFF")
              # DEBUG endprint
              
             self.room_light_circuit_A_status = False
@@ -459,58 +459,58 @@ class bmsl(object):
     def setGPIOStartTest(self):
         
         # Set output all 7 output bits to 0
-        print("Test outputs 0.")
+        print("[DEBUG] Test outputs 0.")
         self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0x00)
-        print("Test outputs 0... done.")
+        print("[DEBUG]Test outputs 0... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 1
-        print("Setting all outputs.")
+        print("[DEBUG] Setting all outputs.")
         self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0xFF)
         self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0xFF)
         self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0xFF)
-        print("Setting all outputs... done.")
+        print("[DEBUG] Setting all outputs... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 0
-        print("Test outputs 0.")
+        print("[DEBUG] Test outputs 0.")
         self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0x00)
-        print("Test outputs 0... done.")
+        print("[DEBUG] Test outputs 0... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 1
-        print("Setting all outputs.")
+        print("[DEBUG] Setting all outputs.")
         self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0xFF)
         self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0xFF)
         self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0xFF)
-        print("Setting all outputs... done.")
+        print("[DEBUG] Setting all outputs... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 0
-        print("Test outputs 0.")
+        print("[DEBUG] Test outputs 0.")
         self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0x00)
-        print("Test outputs 0... done.")
+        print("[DEBUG] Test outputs 0... done.")
         
         while False: # Debug - turn all outputs high or low.
 
             time.sleep(0.5)
-            print("Setting all outputs. ON")
+            print("[DEBUG] Setting all outputs. ON")
             self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0xFF)
             self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0xFF)
             self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0xFF)
-            print("Setting all outputs... ON done.")
+            print("[DEBUG] Setting all outputs... ON done.")
             time.sleep(0.5)
-            print("Setting all outputs.")
+            print("[DEBUG] Setting all outputs.")
             self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0x00)
             self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0x00)
             self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0x00)
-            print("Setting all outputs... done.")
+            print("[DEBUG] Setting all outputs... done.")
 
 
 
@@ -525,14 +525,14 @@ class bmsl(object):
     def setGPIOStartState(self):
         
         # Set output all 7 output bits to 0
-        print("BOOT : Setting all outputs.")
+        print("[BOOT] : Setting all outputs.")
         self.bus.write_byte_data(self.Device001, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(self.Device002, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(self.Device003, self.setOutputStateB, 0x00)
 
         # DEBUG - Verbose announcer.
         if self.debug_verbose:
-            print ("BOOT : Setting all outputs... done.")
+            print ("[BOOT] : Setting all outputs... done.")
         # DEBUG end
             
 
@@ -561,7 +561,7 @@ class bmsl(object):
 
             # DEBUG - Verbose announcer.
             if self.debug_verbose:
-                print ("A new trigger was acknowledged but not yet put through our interference / debounce filter") # Dev code
+                print ("[TRIGGER] A new trigger was acknowledged but not yet put through our interference / debounce filter") # Dev code
             # DEBUG end
 
             # 1. Pausing for a moment so if this trigger was found as a result of momentary spike or interference, it has time to end (so the pause it acts as a software filter)..
@@ -595,7 +595,7 @@ class bmsl(object):
 
                 # DEBUG - Verbose announcer.
                 if self.debug_verbose:
-                    print ("A new trigger was acknowledged and passed the interference filter") # Dev code
+                    print ("[TRIGGER] A new trigger was acknowledged and passed the interference filter") # Dev code
                 # DEBUG end
 
                 # Update the Circuit State.
@@ -620,7 +620,7 @@ class bmsl(object):
 
         # DEBUG - Verbose announcer.
         if self.debug_verbose:
-            print("Action Tally : ", self.actionTally, " and Triggers that did not pass the debounce test :", self.debounceFail) # Shoe triggers - successful and unsuccessful.
+            print("[LOG] Action Tally : ", self.actionTally, " and Triggers that did not pass the debounce test :", self.debounceFail) # Shoe triggers - successful and unsuccessful.
         # DEBUG end
 
         # Read the bus status and interpret as a binary string.
@@ -629,11 +629,11 @@ class bmsl(object):
 
         # DEBUG - Verbose announcer.
         if self.debug_verbose:
-            print ("A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)  # Show the trigger:
+            print ("[LOG] A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)  # Show the trigger:
         
             bitCount = 0
             for i in range(9, 1, -1):
-                print ("Bit ", bitCount," Bus Read Status : ", humanBus[i])
+                print ("[LOG] Bit ", bitCount," Bus Read Status : ", humanBus[i])
                 bitCount = bitCount + 1
         # DEBUG end
 
@@ -666,7 +666,7 @@ class bmsl(object):
         # Read current state of pins.
 
         # Set pin 7 HIGH.
-        print(" BOOT .. Sending SMART MODE signal to all Local Switch Interfaces")
+        print("[BOOT] .. Sending SMART MODE signal to all Local Switch Interfaces")
         #self.bus.write_byte_data(self.Device002, self.setOutputStateA, 1)      #TODO - this doesn't do anything useful. Do not enable yet!
 
 
@@ -679,7 +679,7 @@ class bmsl(object):
 
     def RunProgram(self):
 
-        print("Starting BMS-L Sequence")
+        print("[BOOT] Starting BMS-L Sequence")
 
         # Loop until user presses CTRL-C
         while True:
