@@ -325,7 +325,7 @@ class bmsl(object):
 
     # DEBUG - Verbose announcer.
     if debug_verbose:
-        print (" [BOOT] ... Setup Switch types and settings. DONE \n\n")
+        print (" [BOOT] ... Setup Switch types and settings. DONE \n")
     # DEBUG end
 
     
@@ -372,7 +372,7 @@ class bmsl(object):
 
     # DEBUG - Verbose announcer.
     if debug_verbose:
-        print (" [BOOT] ... Setup default variables. DONE \n\n")
+        print (" [BOOT] ... Setup default variables. DONE \n")
     # DEBUG end
 
 
@@ -567,9 +567,9 @@ environmentController = bmsl()
 # Run the program
 
 # Setup Local GPIO expander ICs - sense or control.  Then set the start state of pins.
-environmentController.setPinDirection()
-environmentController.setGPIOStartTest()
-environmentController.setGPIOStartState()
+setPinDirection()
+setGPIOStartTest()
+setGPIOStartState()
 
 # Tell the local switch interfaces we're up and running.
 environmentController.setBMSLive()
