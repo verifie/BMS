@@ -253,7 +253,7 @@ class RemoteGPIO(object):
 
             # DEBUG - Verbose announcer.
             if v.debug_verbose:
-                print (" [TRIGGER] A new trigger was acknowledged but not yet put through our interference / debounce filter") # Dev code
+                print ("[TRIGGER]  A new trigger was acknowledged but not yet put through our interference / debounce filter") # Dev code
             # DEBUG end
 
             # 1. Pausing for a moment so if this trigger was found as a result of momentary spike or interference, it has time to end (so the pause it acts as a software filter)..
@@ -287,7 +287,7 @@ class RemoteGPIO(object):
 
                 # DEBUG - Verbose announcer.
                 if v.debug_verbose:
-                    print (" [TRIGGER] A new trigger was acknowledged and passed the interference filter. SET changeCircuitState TRUE.") # Dev code
+                    print ("[TRIGGER] A new trigger was acknowledged and passed the interference filter. SET changeCircuitState TRUE.") # Dev code
                 # DEBUG end
 
                 # Update the Circuit State.

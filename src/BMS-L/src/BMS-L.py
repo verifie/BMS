@@ -130,7 +130,7 @@ class bmsl(object):
 
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
-            print("  [LOG] Action Tally : ", v.actionTally, " and Triggers that did not pass the debounce test :", v.debounceFail) # Shoe triggers - successful and unsuccessful.
+            print("[LOG]     Action Tally : ", v.actionTally, " and Triggers that did not pass the debounce test :", v.debounceFail) # Shoe triggers - successful and unsuccessful.
         # DEBUG end
 
         # Read the bus status and interpret as a binary string.
@@ -139,11 +139,11 @@ class bmsl(object):
 
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
-            print ("  [LOG] A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)  # Show the trigger:
+            print ("[LOG]     A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)  # Show the trigger:
         
             bitCount = 0
             for i in range(9, 1, -1):
-                print ("  [LOG] Bit ", bitCount," Bus Read Status : ", humanBus[i])
+                print ("[LOG]     Bit ", bitCount," Bus Read Status : ", humanBus[i])
                 bitCount = bitCount + 1
         # DEBUG end
 
