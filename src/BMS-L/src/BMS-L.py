@@ -500,13 +500,11 @@ class bmsl(object):
         # Action the request.
         self.room_light_circuit_A_status_INVERT(1)   # This toggles outputs on device A. For early development only.
 
-
-
         # Then record the state actioned to MySwitchCurrentState
         self.MySwitchCurrentState = self.MySwitch
 
-            # Finally, set the change request state to False as we've actioned the change and there is nothing left to do in this cycle.
-            self.changeCircuitState = False
+        # Finally, set the change request state to False as we've actioned the change and there is nothing left to do in this cycle.
+        self.changeCircuitState = False
 
 
 
