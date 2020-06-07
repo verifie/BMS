@@ -125,6 +125,11 @@ class bmsl(object):
 
     def actionTrigger(self):
         
+        # Log the request
+        now = datetime.datetime.now()
+        print ("[ACTION]  A lighting state change was acknowledged.")
+        print ("[LOG]     Current date and time : ", now.strftime("%Y-%m-%d %H:%M:%S"))
+
         # A trigger passed our tests and appeared genuine and was different to the current state. Increment the action tally
         v.actionTally = v.actionTally + 1
 
@@ -146,10 +151,6 @@ class bmsl(object):
                 print ("[LOG]     Bit ", bitCount," Bus Read Status : ", humanBus[i])
                 bitCount = bitCount + 1
         # DEBUG end
-
-        # Log the request
-        now = datetime.datetime.now()
-        print ("[LOG]     Current date and time : ", now.strftime("%Y-%m-%d %H:%M:%S"))
 
 
         # Action the request.
