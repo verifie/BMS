@@ -187,7 +187,7 @@ class bmsl(object):
 
     def RunProgram(self):
 
-        print("[BOOT]    Starting BMS-L Sequence")
+        print("[RUN]     Starting BMS-L State Machine.")
 
         # Loop until user presses CTRL-C
         while True:
