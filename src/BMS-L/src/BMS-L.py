@@ -111,7 +111,7 @@ class bmsl(object):
     def lookForTriggers(self, selectedDevice):
 
         # Pause in loop to allow OS Recovery and debug
-        time.sleep(self.debounceDelay)
+        time.sleep(v.debounceDelay)
 
         # Read state of GPIOB register
         self.MySwitch = self.bus.read_byte_data(self.selectedDevice, self.GPIOA)
@@ -132,13 +132,13 @@ class bmsl(object):
             # DEBUG end
 
             # 1. Pausing for a moment so if this trigger was found as a result of momentary spike or interference, it has time to end (so the pause it acts as a software filter)..
-            time.sleep(self.debounceDelay)
+            time.sleep(v.debounceDelay)
 
             # 2. Then we read the input again to check the reading is the same as the trigger.
             self.MySwitchDebounceReadA = self.bus.read_byte_data(self.selectedDevice, self.GPIOA)
             
             # 3. We then pause again, just in case the second read was also accidental.
-            time.sleep(self.debounceDelay)
+            time.sleep(v.debounceDelay)
 
             # 4. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
             # this technique should filter unintended triggers out.
@@ -146,7 +146,7 @@ class bmsl(object):
             
             
             # 5. We then pause again, just in case the second read was also accidental.
-            time.sleep(self.debounceDelay)
+            time.sleep(v.debounceDelay)
 
             # 6. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
             # this technique should filter unintended triggers out.
