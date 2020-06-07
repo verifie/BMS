@@ -134,7 +134,7 @@ class bmsl(object):
         # DEBUG end
 
         # Read the bus status and interpret as a binary string.
-        self.inputBusStatus = self.binary(self.MySwitch)
+        self.inputBusStatus = self.binary(v.MySwitch)
         humanBus = str(self.inputBusStatus)
 
         # DEBUG - Verbose announcer.
@@ -151,7 +151,7 @@ class bmsl(object):
         self.room_light_circuit_A_status_INVERT(1)   # This toggles outputs on device A. For early development only.
 
         # Then record the state actioned to MySwitchCurrentState
-        self.MySwitchCurrentState = self.MySwitch
+        v.MySwitchCurrentState = v.MySwitch
 
         # Finally, set the change request state to False as we've actioned the change and there is nothing left to do in this cycle.
         self.changeCircuitState = False
