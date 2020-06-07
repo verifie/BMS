@@ -115,7 +115,7 @@ class RemoteGPIO(object):
         
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
-            print ("[DEBUG]   ACTION : LIGHT Status Change. \n\n")
+            print ("[ACTION]   LIGHT Status Change. \n\n")
         # DEBUG endprint
 
         if not v.room_light_circuit_A_status:
@@ -125,7 +125,7 @@ class RemoteGPIO(object):
 
             # DEBUG - Verbose announcer.
             if v.debug_verbose:
-                print ("[DEBUG]     -- Turn ALL LIGHTs ON")
+                print ("[ACTION]   Turn ALL LIGHTs ON")
                 # DEBUG endprint
 
             v.room_light_circuit_A_status = True
@@ -137,7 +137,7 @@ class RemoteGPIO(object):
 
             # DEBUG - Verbose announcer.
             if v.debug_verbose:
-                print ("[DEBUG]     -- Turn ALL LIGHTs OFF")
+                print ("[ACTION]   Turn ALL LIGHTs OFF")
                 # DEBUG endprint
                 
             v.room_light_circuit_A_status = False
@@ -253,7 +253,7 @@ class RemoteGPIO(object):
 
             # DEBUG - Verbose announcer.
             if v.debug_verbose:
-                print ("[TRIGGER]  A new trigger was acknowledged but not yet put through our interference / debounce filter") # Dev code
+                print ("[TRIGGER] A new trigger was acknowledged but not yet put through our interference / debounce filter") # Dev code
             # DEBUG end
 
             # 1. Pausing for a moment so if this trigger was found as a result of momentary spike or interference, it has time to end (so the pause it acts as a software filter)..
