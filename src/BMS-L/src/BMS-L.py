@@ -461,7 +461,7 @@ class bmsl(object):
     #
     # This is called if a trigger has been found. It checks to see if it was already requested and actions if not.
 
-    def convertBinaryString(self, binary_string)
+    def convertBinaryString(self, self.binary_string)
 
     int(binary_string,2)
 
