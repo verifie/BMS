@@ -252,7 +252,7 @@ class RemoteGPIO(object):
             # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger. We do this by:
 
             # DEBUG - Verbose announcer.
-            if self.debug_verbose:
+            if v.debug_verbose:
                 print (" [TRIGGER] A new trigger was acknowledged but not yet put through our interference / debounce filter") # Dev code
             # DEBUG end
 
@@ -286,7 +286,7 @@ class RemoteGPIO(object):
                 # If we reach here, we believe the trigger was genuine.
 
                 # DEBUG - Verbose announcer.
-                if self.debug_verbose:
+                if v.debug_verbose:
                     print (" [TRIGGER] A new trigger was acknowledged and passed the interference filter. SET changeCircuitState TRUE.") # Dev code
                 # DEBUG end
 
