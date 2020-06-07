@@ -291,7 +291,7 @@ class RemoteGPIO(object):
                 # DEBUG end
 
                 # Update the Circuit State.
-                self.changeCircuitState = True
+                v.changeCircuitState = True
             
             else:
                 # We want to keep a tally of triggers that do not pass our debounce check.  This information will help us determine if there is excess interference causing false triggers

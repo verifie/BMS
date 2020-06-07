@@ -199,7 +199,7 @@ class bmsl(object):
             RemoteGPIO.lookForTriggers(self.selectedDevice, v.MySwitchCurrentState) # TODO: Note this just passes 0, so anything other than 0 will flag to any state change challenge. Change this to refer to the actual current state of lights! DEBUG.
 
             # Test to see if an action has been requested.
-            if self.changeCircuitState:
+            if v.changeCircuitState:
 
                 # A trigger request was made. #TODO Pass request on to action.
                 self.actionTrigger()
