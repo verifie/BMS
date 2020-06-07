@@ -257,13 +257,13 @@ Device010Output7 = off
 
 # DEBUG - Verbose announcer.
 if debug_verbose:
-    print (" [BOOT] ... Setup Switch types and settings. DONE \n")
+    print ("[BOOT]    Setup Switch types and settings. DONE \n")
 # DEBUG end
 
 
 
 # Software variables.
-print (" [BOOT] ... Setup default variables.")
+print ("[BOOT]    Setup default variables.")
 
 changeCircuitState = False
 MySwitchCurrentState = 0
@@ -287,7 +287,7 @@ debounceDelay = 0.02
 
 # DEBUG - Verbose announcer.
 if debug_verbose:
-    print (" [BOOT] ... Setup default variables. DONE \n")
+    print ("[BOOT]    Setup default variables. DONE \n")
 # DEBUG end
 
 
