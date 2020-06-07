@@ -28,7 +28,7 @@ import Variables as v
 class RemoteGPIO(object):
 
     def __init__(self):
-        print ("init RemoteGPIO") # never prints
+        print ("[INIT] RemoteGPIO") # never prints
 
 
 
