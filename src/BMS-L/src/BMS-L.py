@@ -148,13 +148,13 @@ class bmsl(object):
         # DEBUG end
 
         # Action the request.
-        self.room_light_circuit_A_status_INVERT(1)   # This toggles outputs on device A. For early development only.
+        RemoteGPIO.room_light_circuit_A_status_INVERT(1)   # This toggles outputs on device A. For early development only.
 
         # Then record the state actioned to MySwitchCurrentState
         v.MySwitchCurrentState = v.MySwitch
 
         # Finally, set the change request state to False as we've actioned the change and there is nothing left to do in this cycle.
-        self.changeCircuitState = False
+        v.changeCircuitState = False
 
 
 
