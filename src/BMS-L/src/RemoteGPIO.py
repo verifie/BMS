@@ -28,7 +28,7 @@ import Variables as v
 class RemoteGPIO(object):
 
     def __init__(self):
-        print ("[INIT]   RemoteGPIO /n/n")
+        print ("[INIT]    RemoteGPIO /n/n")
 
 
     #########################################################################################################################################    
@@ -85,7 +85,7 @@ class RemoteGPIO(object):
     def setPinDirection(self):
 
 
-        print ("[BOOT]   Setup IO function.")
+        print ("[BOOT]    Setup IO function.")
 
 
         # Device A
@@ -101,7 +101,7 @@ class RemoteGPIO(object):
 
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
-            print ("[BOOT]   Setup IO function. Done. \n\n")
+            print ("[BOOT]    Setup IO function. Done. \n\n")
         # DEBUG end
 
 
