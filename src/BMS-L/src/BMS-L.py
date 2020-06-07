@@ -75,8 +75,8 @@ print("")
 # Import External Libraries.
 
 import RPi.GPIO as GPIO
-import MFRC522
-import signal
+# import MFRC522
+# import signal
 import time
 import smbus
 
