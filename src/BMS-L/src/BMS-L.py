@@ -83,7 +83,7 @@ import smbus
 
 # Import Local Library
 from RemoteGPIO import RemoteGPIO
-
+RemoteGPIO = RemoteGPIO()
 
 
 #########################################################################################################################################    
