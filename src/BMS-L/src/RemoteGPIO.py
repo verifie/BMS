@@ -233,7 +233,7 @@ class RemoteGPIO(object):
 
     #########################################################################################################################################    
     # lookForTriggers
-    def lookForTriggers(self, selectedDevice):
+    def lookForTriggers(self, selectedDevice, MySwitchCurrentState):
 
         # Pause in loop to allow OS Recovery and debug
         time.sleep(v.debounceDelay)
@@ -243,7 +243,7 @@ class RemoteGPIO(object):
         # print("A input state:", self.MySwitch) # Debug print after first read.
     
         # This is really simply code for test.  If the state is different to the last actioned request, proceed to qualify the trigger.
-        if not self.MySwitch == self.MySwitchCurrentState:
+        if not self.MySwitch == MySwitchCurrentState:
 
 
             ########################################################################

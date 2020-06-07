@@ -196,7 +196,7 @@ class bmsl(object):
             self.selectedDevice = v.Device001
 
             # Look for trigger (changes)
-            RemoteGPIO.lookForTriggers(self.selectedDevice)
+            RemoteGPIO.lookForTriggers(self.selectedDevice, self.MySwitchCurrentState)
 
             # Test to see if an action has been requested.
             if self.changeCircuitState:
