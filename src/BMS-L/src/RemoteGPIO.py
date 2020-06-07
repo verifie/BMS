@@ -15,6 +15,13 @@
 # 2020/06/07 v0.00 PME - Initial creation of module and transfer of functions from the main program.
 
 
+#########################################################################################################################################    
+# Import External Libraries.
+import smbus
+import time
+
+# Import internal Libraries
+import Variables as v
 
 #########################################################################################################################################    
 # Initiate class.
@@ -24,13 +31,6 @@ class RemoteGPIO(object):
         print ("init RemoteGPIO") # never prints
 
 
-    #########################################################################################################################################    
-    # Import External Libraries.
-    import smbus
-    import time
-
-    # Import internal Libraries
-    import Variables as v
 
     #########################################################################################################################################    
     # Define Variables and MCP23017 chip pin configuration:
