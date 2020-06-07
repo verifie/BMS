@@ -156,7 +156,7 @@ class RemoteGPIO(object):
         self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
-        print("[DEBUG]Test outputs 0... done.")
+        print("[DEBUG] Test outputs 0... done.")
 
         time.sleep(1)
         # Set output all 7 output bits to 1
@@ -287,7 +287,7 @@ class RemoteGPIO(object):
 
                 # DEBUG - Verbose announcer.
                 if self.debug_verbose:
-                    print (" [TRIGGER] A new trigger was acknowledged and passed the interference filter") # Dev code
+                    print (" [TRIGGER] A new trigger was acknowledged and passed the interference filter. SET changeCircuitState TRUE.") # Dev code
                 # DEBUG end
 
                 # Update the Circuit State.
