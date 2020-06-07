@@ -126,10 +126,10 @@ class bmsl(object):
     def actionTrigger(self):
         
         # A trigger passed our tests and appeared genuine and was different to the current state. Increment the action tally
-        self.actionTally = self.actionTally + 1
+        v.actionTally = v.actionTally + 1
 
         # DEBUG - Verbose announcer.
-        if self.debug_verbose:
+        if v.debug_verbose:
             print("  [LOG] Action Tally : ", self.actionTally, " and Triggers that did not pass the debounce test :", self.debounceFail) # Shoe triggers - successful and unsuccessful.
         # DEBUG end
 
@@ -138,7 +138,7 @@ class bmsl(object):
         humanBus = str(self.inputBusStatus)
 
         # DEBUG - Verbose announcer.
-        if self.debug_verbose:
+        if v.debug_verbose:
             print ("  [LOG] A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)  # Show the trigger:
         
             bitCount = 0
