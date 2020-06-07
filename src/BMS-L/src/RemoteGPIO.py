@@ -29,6 +29,8 @@ class RemoteGPIO(object):
     # Import External Libraries.
     import smbus
 
+    # Import internal Libraries
+    import Variables as v
 
     #########################################################################################################################################    
     # Define Variables
