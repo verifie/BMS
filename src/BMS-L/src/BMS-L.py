@@ -99,7 +99,7 @@ class bmsl(object):
     debug_verbose = True
 
     # Switch types and settings.
-    print (" BOOT ... Setup Switch types and settings.")
+    print (" [BOOT] ... Setup Switch types and settings.")
 
     # Switch Types
     Latch = 0
@@ -325,13 +325,13 @@ class bmsl(object):
 
     # DEBUG - Verbose announcer.
     if debug_verbose:
-        print (" BOOT ... Setup Switch types and settings. DONE \n\n")
+        print (" [BOOT] ... Setup Switch types and settings. DONE \n\n")
     # DEBUG end
 
     
 
     # Software variables.
-    print (" BOOT ... Setup default variables.")
+    print (" [BOOT] ... Setup default variables.")
 
     changeCircuitState = False
     MySwitchCurrentState = 0
@@ -372,7 +372,7 @@ class bmsl(object):
 
     # DEBUG - Verbose announcer.
     if debug_verbose:
-        print ("[BOOT] ... Setup default variables. DONE \n\n")
+        print (" [BOOT] ... Setup default variables. DONE \n\n")
     # DEBUG end
 
 
@@ -409,7 +409,7 @@ class bmsl(object):
 
             # DEBUG - Verbose announcer.
             if self.debug_verbose:
-                print ("[TRIGGER] A new trigger was acknowledged but not yet put through our interference / debounce filter") # Dev code
+                print (" [TRIGGER] A new trigger was acknowledged but not yet put through our interference / debounce filter") # Dev code
             # DEBUG end
 
             # 1. Pausing for a moment so if this trigger was found as a result of momentary spike or interference, it has time to end (so the pause it acts as a software filter)..
@@ -443,7 +443,7 @@ class bmsl(object):
 
                 # DEBUG - Verbose announcer.
                 if self.debug_verbose:
-                    print ("[TRIGGER] A new trigger was acknowledged and passed the interference filter") # Dev code
+                    print (" [TRIGGER] A new trigger was acknowledged and passed the interference filter") # Dev code
                 # DEBUG end
 
                 # Update the Circuit State.
@@ -480,7 +480,7 @@ class bmsl(object):
 
         # DEBUG - Verbose announcer.
         if self.debug_verbose:
-            print("[LOG] Action Tally : ", self.actionTally, " and Triggers that did not pass the debounce test :", self.debounceFail) # Shoe triggers - successful and unsuccessful.
+            print("  [LOG] Action Tally : ", self.actionTally, " and Triggers that did not pass the debounce test :", self.debounceFail) # Shoe triggers - successful and unsuccessful.
         # DEBUG end
 
         # Read the bus status and interpret as a binary string.
@@ -489,11 +489,11 @@ class bmsl(object):
 
         # DEBUG - Verbose announcer.
         if self.debug_verbose:
-            print ("[LOG] A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)  # Show the trigger:
+            print ("  [LOG] A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)  # Show the trigger:
         
             bitCount = 0
             for i in range(9, 1, -1):
-                print ("[LOG] Bit ", bitCount," Bus Read Status : ", humanBus[i])
+                print ("  [LOG] Bit ", bitCount," Bus Read Status : ", humanBus[i])
                 bitCount = bitCount + 1
         # DEBUG end
 
@@ -524,7 +524,7 @@ class bmsl(object):
         # Read current state of pins.
 
         # Set pin 7 HIGH.
-        print("[BOOT] .. Sending SMART MODE signal to all Local Switch Interfaces")
+        print(" [BOOT] .. Sending SMART MODE signal to all Local Switch Interfaces")
         #self.bus.write_byte_data(self.Device002, self.setOutputStateA, 1)      #TODO - this doesn't do anything useful. Do not enable yet!
 
 
@@ -537,7 +537,7 @@ class bmsl(object):
 
     def RunProgram(self):
 
-        print("[BOOT] Starting BMS-L Sequence")
+        print(" [BOOT] Starting BMS-L Sequence")
 
         # Loop until user presses CTRL-C
         while True:
