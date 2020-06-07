@@ -218,14 +218,14 @@ class RemoteGPIO(object):
     def setGPIOStartState(self):
         
         # Set output all 7 output bits to 0
-        print("[BOOT]   Setting all outputs.")
+        print("[BOOT]    Setting all outputs.")
         self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
 
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
-            print ("[BOOT]   Setting all outputs... done.")
+            print ("[BOOT]    Setting all outputs... done.")
         # DEBUG end
             
 
