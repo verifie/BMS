@@ -189,7 +189,7 @@ class RemoteGPIO(object):
         self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
         self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
-        print("[DEBUG]   Test outputs 0... done. /n/n")
+        print("[DEBUG]   Test outputs 0... done. \n\n")
         
         while False: # Debug - turn all outputs high or low.
 
