@@ -50,8 +50,8 @@ import time
 import datetime
 
 # Import Local Library
-from RemoteGPIO import RemoteGPIO
-RemoteGPIO = RemoteGPIO()
+#from RemoteGPIO import RemoteGPIO
+#RemoteGPIO = RemoteGPIO()
 
 import Variables as v
 
