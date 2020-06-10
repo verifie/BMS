@@ -54,7 +54,6 @@ from RemoteGPIO import RemoteGPIO
 RemoteGPIO = RemoteGPIO()
 
 import Variables as v
-print("\n\n[BOOT]    Debug state =", v.debug_verbose, "\n\n")
 
 #########################################################################################################################################    
 # Initiate class.
