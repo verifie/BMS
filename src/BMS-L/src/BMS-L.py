@@ -86,6 +86,7 @@ from RemoteGPIO import RemoteGPIO
 RemoteGPIO = RemoteGPIO()
 
 from Formula import Formula
+Formula = Formula()
 
 import Variables as v
 print("\n\n[BOOT]    Debug state =", v.debug_verbose, "\n\n")

@@ -29,7 +29,7 @@ import Variables as v
 class RemoteGPIO(object):
 
     def __init__(self):
-        print ("[INIT]    RemoteGPIO /n/n")
+        print ("[INIT]    RemoteGPIO.py \n")
 
 
     #########################################################################################################################################    
