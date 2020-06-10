@@ -60,7 +60,7 @@ import Variables as v
 class Formula(object):
 
     def __init__(self):
-        print ("[INIT]    Formula.py \n")
+        print ("[LIBRARY] Formula.py \n")
 
 
 
