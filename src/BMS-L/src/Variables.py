@@ -3,11 +3,12 @@
 
 #########################################################################################################################################    
 # Variables.py
+# LIBRARY - MEMORY
 # 
 # BMS-L
 # (c) 2020 Leighton Electronics
 # 
-# Description :         Building Management System Lighting Control Interface trials.
+# Description :         Record of all variables in use.
 #
 # Status :              25 - Start code interfacing tests and principle functions.
 #

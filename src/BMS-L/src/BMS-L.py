@@ -2,7 +2,8 @@
 #
 
 #########################################################################################################################################    
-# cardRW.py
+# BMS-L.py
+# RUN PROGRAM
 # 
 # BMS-L
 # (c) 2020 Leighton Electronics
@@ -84,6 +85,8 @@ import datetime
 from RemoteGPIO import RemoteGPIO
 RemoteGPIO = RemoteGPIO()
 
+from Formula import Formula
+
 import Variables as v
 print("\n\n[BOOT]    Debug state =", v.debug_verbose, "\n\n")
 
@@ -95,28 +98,7 @@ class bmsl(object):
     def __init__(self):
         print ("[INIT]    BMS-L") # never prints
 
-
-    #########################################################################################################################################    
-    # When addressing the external GPIO interfaces, we address a block of 8 each time in binary.  The first digit is Pin 0, last is pin 7, etc.
-    # However, by default, the information is presented as a decimal, which is informative but not helpful for a quick human determination of
-    # what is going on.  Ideally, we will also deal with it as a sequence of binary digits as opposed to a decimal to make the program easier
-    # to read.
-    def binary(self, num, pre='0b', length=8, spacer=0):
-        return '{0}{{:{1}>{2}}}'.format(pre, spacer, length).format(bin(num)[2:])
-
     
-       
-    #########################################################################################################################################   
-    # convertBinaryString
-    #
-    # This is called if a trigger has been found. It checks to see if it was already requested and actions if not.
-
-    def convertBinaryString(self, binary_string):
-
-        return int(binary_string, 2)
-
-
-
             
     #########################################################################################################################################   
     # actionTrigger
@@ -139,7 +121,7 @@ class bmsl(object):
         # DEBUG end
 
         # Read the bus status and interpret as a binary string.
-        self.inputBusStatus = self.binary(v.MySwitch)
+        self.inputBusStatus = Formula.binary(v.MySwitch)
         humanBus = str(self.inputBusStatus)
 
         # DEBUG - Verbose announcer.
