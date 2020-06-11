@@ -70,29 +70,29 @@ class Formula(object):
     # We'll do this manually, even though it is almost certain that an inbuilt function does this already!
     def binaryStringToHex(self, binaryConverted):
 
-            # Zero the counting variables.
-            bitCount = 1
-            decimalCount = 0
+        # Zero the counting variables.
+        bitCount = 1
+        decimalCount = 0
 
-            for i in range(9, 1, -1):
-                print("[LOG]     Index i : ", i, "Bit ", bitCount," Bus Read Status : ", binaryConverted[i])
-
-
-                # If true, add the bitcount to the decimal count.
-                if "1" in binaryConverted[i]:
-                    decimalCount = decimalCount + bitCount
-                    print("[LOG]     Decimal Count :", decimalCount)
+        for i in range(9, 1, -1):
+            print("[LOG]     Index i : ", i, "Bit ", bitCount," Bus Read Status : ", binaryConverted[i])
 
 
-                # Increment bitcount by binary position.
-                bitCount = bitCount * 2
+            # If true, add the bitcount to the decimal count.
+            if "1" in binaryConverted[i]:
+                decimalCount = decimalCount + bitCount
+                print("[LOG]     Decimal Count :", decimalCount)
 
-            # Report the hex output
-            print("[LOG]     Decimal Count Final :", decimalCount)
-            
-            # Convert decimal to hex, ready to write to GPIO chip.
-            hexToWrite = hex(decimalCount)
-            print("[LOG]     Hex Count Final :", hexToWrite)
+
+            # Increment bitcount by binary position.
+            bitCount = bitCount * 2
+
+        # Report the hex output
+        print("[LOG]     Decimal Count Final :", decimalCount)
+        
+        # Convert decimal to hex, ready to write to GPIO chip.
+        hexToWrite = hex(decimalCount)
+        print("[LOG]     Hex Count Final :", hexToWrite)
 
         return hexToWrite
 
