@@ -98,7 +98,7 @@ class Formula(object):
 
 
                 # If true, add the bitcount to the decimal count.
-                if binaryConverted[i] = "1" :
+                if "1" in binaryConverted[i]:
                     decimalCount = decimalCount + bitCount
                     print("[LOG]     Decimal Count :", decimalCount)
 
