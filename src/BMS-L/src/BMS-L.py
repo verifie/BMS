@@ -127,7 +127,7 @@ class bmsl(object):
         
 
         # Now count the binary string and convert into Hex.
-        binaryStringToHex(self, binaryConverted)
+        Formula.binaryStringToHex(self, binaryConverted)
 
         # Action the request.
         RemoteGPIO.room_light_circuit_A_status_INVERT(1)   # This toggles outputs on device A. For early development only.
