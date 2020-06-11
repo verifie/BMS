@@ -127,10 +127,12 @@ class bmsl(object):
         
 
         # Now count the binary string and convert into Hex.
-        Formula.binaryStringToHex(self.inputBusStatus)
+        OutputStateChange = Formula.binaryStringToHex(self.inputBusStatus)
 
         # Action the request.
-        RemoteGPIO.room_light_circuit_A_status_INVERT(1)   # This toggles outputs on device A. For early development only.
+        circuitID = 1
+        #RemoteGPIO.room_light_circuit_A_status_INVERT(1)   # This toggles outputs on device A. For early development only.
+        actionSwitch(CircuitID, OutputStateChange)
 
         # Then record the state actioned to MySwitchCurrentState
         v.MySwitchCurrentState = v.MySwitch
