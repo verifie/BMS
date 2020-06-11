@@ -157,9 +157,9 @@ class RemoteGPIO(object):
             print ("[ACTION]  LIGHT Status Change :", OutputStateChange)
         # DEBUG endprint
 
-        self.bus.write_byte_data(v.Device001, self.setOutputStateB, OutputStateChange:int) 
-        self.bus.write_byte_data(v.Device002, self.setOutputStateB, OutputStateChange:int) 
-        self.bus.write_byte_data(v.Device003, self.setOutputStateB, OutputStateChange:int) 
+        self.bus.write_byte_data(v.Device001, self.setOutputStateB, OutputStateChange) 
+        self.bus.write_byte_data(v.Device002, self.setOutputStateB, OutputStateChange) 
+        self.bus.write_byte_data(v.Device003, self.setOutputStateB, OutputStateChange) 
 
 
 
