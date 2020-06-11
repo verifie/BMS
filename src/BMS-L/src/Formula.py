@@ -80,7 +80,7 @@ class Formula(object):
                     
             bitCount = 0
             for i in range(9, 1, -1):
-                print ("[LOG]     Bit ", bitCount," Bus Read Status : ", humanBus[i])
+                print ("[LOG]     Bit ", bitCount," Bus Read Status : ", binaryConverted[i])
                 bitCount = bitCount + 1
 
         # DEBUG end
