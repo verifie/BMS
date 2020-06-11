@@ -124,18 +124,6 @@ class bmsl(object):
 
         # Read the bus status and interpret as a binary string.
         self.inputBusStatus = Formula.binary(v.MySwitch)
-        humanBus = str(self.inputBusStatus)
-
-        # DEBUG - Verbose announcer.
-        if v.debug_verbose:
-            print ("[LOG]     A new trigger was acknowledged.  Bus Read Status : ", self.inputBusStatus)  # Show the trigger:
-        
-            bitCount = 0
-            for i in range(9, 1, -1):
-                print ("[LOG]     Bit ", bitCount," Bus Read Status : ", humanBus[i])
-                bitCount = bitCount + 1
-        # DEBUG end
-
 
         # Action the request.
         RemoteGPIO.room_light_circuit_A_status_INVERT(1)   # This toggles outputs on device A. For early development only.
