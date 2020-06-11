@@ -21,7 +21,7 @@
 # Create class.
 
 
-print ("[BOOT]    Variables") # never prints
+print ("[BOOT]    Variables")
 
 
 
