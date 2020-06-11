@@ -86,14 +86,15 @@ class Formula(object):
         # DEBUG end
 
         # DiscoverHex
+        # We'll do this manually, even though it is almost certain that an inbuilt function does this already!
         #def binaryStringToHex(self, binaryConverted)
-            bitCount = 0
+            bitCount = 1
             for i in range(9, 1, -1):
                 print ("[LOG]     Index i : ", i, "Bit ", bitCount," Bus Read Status : ", binaryConverted[i])
 
 
 
-                bitCount = bitCount + 1
+                bitCount = bitCount * 2
 
 
         return binaryConverted
