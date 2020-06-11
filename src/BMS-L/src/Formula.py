@@ -96,14 +96,17 @@ class Formula(object):
             for i in range(9, 1, -1):
                 print("[LOG]     Index i : ", i, "Bit ", bitCount," Bus Read Status : ", binaryConverted[i])
 
-                # Increment bitcount by binary position.
-                bitCount = bitCount * 2
 
                 # If true, add the bitcount to the decimal count.
-                if binaryConverted[i]:
+                if binaryConverted[i] => 0 :
                     decimalCount = decimalCount + bitCount
                     print("[LOG]     Decimal Count :", decimalCount)
 
+
+                # Increment bitcount by binary position.
+                bitCount = bitCount * 2
+
+            # Report the hex output
             print("[LOG]     Decimal Count Final :", decimalCount)
 
         return binaryConverted
