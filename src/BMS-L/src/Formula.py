@@ -108,6 +108,10 @@ class Formula(object):
 
             # Report the hex output
             print("[LOG]     Decimal Count Final :", decimalCount)
+            
+            # Convert decimal to hex, ready to write to GPIO chip.
+            hexToWrite = hex(decimalCount)
+            print("[LOG]     Hex Count Final :", hexToWrite)
 
         return binaryConverted
 
