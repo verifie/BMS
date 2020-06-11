@@ -71,10 +71,12 @@ class Formula(object):
     # what is going on.  Ideally, we will also deal with it as a sequence of binary digits as opposed to a decimal to make the program easier
     # to read.
     def binary(self, num, pre='0b', length=8, spacer=0):
-        return '{0}{{:{1}>{2}}}'.format(pre, spacer, length).format(bin(num)[2:])
+        binaryConverted = '{0}{{:{1}>{2}}}'.format(pre, spacer, length).format(bin(num)[2:])
+        print("[DEBUG]   binaryConverted :", binaryConverted)
+        return binaryConverted
 
     
-    #
+
        
     #########################################################################################################################################   
     # convertBinaryString
@@ -82,8 +84,9 @@ class Formula(object):
     # This is called if a trigger has been found. It checks to see if it was already requested and actions if not.
 
     def convertBinaryString(self, binary_string):
-
-        return int(binary_string, 2)
+        binaryStringInt = int(binary_string, 2)
+        print("[DEBUG]   binaryStringInt :", binaryStringInt)
+        return 
 
 
 
