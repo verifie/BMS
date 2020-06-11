@@ -66,33 +66,6 @@ class Formula(object):
 
 
     #########################################################################################################################################    
-    # When addressing the external GPIO interfaces, we address a block of 8 each time in binary.  The first digit is Pin 0, last is pin 7, etc.
-    # However, by default, the information is presented as a decimal, which is informative but not helpful for a quick human determination of
-    # what is going on.  Ideally, we will also deal with it as a sequence of binary digits as opposed to a decimal to make the program easier
-    # to read.
-    def binary(self, num, pre='0b', length=8, spacer=0):
-
-        binaryConverted = str('{0}{{:{1}>{2}}}'.format(pre, spacer, length).format(bin(num)[2:]))
-        
-        # DEBUG - Verbose announcer.
-        if v.debug_verbose:
-            print("[DEBUG]   binaryConverted :", binaryConverted)
-                    
-            bitCount = 0
-            for i in range(9, 1, -1):
-                print ("[LOG]     Bit ", bitCount," Bus Read Status : ", binaryConverted[i])
-                bitCount = bitCount + 1
-
-        # DEBUG end
-
-        binaryStringToHex(binaryConverted)
-
-        return binaryConverted
-
-
-
-
-    #########################################################################################################################################    
     # DiscoverHex
     # We'll do this manually, even though it is almost certain that an inbuilt function does this already!
     def binaryStringToHex(self, binaryConverted)
@@ -122,6 +95,35 @@ class Formula(object):
             print("[LOG]     Hex Count Final :", hexToWrite)
 
         return hexToWrite
+
+
+
+    #########################################################################################################################################    
+    # When addressing the external GPIO interfaces, we address a block of 8 each time in binary.  The first digit is Pin 0, last is pin 7, etc.
+    # However, by default, the information is presented as a decimal, which is informative but not helpful for a quick human determination of
+    # what is going on.  Ideally, we will also deal with it as a sequence of binary digits as opposed to a decimal to make the program easier
+    # to read.
+    def binary(self, num, pre='0b', length=8, spacer=0):
+
+        binaryConverted = str('{0}{{:{1}>{2}}}'.format(pre, spacer, length).format(bin(num)[2:]))
+        
+        # DEBUG - Verbose announcer.
+        if v.debug_verbose:
+            print("[DEBUG]   binaryConverted :", binaryConverted)
+                    
+            bitCount = 0
+            for i in range(9, 1, -1):
+                print ("[LOG]     Bit ", bitCount," Bus Read Status : ", binaryConverted[i])
+                bitCount = bitCount + 1
+
+        # DEBUG end
+
+        # Now count the binary string and convert into Hex.
+        binaryStringToHex(binaryConverted)
+
+        return binaryConverted
+
+
 
        
     #########################################################################################################################################   
