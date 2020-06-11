@@ -77,7 +77,14 @@ class Formula(object):
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
             print("[DEBUG]   binaryConverted :", binaryConverted)
+                    
+            bitCount = 0
+            for i in range(9, 1, -1):
+                print ("[LOG]     Bit ", bitCount," Bus Read Status : ", humanBus[i])
+                bitCount = bitCount + 1
+
         # DEBUG end
+
 
         return binaryConverted
 

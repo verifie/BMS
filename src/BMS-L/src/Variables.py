@@ -42,6 +42,7 @@ Movement = 3
 on = 1
 off = 2
 debounceFail = 0
+surgeDelay = 0.25
 # Device and Switch / sensor
 
 # Device 001
