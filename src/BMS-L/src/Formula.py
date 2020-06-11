@@ -71,14 +71,23 @@ class Formula(object):
     # what is going on.  Ideally, we will also deal with it as a sequence of binary digits as opposed to a decimal to make the program easier
     # to read.
     def binary(self, num, pre='0b', length=8, spacer=0):
-        binaryConverted = '{0}{{:{1}>{2}}}'.format(pre, spacer, length).format(bin(num)[2:])
 
+        binaryConverted = '{0}{{:{1}>{2}}}'.format(pre, spacer, length).format(bin(num)[2:])
+        
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
             print("[DEBUG]   binaryConverted :", binaryConverted)
         # DEBUG end
-        
-        return binaryConverted
+
+        # Now convert the binary data into a string.
+        binaryConvertedString = str(self.binaryConverted)
+
+        # DEBUG - Verbose announcer.
+        if v.debug_verbose:
+            print("[DEBUG]   binaryConvertedstring :", binaryConvertedString)
+        # DEBUG end
+
+        return binaryConvertedString
 
     
 
@@ -96,7 +105,5 @@ class Formula(object):
             print("[DEBUG]   binaryStringInt :", binaryStringInt)
         # DEBUG end
 
-        return 
-
-
+        return binaryStringInt
 

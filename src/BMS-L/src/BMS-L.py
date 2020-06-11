@@ -20,6 +20,7 @@
 # 2020/05/27 1208 v0.04 PME - Improve trigger detection - If switch is pressed, dont toggle on or off all the time. A plan will be needed, but lets test some ideas.
 # 2020/05/31 1035 v0.05 PME - Trialing next stage breadboard.  All B IO is Led control output.  All A IO is Input. Pre-Bugfix.
 # 2020/06/06 1523 v0.06 PME - Separate functions in to modules.
+# 2020/06/11 2020 v0.07 PME - Adding binary decoding and enconding to read and write to the remote GPIO chips.
 
 # Simple print screen introduction
 print("")
