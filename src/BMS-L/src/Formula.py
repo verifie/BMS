@@ -85,9 +85,17 @@ class Formula(object):
 
         # DEBUG end
 
-        # DiscoverHex
-        # We'll do this manually, even though it is almost certain that an inbuilt function does this already!
-        #def binaryStringToHex(self, binaryConverted)
+        binaryStringToHex(binaryConverted)
+
+        return binaryConverted
+
+
+
+
+    #########################################################################################################################################    
+    # DiscoverHex
+    # We'll do this manually, even though it is almost certain that an inbuilt function does this already!
+    def binaryStringToHex(self, binaryConverted)
 
             # Zero the counting variables.
             bitCount = 1
@@ -113,9 +121,7 @@ class Formula(object):
             hexToWrite = hex(decimalCount)
             print("[LOG]     Hex Count Final :", hexToWrite)
 
-        return binaryConverted
-
-    
+        return hexToWrite
 
        
     #########################################################################################################################################   
