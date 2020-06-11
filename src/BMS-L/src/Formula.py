@@ -72,22 +72,14 @@ class Formula(object):
     # to read.
     def binary(self, num, pre='0b', length=8, spacer=0):
 
-        binaryConverted = '{0}{{:{1}>{2}}}'.format(pre, spacer, length).format(bin(num)[2:])
+        binaryConverted = str'{0}{{:{1}>{2}}}'.format(pre, spacer, length).format(bin(num)[2:])
         
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
             print("[DEBUG]   binaryConverted :", binaryConverted)
         # DEBUG end
-
-        # Now convert the binary data into a string.
-        binaryConvertedString = str(self.binaryConverted)
-
-        # DEBUG - Verbose announcer.
-        if v.debug_verbose:
-            print("[DEBUG]   binaryConvertedstring :", binaryConvertedString)
-        # DEBUG end
-
-        return binaryConvertedString
+        
+        return binaryConverted
 
     
 
