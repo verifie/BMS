@@ -88,14 +88,23 @@ class Formula(object):
         # DiscoverHex
         # We'll do this manually, even though it is almost certain that an inbuilt function does this already!
         #def binaryStringToHex(self, binaryConverted)
+
+            # Zero the counting variables.
             bitCount = 1
+            decimalCount = 0
+
             for i in range(9, 1, -1):
-                print ("[LOG]     Index i : ", i, "Bit ", bitCount," Bus Read Status : ", binaryConverted[i])
+                print("[LOG]     Index i : ", i, "Bit ", bitCount," Bus Read Status : ", binaryConverted[i])
 
-
-
+                # Increment bitcount by binary position.
                 bitCount = bitCount * 2
 
+                # If true, add the bitcount to the decimal count.
+                if binaryconverted:
+                    decimalCount + bitCount
+                    print("[LOG]     Decimal Count :", decimalCount)
+
+                    print("[LOG]     Decimal Count Final :", decimalCount)
 
         return binaryConverted
 
