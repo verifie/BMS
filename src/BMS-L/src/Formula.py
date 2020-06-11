@@ -124,7 +124,7 @@ class Formula(object):
         hexToWrite = hex(decimalCount)
         print("[LOG]     Hex Count Final :", hexToWrite)
 
-        return hexToWrite
+        return decimalCount
 
 
        
