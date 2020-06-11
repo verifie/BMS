@@ -132,7 +132,7 @@ class bmsl(object):
         # Action the request.
         circuitID = 1
         #RemoteGPIO.room_light_circuit_A_status_INVERT(1)   # This toggles outputs on device A. For early development only.
-        actionSwitch(CircuitID, OutputStateChange)
+        RemoteGPIO.actionSwitch(circuitID, OutputStateChange)
 
         # Then record the state actioned to MySwitchCurrentState
         v.MySwitchCurrentState = v.MySwitch
