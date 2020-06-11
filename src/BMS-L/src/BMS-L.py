@@ -128,8 +128,14 @@ class bmsl(object):
 
         # Now count the binary string and convert into Hex.
         OutputStateChange = Formula.binaryStringToHex(self.inputBusStatus)
+        if v.debug_verbose:
+            print("[LOG]     OutputStateChange : ", OutputStateChange) # Show hex
+        # DEBUG end
+
 
         # Action the request.
+        # TODO: Handle the circuit! For now, this is ignored.
+
         circuitID = 1
         #RemoteGPIO.room_light_circuit_A_status_INVERT(1)   # This toggles outputs on device A. For early development only.
         RemoteGPIO.actionSwitch(circuitID, OutputStateChange)
