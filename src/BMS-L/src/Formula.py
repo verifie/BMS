@@ -100,7 +100,7 @@ class Formula(object):
                 bitCount = bitCount * 2
 
                 # If true, add the bitcount to the decimal count.
-                if binaryconverted:
+                if binaryConverted:
                     decimalCount + bitCount
                     print("[LOG]     Decimal Count :", decimalCount)
 
