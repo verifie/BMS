@@ -68,7 +68,7 @@ class Formula(object):
     #########################################################################################################################################    
     # DiscoverHex
     # We'll do this manually, even though it is almost certain that an inbuilt function does this already!
-    def binaryStringToHex(self, binaryConverted)
+    def binaryStringToHex(self, binaryConverted):
 
             # Zero the counting variables.
             bitCount = 1
