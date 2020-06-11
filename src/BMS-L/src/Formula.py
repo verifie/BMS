@@ -88,7 +88,7 @@ class Formula(object):
         # DEBUG end
 
         # Now count the binary string and convert into Hex.
-        binaryStringToHex(binaryConverted)
+        #binaryStringToHex(binaryConverted)
 
         return binaryConverted
 
@@ -96,7 +96,7 @@ class Formula(object):
 
 
     #########################################################################################################################################    
-    # DiscoverHex
+    # binaryStringToHex
     # We'll do this manually, even though it is almost certain that an inbuilt function does this already!
     def binaryStringToHex(self, binaryConverted):
 
@@ -126,7 +126,7 @@ class Formula(object):
 
         return hexToWrite
 
-        
+
        
     #########################################################################################################################################   
     # convertBinaryString
