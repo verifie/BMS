@@ -21,6 +21,7 @@
 # 2020/05/31 1035 v0.05 PME - Trialing next stage breadboard.  All B IO is Led control output.  All A IO is Input. Pre-Bugfix.
 # 2020/06/06 1523 v0.06 PME - Separate functions in to modules.
 # 2020/06/11 2020 v0.07 PME - Adding binary decoding and enconding to read and write to the remote GPIO chips.
+# 2020/06/28 2153 v0.08 PME - Develop code to address each Device ID and replace early dev code.
 
 # Simple print screen introduction
 print("")
@@ -107,7 +108,7 @@ class bmsl(object):
     #
     # This is called if a trigger has been found. It checks to see if it was already requested and actions if not.
 
-    def actionTrigger(self):
+    def actionTrigger(self, selectedDevice):
         
         # Log the request
         now = datetime.datetime.now()
@@ -134,11 +135,7 @@ class bmsl(object):
 
 
         # Action the request.
-        # TODO: Handle the circuit! For now, this is ignored.
-
-        circuitID = 1
-        #RemoteGPIO.room_light_circuit_A_status_INVERT(1)   # This toggles outputs on device A. For early development only.
-        RemoteGPIO.actionSwitch(circuitID, OutputStateChange)
+        RemoteGPIO.actionSwitch(selectedDevice, OutputStateChange)
 
         # Then record the state actioned to MySwitchCurrentState
         v.MySwitchCurrentState = v.MySwitch
@@ -201,7 +198,7 @@ class bmsl(object):
                 if v.changeCircuitState:
 
                     # A trigger request was made. #TODO Pass request on to action.  At the moment, it just calls the function which turns everything on or off (inverts).
-                    self.actionTrigger()
+                    self.actionTrigger(self.selectedDevice)
 
                 # End of RunProgram Loop. Restarting.
 

@@ -149,7 +149,7 @@ class RemoteGPIO(object):
     # Turn the selected outputs according to switch request. Takes a hex input and passes it directly on.
     # TODO we currently ignore the CircuitID and set all 3 remote outputs the same as part of the test setup early stage dev.
 
-    def actionSwitch(self, CircuitID, OutputStateChange):
+    def actionSwitch(self, DeviceID, OutputStateChange):
         
         
         # DEBUG - Verbose announcer.
@@ -158,9 +158,7 @@ class RemoteGPIO(object):
         # DEBUG endprint
 
         # TODO Change this to the specific device being switched.
-        self.bus.write_byte_data(v.Device001, self.setOutputStateB, OutputStateChange) 
-        self.bus.write_byte_data(v.Device002, self.setOutputStateB, OutputStateChange) 
-        self.bus.write_byte_data(v.Device003, self.setOutputStateB, OutputStateChange) 
+        self.bus.write_byte_data(DeviceID, self.setOutputStateB, OutputStateChange)
 
 
 
