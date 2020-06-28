@@ -187,7 +187,7 @@ class bmsl(object):
 
 
                 # Select the switch device.
-                self.selectedDevice = v.DeviceIdArray[i]
+                self.selectedDevice = hex(v.DeviceIdArray[i])
 
                 
                 # Announce Device
