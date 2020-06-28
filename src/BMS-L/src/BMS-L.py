@@ -190,26 +190,25 @@ class bmsl(object):
 
                 # Select the switch device. #TODO Fixed at device 1 for now. Hook for dev.
                 if i == 1:
-                self.selectedDevice = v.Device001
+                    self.selectedDevice = v.Device001
                 if i == 2:
-                self.selectedDevice = v.Device002
+                    self.selectedDevice = v.Device002
                 if i == 3:
-                self.selectedDevice = v.Device003
+                    self.selectedDevice = v.Device003
                 if i == 4:
-                self.selectedDevice = v.Device004
+                    self.selectedDevice = v.Device004
                 if i == 5:
-                self.selectedDevice = v.Device005
+                    self.selectedDevice = v.Device005
                 if i == 6:
-                self.selectedDevice = v.Device006
+                    self.selectedDevice = v.Device006
                 if i == 7:
-                self.selectedDevice = v.Device007
+                    self.selectedDevice = v.Device007
                 if i == 8:
-                self.selectedDevice = v.Device008
+                    self.selectedDevice = v.Device008
                 if i == 9:
-                self.selectedDevice = v.Device009
+                    self.selectedDevice = v.Device009
                 if i == 10:
-                self.selectedDevice = v.Device010
-
+                    self.selectedDevice = v.Device010
 
 
                 # Look for trigger (changes)
