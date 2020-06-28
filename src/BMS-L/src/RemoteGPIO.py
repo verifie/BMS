@@ -157,6 +157,7 @@ class RemoteGPIO(object):
             print ("[ACTION]  LIGHT Status Change :", OutputStateChange)
         # DEBUG endprint
 
+        # TODO Change this to the specific device being switched.
         self.bus.write_byte_data(v.Device001, self.setOutputStateB, OutputStateChange) 
         self.bus.write_byte_data(v.Device002, self.setOutputStateB, OutputStateChange) 
         self.bus.write_byte_data(v.Device003, self.setOutputStateB, OutputStateChange) 
