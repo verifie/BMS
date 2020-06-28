@@ -187,11 +187,11 @@ class bmsl(object):
 
 
                 # Select the switch device.
-                self.selectedDevice = hex(v.DeviceIdArray[i])
+                self.selectedDevice = v.DeviceIdArray[i]
 
                 
                 # Announce Device
-                print("[RUN]     Device: [", i, "] with device ID: [", self.selectedDevice, "]")
+                print("[RUN]     Device: [", i, "] with device ID: [", hex(self.selectedDevice), "]")
 
 
                 # Look for trigger (changes)
