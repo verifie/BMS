@@ -194,10 +194,15 @@ class bmsl(object):
                 # Look for trigger (changes)
                 RemoteGPIO.lookForTriggers(self.selectedDevice, v.MySwitchCurrentState) # TODO: Note this just passes 0, so anything other than 0 will flag to any state change challenge. Change this to refer to the actual current state of lights! DEBUG.
 
-                # Test to see if an action has been requested.
+                # Test to see if an action has been requested. TODO: As we aren't yet storing states, this looks for any input True. Not effective, so added an else to duplicate the process for now. But retained If statement as we should check for a state change on each device and store the states.
                 if v.changeCircuitState:
 
-                    # A trigger request was made. #TODO Pass request on to action.  At the moment, it just calls the function which turns everything on or off (inverts).
+                    # A trigger request was made.
+                    self.actionTrigger(self.selectedDevice)
+
+                else:
+                    
+                    # TODO: Remove when we actually get round to referencing states.
                     self.actionTrigger(self.selectedDevice)
 
                 # End of RunProgram Loop. Restarting.
