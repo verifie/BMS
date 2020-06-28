@@ -182,19 +182,46 @@ class bmsl(object):
         # Loop until user presses CTRL-C
         while True:
 
-            # Select the switch device. #TODO Fixed at device 1 for now. Hook for dev.
-            self.selectedDevice = v.Device001
+            # Loop for each device
+            for i in v.deviceTally:
 
-            # Look for trigger (changes)
-            RemoteGPIO.lookForTriggers(self.selectedDevice, v.MySwitchCurrentState) # TODO: Note this just passes 0, so anything other than 0 will flag to any state change challenge. Change this to refer to the actual current state of lights! DEBUG.
+                # Announce Device
+                print("Device: [", i, "]")
 
-            # Test to see if an action has been requested.
-            if v.changeCircuitState:
+                # Select the switch device. #TODO Fixed at device 1 for now. Hook for dev.
+                if i == 1:
+                self.selectedDevice = v.Device001
+                if i == 2:
+                self.selectedDevice = v.Device002
+                if i == 3:
+                self.selectedDevice = v.Device003
+                if i == 4:
+                self.selectedDevice = v.Device004
+                if i == 5:
+                self.selectedDevice = v.Device005
+                if i == 6:
+                self.selectedDevice = v.Device006
+                if i == 7:
+                self.selectedDevice = v.Device007
+                if i == 8:
+                self.selectedDevice = v.Device008
+                if i == 9:
+                self.selectedDevice = v.Device009
+                if i == 10:
+                self.selectedDevice = v.Device010
 
-                # A trigger request was made. #TODO Pass request on to action.  At the moment, it just calls the function which turns everything on or off (inverts).
-                self.actionTrigger()
 
-            # End of RunProgram Loop. Restarting.
+
+                # Look for trigger (changes)
+                RemoteGPIO.lookForTriggers(self.selectedDevice, v.MySwitchCurrentState) # TODO: Note this just passes 0, so anything other than 0 will flag to any state change challenge. Change this to refer to the actual current state of lights! DEBUG.
+
+                # Test to see if an action has been requested.
+                if v.changeCircuitState:
+
+                    # A trigger request was made. #TODO Pass request on to action.  At the moment, it just calls the function which turns everything on or off (inverts).
+                    self.actionTrigger()
+
+                # End of RunProgram Loop. Restarting.
 
 
 ###########################################################################################################################################################################

@@ -267,9 +267,10 @@ if debug_verbose:
 # Software variables.
 print ("[BOOT]    Setup default variables.")
 
+deviceTally = 10
 changeCircuitState = False
 MySwitchCurrentState = 0
-MySwitch = 1
+MySwitch = 0
 inputBusStatus = 0x00
 
 room_light_circuit_A = 0x00
