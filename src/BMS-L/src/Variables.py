@@ -256,6 +256,12 @@ Device010Output6 = off
 Device010Output7 = off
 
 
+# Device ID Array
+DeviceIdArray = [Device001, Device002, Device003, Device004, Device005, Device006, Device007, Device008, Device009, Device010]
+if debug_verbose:
+    print ("[DeviceIdArray]    Device IDs: [", DeviceIdArray, "] \n")
+# DEBUG end
+
 
 # DEBUG - Verbose announcer.
 if debug_verbose:
