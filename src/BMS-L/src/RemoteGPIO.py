@@ -111,9 +111,9 @@ class RemoteGPIO(object):
 
         except:
             v.I2CFault = v.I2CFault + 1
-            print("I2C Read Error:", sys.exc_info()[0], " Comms Error:", v.I2CFault)
+            print("I2C Comms Error:", v.I2CFault)
 
-            
+
 
     #########################################################################################################################################    
     # Procedure to invert light state.  Fixed to light A for this test.
@@ -159,7 +159,7 @@ class RemoteGPIO(object):
 
         except:
             v.I2CFault = v.I2CFault + 1
-            print("I2C Read Error:", sys.exc_info()[0], " Comms Error:", v.I2CFault)
+            print("I2C Comms Error:", v.I2CFault)
 
     #########################################################################################################################################    
     # Turn the selected outputs according to switch request. Takes a hex input and passes it directly on.
@@ -182,7 +182,7 @@ class RemoteGPIO(object):
 
         except:
             v.I2CFault = v.I2CFault + 1
-            print("I2C Read Error:", sys.exc_info()[0], " Comms Error:", v.I2CFault)
+            print("I2C Comms Error:", v.I2CFault)
 
 
 
@@ -238,7 +238,7 @@ class RemoteGPIO(object):
 
         except:
             v.I2CFault = v.I2CFault + 1
-            print("I2C Read Error:", sys.exc_info()[0], " Comms Error:", v.I2CFault)
+            print("I2C Comms Error:", v.I2CFault)
 
 
 
@@ -267,7 +267,7 @@ class RemoteGPIO(object):
             
         except:
             v.I2CFault = v.I2CFault + 1
-            print("I2C Read Error:", sys.exc_info()[0], " Comms Error:", v.I2CFault)
+            print("I2C Comms Error:", v.I2CFault)
 
 
     #########################################################################################################################################    
@@ -345,6 +345,6 @@ class RemoteGPIO(object):
 
         except:
             v.I2CFault = v.I2CFault + 1
-            print("I2C Read Error:", sys.exc_info()[0], " Comms Error:", v.I2CFault)
+            print("I2C Comms Error:", v.I2CFault)
 
 
