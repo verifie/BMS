@@ -120,7 +120,7 @@ class bmsl(object):
 
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
-            print("[LOG]     Action Tally : ", v.actionTally, " and Triggers that did not pass the debounce test :", v.debounceFail) # Shoe triggers - successful and unsuccessful.
+            print("[LOG]     Action Tally : ", v.actionTally, ", Triggers that did not pass the debounce test :", v.debounceFail, "and I2C Comms Errors: ", v.I2CFault) # Shoe triggers - successful and unsuccessful.
         # DEBUG end
 
         # Read the bus status and interpret as a binary string.

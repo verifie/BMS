@@ -290,6 +290,7 @@ room_light_circuit_A_status = False
 
 toggler = 0
 actionTally = 0
+I2CFault = 0
 PrintOnce = True
 debounceDelay = 0.02
 

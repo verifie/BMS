@@ -13,7 +13,8 @@
 # Status :              25 - Start code interfacing tests and principle functions.
 #
 # Version History
-# 2020/06/07 v0.00 PME - Initial creation of module and transfer of functions from the main program.
+# 2020/06/07 v0.01 PME - Initial creation of module and transfer of functions from the main program.
+# 2020/06/30 v0.02 PME - Add error handling - TODO: Add manager comms in multiple network failures.
 
 
 #########################################################################################################################################    
@@ -243,63 +244,74 @@ class RemoteGPIO(object):
         # Pause in loop to allow OS Recovery and debug
         time.sleep(v.debounceDelay)
 
-        # Read state of GPIOB register
-        v.MySwitch = self.bus.read_byte_data(selectedDevice, self.GPIOA)
-        # print("A input state:", v.MySwitch) # Debug print after first read.
-    
-        # This is really simply code for test.  If the state is different to the last actioned request, proceed to qualify the trigger.
-        if not v.MySwitch == MySwitchCurrentState:
+        # Sometimes, the I2C interface fails.  This can be due to interference, poor connection or other reasons.  Without error handling, the system will fail
+        # which is quite undesirable.  As such, we TRY every connection to prevent failure. In the event of I2C failure, we tally the issue and return FALSE.
+        # The program then returns to the loop, which will result in it trying again,  It will continue to try and fail in the event of a permanent fault.
+        # TODO: We should report repetitive errors to the site manager.  But for now, we'll just repeat attempt.
+        Try:
+
+            # Read state of GPIOB register
+            v.MySwitch = self.bus.read_byte_data(selectedDevice, self.GPIOA)
+            # print("A input state:", v.MySwitch) # Debug print after first read.
+        
+            # Check if the switch states have changed.  TODO This is really simply code for test. 
+            # If the state is different to the last actioned request, proceed to qualify the trigger.
+            if not v.MySwitch == MySwitchCurrentState:
 
 
-            ########################################################################
-            # Software EMF Interference and Debounce filter.
-            #
-            # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger. We do this by:
-
-            # DEBUG - Verbose announcer.
-            if v.debug_verbose:
-                print ("\n\n[TRIGGER] A new trigger was acknowledged but not yet put through our interference / debounce filter") # Dev code
-            # DEBUG end
-
-            # 1. Pausing for a moment so if this trigger was found as a result of momentary spike or interference, it has time to end (so the pause it acts as a software filter)..
-            time.sleep(v.debounceDelay)
-
-            # 2. Then we read the input again to check the reading is the same as the trigger.
-            v.MySwitchDebounceReadA = self.bus.read_byte_data(selectedDevice, self.GPIOA)
-            
-            # 3. We then pause again, just in case the second read was also accidental.
-            time.sleep(v.debounceDelay)
-
-            # 4. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
-            # this technique should filter unintended triggers out.
-            v.MySwitchDebounceReadB = self.bus.read_byte_data(selectedDevice, self.GPIOA)
-            
-            
-            # 5. We then pause again, just in case the second read was also accidental.
-            time.sleep(v.debounceDelay)
-
-            # 6. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
-            # this technique should filter unintended triggers out.
-            v.MySwitchDebounceReadC = self.bus.read_byte_data(selectedDevice, self.GPIOA)
-            
-            # 5. Now we compare the 4 reads.  If the trigger identified is the same on every read, action the trigger, else it was probably electrical noise, so ignore.
-            # Because the reads are done so closely together, (speed in fractions of a second) - no multiple trigger state changes could possibly occur.  Importantly, what
-            # we mere mortals consider fast is an age both in computer terms and EMF interference, so it's easy to spot.
-            # If there is enough interference to fool this filter - it's time to rework the electronics and interfacing!
-            if v.MySwitch == v.MySwitchDebounceReadA and v.MySwitch == v.MySwitchDebounceReadB and v.MySwitch == v.MySwitchDebounceReadC:
-
-                # If we reach here, we believe the trigger was genuine.
+                ########################################################################
+                # Software EMF Interference and Debounce filter.
+                #
+                # A trigger was acknowledged.  Action a software debounce to check for electrical interference or accidental trigger. We do this by:
 
                 # DEBUG - Verbose announcer.
                 if v.debug_verbose:
-                    print ("[TRIGGER] A new trigger was acknowledged and passed the interference filter. SET changeCircuitState TRUE.") # Dev code
+                    print ("\n\n[TRIGGER] A new trigger was acknowledged but not yet put through our interference / debounce filter") # Dev code
                 # DEBUG end
 
-                # Update the Circuit State.
-                v.changeCircuitState = True
-            
-            else:
-                # We want to keep a tally of triggers that do not pass our debounce check.  This information will help us determine if there is excess interference causing false triggers
-                v.debounceFail = v.debounceFail + 1
+                # 1. Pausing for a moment so if this trigger was found as a result of momentary spike or interference, it has time to end (so the pause it acts as a software filter)..
+                time.sleep(v.debounceDelay)
+
+                # 2. Then we read the input again to check the reading is the same as the trigger.
+                v.MySwitchDebounceReadA = self.bus.read_byte_data(selectedDevice, self.GPIOA)
+                
+                # 3. We then pause again, just in case the second read was also accidental.
+                time.sleep(v.debounceDelay)
+
+                # 4. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
+                # this technique should filter unintended triggers out.
+                v.MySwitchDebounceReadB = self.bus.read_byte_data(selectedDevice, self.GPIOA)
+                
+                
+                # 5. We then pause again, just in case the second read was also accidental.
+                time.sleep(v.debounceDelay)
+
+                # 6. Read again to check the reading is the same as the trigger.  A deliberate and intended trigger will persist, whilst noise is likely to be inconsistent, so
+                # this technique should filter unintended triggers out.
+                v.MySwitchDebounceReadC = self.bus.read_byte_data(selectedDevice, self.GPIOA)
+                
+                # 5. Now we compare the 4 reads.  If the trigger identified is the same on every read, action the trigger, else it was probably electrical noise, so ignore.
+                # Because the reads are done so closely together, (speed in fractions of a second) - no multiple trigger state changes could possibly occur.  Importantly, what
+                # we mere mortals consider fast is an age both in computer terms and EMF interference, so it's easy to spot.
+                # If there is enough interference to fool this filter - it's time to rework the electronics and interfacing!
+                if v.MySwitch == v.MySwitchDebounceReadA and v.MySwitch == v.MySwitchDebounceReadB and v.MySwitch == v.MySwitchDebounceReadC:
+
+                    # If we reach here, we believe the trigger was genuine.
+
+                    # DEBUG - Verbose announcer.
+                    if v.debug_verbose:
+                        print ("[TRIGGER] A new trigger was acknowledged and passed the interference filter. SET changeCircuitState TRUE.") # Dev code
+                    # DEBUG end
+
+                    # Update the Circuit State.
+                    v.changeCircuitState = True
+                
+                else:
+                    # We want to keep a tally of triggers that do not pass our debounce check.  This information will help us determine if there is excess interference causing false triggers
+                    v.debounceFail = v.debounceFail + 1
+
+        except:
+            v.I2CFault = v.I2CFault + 1
+            print("I2C Read Error:", sys.exc_info()[0], " Comms Error:", v.I2CFault)
 
 
