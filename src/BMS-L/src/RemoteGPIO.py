@@ -89,23 +89,31 @@ class RemoteGPIO(object):
 
         print ("[BOOT]    Setup IO function.")
 
+        
+        # Error Handling.
+        try:
 
-        # Device A
-        self.bus.write_byte_data(v.Device001, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
-        self.bus.write_byte_data(v.Device001, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
+            # Device A
+            self.bus.write_byte_data(v.Device001, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
+            self.bus.write_byte_data(v.Device001, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
 
-        # Device B
-        self.bus.write_byte_data(v.Device002, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
-        self.bus.write_byte_data(v.Device002, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
+            # Device B
+            self.bus.write_byte_data(v.Device002, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
+            self.bus.write_byte_data(v.Device002, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
 
-        self.bus.write_byte_data(v.Device003, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
-        self.bus.write_byte_data(v.Device003, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
+            self.bus.write_byte_data(v.Device003, self.setPinInputOutputStateA, 0xFF)            # All set to inputs for TEST.   Hex 0xFF = (11111111)
+            self.bus.write_byte_data(v.Device003, self.setPinInputOutputStateB, 0x00)            # All set to outputs for TEST.  Hex 0x00 = (00000000)
 
-        # DEBUG - Verbose announcer.
-        if v.debug_verbose:
-            print ("[BOOT]    Setup IO function. Done. \n\n")
-        # DEBUG end
+            # DEBUG - Verbose announcer.
+            if v.debug_verbose:
+                print ("[BOOT]    Setup IO function. Done. \n\n")
+            # DEBUG end
 
+        except:
+            v.I2CFault = v.I2CFault + 1
+            print("I2C Read Error:", sys.exc_info()[0], " Comms Error:", v.I2CFault)
+
+            
 
     #########################################################################################################################################    
     # Procedure to invert light state.  Fixed to light A for this test.
@@ -120,31 +128,38 @@ class RemoteGPIO(object):
             print ("[ACTION]  LIGHT Status Change.")
         # DEBUG endprint
 
-        if not v.room_light_circuit_A_status:
-            self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0xFF) 
-            self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0xFF) 
-            self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00) 
-
-            # DEBUG - Verbose announcer.
-            if v.debug_verbose:
-                print ("[ACTION]  Turn ALL LIGHTs ON.")
-                # DEBUG endprint
-
-            v.room_light_circuit_A_status = True
-        
-        else:
-            self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
-            self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
-            self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0xFF)
-
-            # DEBUG - Verbose announcer.
-            if v.debug_verbose:
-                print ("[ACTION]  Turn ALL LIGHTs OFF.")
-                # DEBUG endprint
                 
-            v.room_light_circuit_A_status = False
+        # Error Handling.
+        try:
+
+            if not v.room_light_circuit_A_status:
+                self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0xFF) 
+                self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0xFF) 
+                self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00) 
+
+                # DEBUG - Verbose announcer.
+                if v.debug_verbose:
+                    print ("[ACTION]  Turn ALL LIGHTs ON.")
+                    # DEBUG endprint
+
+                v.room_light_circuit_A_status = True
+            
+            else:
+                self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
+                self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
+                self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0xFF)
+
+                # DEBUG - Verbose announcer.
+                if v.debug_verbose:
+                    print ("[ACTION]  Turn ALL LIGHTs OFF.")
+                    # DEBUG endprint
+                    
+                v.room_light_circuit_A_status = False
 
 
+        except:
+            v.I2CFault = v.I2CFault + 1
+            print("I2C Read Error:", sys.exc_info()[0], " Comms Error:", v.I2CFault)
 
     #########################################################################################################################################    
     # Turn the selected outputs according to switch request. Takes a hex input and passes it directly on.
@@ -158,9 +173,16 @@ class RemoteGPIO(object):
             print ("[ACTION]  LIGHT Status Change :", OutputStateChange)
         # DEBUG endprint
 
-        # TODO Change this to the specific device being switched.
-        self.bus.write_byte_data(DeviceID, self.setOutputStateB, OutputStateChange)
+                
+        # Error Handling.
+        try:
 
+            # TODO Change this to the specific device being switched.
+            self.bus.write_byte_data(DeviceID, self.setOutputStateB, OutputStateChange)
+
+        except:
+            v.I2CFault = v.I2CFault + 1
+            print("I2C Read Error:", sys.exc_info()[0], " Comms Error:", v.I2CFault)
 
 
 
@@ -169,48 +191,54 @@ class RemoteGPIO(object):
     # Test.
 
     def setGPIOStartTest(self):
-        
-        # Set output all 7 output bits to 0
-        print("[DEBUG]   Test outputs 0.")
-        self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
-        print("[DEBUG]   Test outputs 0... done.")
-
-        time.sleep(v.surgeDelay)
-        # Set output all 7 output bits to 1
-        print("[DEBUG]   Setting all outputs.")
-        self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0xFF)
-        self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0xFF)
-        self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0xFF)
-        print("[DEBUG]   Setting all outputs... done.")
-
-
-        time.sleep(v.surgeDelay)
-        # Set output all 7 output bits to 0
-        print("[DEBUG]   Test outputs 0.")
-        self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
-        print("[DEBUG]   Test outputs 0... done.")
-        
-        while False: # Debug - turn all outputs high or low.
-
-
-            time.sleep(v.surgeDelay)
-            print("[DEBUG]   Setting all outputs. ON")
-            self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0xFF)
-            self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0xFF)
-            self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0xFF)
-            print("[DEBUG]   Setting all outputs... ON done.")
-
-            time.sleep(v.surgeDelay)
-            print("[DEBUG]   Setting all outputs.")
+                
+        # Error Handling.
+        try:
+            
+            # Set output all 7 output bits to 0
+            print("[DEBUG]   Test outputs 0.")
             self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
             self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
             self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
+            print("[DEBUG]   Test outputs 0... done.")
+
+            time.sleep(v.surgeDelay)
+            # Set output all 7 output bits to 1
+            print("[DEBUG]   Setting all outputs.")
+            self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0xFF)
+            self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0xFF)
+            self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0xFF)
             print("[DEBUG]   Setting all outputs... done.")
 
+
+            time.sleep(v.surgeDelay)
+            # Set output all 7 output bits to 0
+            print("[DEBUG]   Test outputs 0.")
+            self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
+            print("[DEBUG]   Test outputs 0... done.")
+            
+            while False: # Debug - turn all outputs high or low.
+
+
+                time.sleep(v.surgeDelay)
+                print("[DEBUG]   Setting all outputs. ON")
+                self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0xFF)
+                self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0xFF)
+                self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0xFF)
+                print("[DEBUG]   Setting all outputs... ON done.")
+
+                time.sleep(v.surgeDelay)
+                print("[DEBUG]   Setting all outputs.")
+                self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
+                self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
+                self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
+                print("[DEBUG]   Setting all outputs... done.")
+
+        except:
+            v.I2CFault = v.I2CFault + 1
+            print("I2C Read Error:", sys.exc_info()[0], " Comms Error:", v.I2CFault)
 
 
 
@@ -223,18 +251,23 @@ class RemoteGPIO(object):
 
     def setGPIOStartState(self):
         
-        # Set output all 7 output bits to 0
-        print("[BOOT]    Setting all outputs.")
-        self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
-        self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
+        # Error Handling.
+        try:
 
-        # DEBUG - Verbose announcer.
-        if v.debug_verbose:
-            print ("[BOOT]    Setting all outputs... done.")
-        # DEBUG end
+            # Set output all 7 output bits to 0
+            print("[BOOT]    Setting all outputs.")
+            self.bus.write_byte_data(v.Device001, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(v.Device002, self.setOutputStateB, 0x00)
+            self.bus.write_byte_data(v.Device003, self.setOutputStateB, 0x00)
+
+            # DEBUG - Verbose announcer.
+            if v.debug_verbose:
+                print ("[BOOT]    Setting all outputs... done.")
+            # DEBUG end
             
-
+        except:
+            v.I2CFault = v.I2CFault + 1
+            print("I2C Read Error:", sys.exc_info()[0], " Comms Error:", v.I2CFault)
 
 
     #########################################################################################################################################    
@@ -248,7 +281,7 @@ class RemoteGPIO(object):
         # which is quite undesirable.  As such, we TRY every connection to prevent failure. In the event of I2C failure, we tally the issue and return FALSE.
         # The program then returns to the loop, which will result in it trying again,  It will continue to try and fail in the event of a permanent fault.
         # TODO: We should report repetitive errors to the site manager.  But for now, we'll just repeat attempt.
-        Try:
+        try:
 
             # Read state of GPIOB register
             v.MySwitch = self.bus.read_byte_data(selectedDevice, self.GPIOA)
