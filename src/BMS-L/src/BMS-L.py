@@ -186,7 +186,6 @@ class bmsl(object):
             # Loop for each device
             for i in range(v.deviceTally):
 
-
                 # Select the switch device.
                 self.selectedDevice = v.DeviceIdArray[i]
 
@@ -209,7 +208,11 @@ class bmsl(object):
                     # TODO: Remove when we actually get round to referencing states.
                     self.actionTrigger(self.selectedDevice)
 
-                # End of RunProgram Loop. Restarting.
+                # End of RunProgram Loop. 
+                
+                time.sleep(v.RunProgramPause)
+                # 
+                # Restarting.
 
 
 ###########################################################################################################################################################################
