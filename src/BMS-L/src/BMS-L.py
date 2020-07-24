@@ -123,7 +123,11 @@ class bmsl(object):
             print("[LOG]     Action Tally : ", v.actionTally, ", Triggers that did not pass the debounce test :", v.debounceFail, "and I2C Comms Errors: ", v.I2CFault) # Shoe triggers - successful and unsuccessful.
         # DEBUG end
 
-        # Read the bus status and interpret as a binary string.
+        # Read the bus status and interpret as a binary string. 
+        # NOTE: Nothing passed here from the lookForTriggers function.  If we're told an input state has changed, we then re-read all the inputs and mirror the inputs to the 
+        #       outputs for that GPIO chip - including the outputs where no input change has been detected.  This is inefficient and does not allow different or multiple
+        #       input to output mapping.
+        # TODO: Only change that should be written to output is the change - so we should change the code to use variables throughout this process.
         self.inputBusStatus = Formula.binary(v.MySwitch)
         
 
