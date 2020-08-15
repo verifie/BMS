@@ -43,7 +43,7 @@ on = 1
 off = 2
 debounceFail = 0
 surgeDelay = 0.25
-RunProgramPause = 1
+RunProgramPause = 0
 # Device and Switch / sensor
 
 # Device 001
