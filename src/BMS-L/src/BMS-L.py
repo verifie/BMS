@@ -211,7 +211,7 @@ class bmsl(object):
             for i in range(v.deviceTally):
 
                 if i == 0:
-                    print(" \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n]")
+                    print(" \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n]")
                 
                 # Device debug separator.
                 if v.debug_basic:
