@@ -108,10 +108,11 @@ class Formula(object):
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
             print("[Formula.invertBinary] [DEBUG]   Incoming Data:  Dataa:", dataa)
+            print("[Formula.invertBinary] [DEBUG]   Binary string to invert:", binaryStringToInvert)
 
         # DEBUG - Verbose announcer.
         if v.debug_basic:
-            print("[Formula.invertBinary] [DEBUG]   Binary string to invert:", binaryStringToInvert)
+            print("[LOG]   Binary string to invert:", binaryStringToInvert)
         
         # Zero our bit counter.
         bitCount = 0

@@ -120,6 +120,7 @@ class bmsl(object):
         if v.debug_verbose:
             print ("\n\n[ACTION]  A lighting state change was acknowledged.")
 
+        print ("\n\n -- ")
         print ("[LOG]     Current date and time : ", now.strftime("%Y-%m-%d %H:%M:%S"))
 
         # Increment the action tally
