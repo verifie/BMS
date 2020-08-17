@@ -210,6 +210,8 @@ class bmsl(object):
             # Loop for each device
             for i in range(v.deviceTally):
 
+                if i == 0:
+                    print(" \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n]")
                 
                 # Device debug separator.
                 if v.debug_basic:
