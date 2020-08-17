@@ -100,7 +100,7 @@ class Formula(object):
     # INVERT LOGIC TO ENGAGE RELAYS.
     # To engage a relay, we must set the GPIO output LOW. The relays pull their logic outputs HIGH and engage when they are grounded.  When connected
     # GPIO we ground the output by setting corresponding / connected GPIO pin LOW.  To dis-engage the relay, we set the GPIO pin HIGH.
-    def invertBinary(binaryStringToInvert)
+    def invertBinary(binaryStringToInvert):
 
         # Empty our temporary variable As this is an inversion, 1 is off.  We'll fill this with the correct data:
         InvertedBinaryString = "11111111"
