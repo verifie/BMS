@@ -80,11 +80,11 @@ class Formula(object):
         
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
-            print("[DEBUG]   binaryConverted :", binaryConverted)
+            print("[Formula.binary] [DEBUG]   binaryConverted :", binaryConverted)
                     
             bitCount = 0
             for i in range(9, 1, -1):
-                print ("[LOG]     Bit ", bitCount," Bus Read Status : ", binaryConverted[i])
+                print ("[Formula.binary] [DEBUG]     Bit ", bitCount," Bus Read Status : ", binaryConverted[i])
                 bitCount = bitCount + 1
 
         # DEBUG end
@@ -107,8 +107,8 @@ class Formula(object):
 
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
-            print("[DEBUG]   Incoming Data:  Dataa:", dataa)
-            print("[DEBUG]   Binary string to invert:", binaryStringToInvert)
+            print("[Formula.invertBinary] [DEBUG]   Incoming Data:  Dataa:", dataa)
+            print("[Formula.invertBinary] [DEBUG]   Binary string to invert:", binaryStringToInvert)
         
         # Zero our bit counter.
         bitCount = 0
@@ -118,7 +118,7 @@ class Formula(object):
             
             # If debug is on, print the pre-inverted data.
             if v.debug_verbose:
-                print("[DEBUG]    Bit ", bitCount," Bit Pre inversion: ", binaryStringToInvert[i])
+                print("[Formula.invertBinary] [DEBUG]    Bit ", bitCount," Bit Pre inversion: ", binaryStringToInvert[i])
             
             if binaryStringToInvert[i] == "0":
                 invertedData = "1"
@@ -127,8 +127,8 @@ class Formula(object):
             
             # If debug is on, print the inverted data.
             if v.debug_verbose:
-                print("[DEBUG]    Bit ", bitCount," Inverted bit: ", invertedData)
-                print("[DEBUG]    Inverted binary string :", InvertedBinaryString)
+                print("[Formula.invertBinary] [DEBUG]    Bit ", bitCount," Inverted bit: ", invertedData)
+                print("[Formula.invertBinary] [DEBUG]    Inverted binary string :", InvertedBinaryString)
 
             InvertedBinaryString += invertedData
 
@@ -137,7 +137,7 @@ class Formula(object):
 
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
-            print("[DEBUG]    Inverted binary string :", InvertedBinaryString)
+            print("[Formula.invertBinary] [DEBUG]    Inverted binary string :", InvertedBinaryString)
         
         
         return InvertedBinaryString
@@ -158,13 +158,15 @@ class Formula(object):
     
             # DEBUG - Verbose announcer.
             if v.debug_verbose:
-                print("[LOG]     Index i : ", i, "Bit ", bitCount," Bus Read Status : ", binaryConverted[i])
+                print("[Formula.binaryStringToHex] [DEBUG]     Index i : ", i, "Bit ", bitCount," Bus Read Status : ", binaryConverted[i])
 
 
             # If true, add the bitcount to the decimal count.
             if "1" in binaryConverted[i]:
                 decimalCount = decimalCount + bitCount
-                print("[LOG]     Decimal Count :", decimalCount)
+                
+                if v.debug_verbose:
+                    print("[Formula.binaryStringToHex] [DEBUG]     Decimal Count :", decimalCount)
 
 
             # Increment bitcount by binary position.
@@ -175,7 +177,7 @@ class Formula(object):
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
             # Report the hex output
-            print("[LOG]     Decimal Count Final :", decimalCount)
+            print("[Formula.binaryStringToHex] [DEBUG]     Decimal Count Final :", decimalCount)
         
         # Convert decimal to hex, ready to write to GPIO chip.
         hexToWrite = hex(decimalCount)
@@ -183,7 +185,7 @@ class Formula(object):
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
             # Report the hex output
-            print("[LOG]     Hex Count Final :", hexToWrite)
+            print("[Formula.binaryStringToHex] [DEBUG]     Hex Count Final :", hexToWrite)
 
         return decimalCount
 
@@ -199,7 +201,7 @@ class Formula(object):
 
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
-            print("[DEBUG]   binaryStringInt :", binaryStringInt)
+            print("[Formula.convertBinaryString] [DEBUG]   binaryStringInt :", binaryStringInt)
         # DEBUG end
 
         return binaryStringInt
