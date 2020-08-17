@@ -103,7 +103,7 @@ class Formula(object):
     def invertBinary(dataa, binaryStringToInvert):
 
         # Empty our temporary variable As this is an inversion, 1 is off.  We'll fill this with the correct data:
-        InvertedBinaryString = "11111111"
+        InvertedBinaryString = ""
 
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
