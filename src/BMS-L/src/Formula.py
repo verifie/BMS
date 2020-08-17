@@ -115,14 +115,19 @@ class Formula(object):
         # Go through each bit in the string and invert it progressively into a new inverted string.
         for i in range(9, 1, -1):
             
+            # If debug is on, print the pre-inverted data.
             if v.debug_verbose:
                 print ("[LOG]     Bit ", bitCount," Bit Pre inversion: ", binaryStringToInvert[i])
             
-            if binaryStringToInvert[i] = 0:
+            if binaryStringToInvert[i] = "0":
                 invertedData = "1"
             else:
                 invertedData = "0"
             
+            # If debug is on, print the inverted data.
+            if v.debug_verbose:
+                print ("[LOG]     Bit ", bitCount," Inverted bit: ", invertedData)
+
             InvertedBinaryString += invertedData
 
             # Increase our bit counter.
