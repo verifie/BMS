@@ -15,6 +15,7 @@
 # Version History
 # 2020/06/07 v0.01 PME - Initial creation of module and transfer of functions from the main program.
 # 2020/06/30 v0.02 PME - Add error handling - TODO: Add manager comms in multiple network failures.
+# 2020/08/17 v0.03 PME - Improved error reporting for I2C errors - noting which function failure occurs within.
 
 
 #########################################################################################################################################    
@@ -159,7 +160,7 @@ class RemoteGPIO(object):
 
         except:
             v.I2CFault = v.I2CFault + 1
-            print("I2C Comms Error:", v.I2CFault)
+            print("I2C Comms Error during [room_light_circuit_A_status_INVERT] :", v.I2CFault)
 
     #########################################################################################################################################    
     # Turn the selected outputs according to switch request. Takes a hex input and passes it directly on.
@@ -182,7 +183,7 @@ class RemoteGPIO(object):
 
         except:
             v.I2CFault = v.I2CFault + 1
-            print("I2C Comms Error:", v.I2CFault)
+            print("I2C Comms Error during [actionSwitch] :", v.I2CFault)
 
 
 
@@ -238,7 +239,7 @@ class RemoteGPIO(object):
 
         except:
             v.I2CFault = v.I2CFault + 1
-            print("I2C Comms Error:", v.I2CFault)
+            print("I2C Comms Error during [setGPIOStartTest] :", v.I2CFault)
 
 
 
@@ -267,7 +268,7 @@ class RemoteGPIO(object):
             
         except:
             v.I2CFault = v.I2CFault + 1
-            print("I2C Comms Error:", v.I2CFault)
+            print("I2C Comms Error during [setGPIOStartState]:", v.I2CFault)
 
 
     #########################################################################################################################################    
@@ -287,7 +288,8 @@ class RemoteGPIO(object):
             v.MySwitch = self.bus.read_byte_data(selectedDevice, self.GPIOA)
             # print("A input state:", v.MySwitch) # Debug print after first read.
         
-            # Check if the switch states have changed.  TODO This is really simply code for test. 
+            # Check if the switch states have changed.  
+            # TODO This is really simply code for test. 
             # If the state is different to the last actioned request, proceed to qualify the trigger.
             if not v.MySwitch == MySwitchCurrentState:
 
@@ -345,6 +347,6 @@ class RemoteGPIO(object):
 
         except:
             v.I2CFault = v.I2CFault + 1
-            print("I2C Comms Error:", v.I2CFault)
+            print("I2C Comms Error during [lookForTriggers]:", v.I2CFault)
 
 

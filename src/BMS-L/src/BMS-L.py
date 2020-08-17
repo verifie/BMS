@@ -22,6 +22,7 @@
 # 2020/06/06 1523 v0.06 PME - Separate functions in to modules.
 # 2020/06/11 2020 v0.07 PME - Adding binary decoding and enconding to read and write to the remote GPIO chips.
 # 2020/06/28 2153 v0.08 PME - Develop code to address each Device ID and replace early dev code.
+# 2020/08/17 2136 v0.09 PME - Invert GPIO input read status to write outputs to GPIO Relay logic controllers. (GPIO require LOW to sink current to light LED and Opto Isolator to engage LED).
 
 # Simple print screen introduction
 print("")
@@ -109,13 +110,14 @@ class bmsl(object):
     # This is called if a trigger has been found. It checks to see if it was already requested and actions if not.
 
     def actionTrigger(self, selectedDevice):
-        
+        # A trigger passed our tests and appeared genuine and was different to the current state.
+
         # Log the request
         now = datetime.datetime.now()
         print ("\n\n[ACTION]  A lighting state change was acknowledged.")
         print ("[LOG]     Current date and time : ", now.strftime("%Y-%m-%d %H:%M:%S"))
 
-        # A trigger passed our tests and appeared genuine and was different to the current state. Increment the action tally
+        # Increment the action tally
         v.actionTally = v.actionTally + 1
 
         # DEBUG - Verbose announcer.
@@ -123,16 +125,33 @@ class bmsl(object):
             print("[LOG]     Action Tally : ", v.actionTally, ", Triggers that did not pass the debounce test :", v.debounceFail, "and I2C Comms Errors: ", v.I2CFault) # Shoe triggers - successful and unsuccessful.
         # DEBUG end
 
+
+
         # Read the bus status and interpret as a binary string. 
-        # NOTE: Nothing passed here from the lookForTriggers function.  If we're told an input state has changed, we then re-read all the inputs and mirror the inputs to the 
-        #       outputs for that GPIO chip - including the outputs where no input change has been detected.  This is inefficient and does not allow different or multiple
-        #       input to output mapping.
-        # TODO: Only change that should be written to output is the change - so we should change the code to use variables throughout this process.
-        self.inputBusStatus = Formula.binary(v.MySwitch)
+        # [inputBusStatus] is the result of the function [Formula.binaryStingHex] when called with data [v.MySwitch].
+
+        # NOTE: Nothing passed here from the lookForTriggers function.  We're using simple True/False logic at the moment.
+        #       If we're told an input state has changed, we then re-read all the inputs, Invert their state and write the result to the  
+        #       outputs for that same GPIO chip - including the outputs where no input change has been detected.  
         
+        #       This is a temporary solution.  It is inefficient and does not allow different or multiple input to output mapping,
+        #       but allows a simple system to get us up and running.
+
+        # TODO: Only change that should be written to output is the change - so we should change the code to use variables throughout this process.
+
+        self.inputBusStatus = Formula.binary(v.MySwitch)
+
+
+
+        # INVERT LOGIC TO ENGAGE RELAYS.
+        # To engage a relay, we must set the GPIO output LOW. The relays pull their logic outputs HIGH and engage when they are grounded.  When connected
+        # GPIO we ground the output by setting corresponding / connected GPIO pin LOW.  To dis-engage the relay, we set the GPIO pin HIGH.
+        
+        self.inputBusStatusInverted = Formula.invertBinary(self.inputBusStatus)
 
         # Now count the binary string and convert into Hex.
-        OutputStateChange = Formula.binaryStringToHex(self.inputBusStatus)
+        OutputStateChange = Formula.binaryStringToHex(self.inputBusStatusInverted)
+
         if v.debug_verbose:
             print("[LOG]     OutputStateChange : ", OutputStateChange) # Show hex
         # DEBUG end
@@ -195,10 +214,14 @@ class bmsl(object):
 
 
                 # Look for trigger (changes)
-                RemoteGPIO.lookForTriggers(self.selectedDevice, v.MySwitchCurrentState) # TODO: Note this just passes 0, so anything other than 0 will flag to any state change challenge. Change this to refer to the actual current state of lights! DEBUG.
+                RemoteGPIO.lookForTriggers(self.selectedDevice, v.MySwitchCurrentState)
+                # TODO: Note this just passes 0, so anything other than 0 will flag to any state change challenge. Change this to refer to the actual 
+                # current state of lights! DEBUG.
 
-                # Test to see if an action has been requested. TODO: As we aren't yet storing states, this looks for any input True. Not effective, so added an else to duplicate the process for now. But retained If statement as we should check for a state change on each device and store the states.
+                # Test to see if an action has been requested. 
                 if v.changeCircuitState:
+                    # TODO: As we aren't yet storing states, this looks for any input True. Not effective, so added an else to duplicate the process for 
+                    # now. But retained If statement as we should check for a state change on each device and store the states.
 
                     # A trigger request was made.
                     self.actionTrigger(self.selectedDevice)

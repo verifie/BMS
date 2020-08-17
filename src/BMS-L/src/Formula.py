@@ -14,6 +14,8 @@
 #
 # Version History
 # 2020/06/10 2237 v0.01 PME - Separate functions in to modules.
+# 2020/08/17 2136 v0.02 PME - Added 8 bit binary string inversion to support v0.09 of BMS-L.py for relay control *See notes in that update for furter info.
+
 
 
 #########################################################################################################################################    
@@ -91,6 +93,47 @@ class Formula(object):
         #binaryStringToHex(binaryConverted)
 
         return binaryConverted
+
+    #########################################################################################################################################    
+    # invertBinary
+    # 
+    # INVERT LOGIC TO ENGAGE RELAYS.
+    # To engage a relay, we must set the GPIO output LOW. The relays pull their logic outputs HIGH and engage when they are grounded.  When connected
+    # GPIO we ground the output by setting corresponding / connected GPIO pin LOW.  To dis-engage the relay, we set the GPIO pin HIGH.
+    def invertBinary(binaryStringToInvert)
+
+        # Empty our temporary variable As this is an inversion, 1 is off.  We'll fill this with the correct data:
+        InvertedBinaryString = "11111111"
+
+        # DEBUG - Verbose announcer.
+        if v.debug_verbose:
+            print("[DEBUG]   Binary string to invert:", binaryStringToInvert)
+        
+        # Zero our bit counter.
+        bitCount = 0
+
+        # Go through each bit in the string and invert it progressively into a new inverted string.
+        for i in range(9, 1, -1):
+            
+            if v.debug_verbose:
+                print ("[LOG]     Bit ", bitCount," Bit Pre inversion: ", binaryStringToInvert[i])
+            
+            if binaryStringToInvert[i] = 0:
+                invertedData = "1"
+            else:
+                invertedData = "0"
+            
+            InvertedBinaryString += invertedData
+
+            # Increase our bit counter.
+            bitCount = bitCount + 1
+
+        # DEBUG - Verbose announcer.
+        if v.debug_verbose:
+            print("[DEBUG]   Inverted binary string :", InvertedBinaryString)
+        
+        
+        return InvertedBinaryString
 
 
 
