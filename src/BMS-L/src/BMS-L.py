@@ -245,7 +245,6 @@ class bmsl(object):
                 # Print a visual divider in the debug to signify restarting of device loop.
                 if v.debug_basic:
                     if i == 2:
-                        print(" \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n]")
                         print(" -- \n========================= [Full device read and control cycle complete - Restarting...]")
 
                 time.sleep(v.RunProgramPause)
