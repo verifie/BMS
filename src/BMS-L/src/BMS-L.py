@@ -157,7 +157,7 @@ class bmsl(object):
         # Now count the binary string and convert into Hex.
         OutputStateChange = Formula.binaryStringToHex(self.inputBusStatusInverted)
 
-        if v.debug_verbose:
+        if v.debug_basic:
             print("[LOG]     OutputStateChange : ", OutputStateChange) # Show hex
         # DEBUG end
 
