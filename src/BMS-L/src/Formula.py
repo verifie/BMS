@@ -119,7 +119,7 @@ class Formula(object):
             if v.debug_verbose:
                 print ("[LOG]     Bit ", bitCount," Bit Pre inversion: ", binaryStringToInvert[i])
             
-            if binaryStringToInvert[i] = "0":
+            if binaryStringToInvert[i] == "0":
                 invertedData = "1"
             else:
                 invertedData = "0"
