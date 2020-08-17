@@ -210,9 +210,6 @@ class bmsl(object):
             # Loop for each device
             for i in range(v.deviceTally):
 
-                if i == 0:
-                    print(" \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n]")
-                
                 # Device debug separator.
                 if v.debug_basic:
                     print (" -- ")
@@ -245,9 +242,12 @@ class bmsl(object):
 
                 # End of RunProgram Loop. 
 
-                if i == 2:
-                    print(" -- \n========================= [Full device read and control cycle complete - Restarting...]")
-                
+                # Print a visual divider in the debug to signify restarting of device loop.
+                if v.debug_basic:
+                    if i == 2:
+                        print(" \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n]")
+                        print(" -- \n========================= [Full device read and control cycle complete - Restarting...]")
+
                 time.sleep(v.RunProgramPause)
                 # 
                 # Restarting.
