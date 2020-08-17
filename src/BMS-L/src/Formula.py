@@ -102,7 +102,7 @@ class Formula(object):
     # GPIO we ground the output by setting corresponding / connected GPIO pin LOW.  To dis-engage the relay, we set the GPIO pin HIGH.
     def invertBinary(dataa, binaryStringToInvert):
 
-        # Empty our temporary variable As this is an inversion, 1 is off.  We'll fill this with the correct data:
+        # Empty our temporary variable As this is an inversion. Append '0b' to signify a binary string suitable for conversion.
         InvertedBinaryString = "0b"
 
         # DEBUG - Verbose announcer.
@@ -118,7 +118,7 @@ class Formula(object):
             
             # If debug is on, print the pre-inverted data.
             if v.debug_verbose:
-                print ("[LOG]     Bit ", bitCount," Bit Pre inversion: ", binaryStringToInvert[i])
+                print("[DEBUG]    Bit ", bitCount," Bit Pre inversion: ", binaryStringToInvert[i])
             
             if binaryStringToInvert[i] == "0":
                 invertedData = "1"
@@ -127,7 +127,7 @@ class Formula(object):
             
             # If debug is on, print the inverted data.
             if v.debug_verbose:
-                print ("[LOG]     Bit ", bitCount," Inverted bit: ", invertedData)
+                print("[DEBUG]    Bit ", bitCount," Inverted bit: ", invertedData)
                 print("[DEBUG]    Inverted binary string :", InvertedBinaryString)
 
             InvertedBinaryString += invertedData
