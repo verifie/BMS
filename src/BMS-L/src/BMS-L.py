@@ -240,7 +240,7 @@ class bmsl(object):
                 # End of RunProgram Loop. 
 
                 if i == 2:
-                    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+                    print("=========================")
                 
                 time.sleep(v.RunProgramPause)
                 # 
