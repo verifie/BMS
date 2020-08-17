@@ -112,7 +112,7 @@ class Formula(object):
 
         # DEBUG - Verbose announcer.
         if v.debug_basic:
-            print("[LOG]   Binary string to invert:", binaryStringToInvert)
+            print("[LOG]     Binary string to invert:", binaryStringToInvert)
         
         # Zero our bit counter.
         bitCount = 0
