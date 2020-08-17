@@ -244,7 +244,7 @@ class bmsl(object):
                 # End of RunProgram Loop. 
 
                 if i == 2:
-                    print(" -- \n=========================")
+                    print(" -- \n========================= [Full device read and control cycle complete - Restarting...]")
                 
                 time.sleep(v.RunProgramPause)
                 # 
