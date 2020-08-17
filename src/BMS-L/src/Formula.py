@@ -128,6 +128,7 @@ class Formula(object):
             # If debug is on, print the inverted data.
             if v.debug_verbose:
                 print ("[LOG]     Bit ", bitCount," Inverted bit: ", invertedData)
+                print("[DEBUG]    Inverted binary string :", InvertedBinaryString)
 
             InvertedBinaryString += invertedData
 
@@ -136,7 +137,7 @@ class Formula(object):
 
         # DEBUG - Verbose announcer.
         if v.debug_verbose:
-            print("[DEBUG]   Inverted binary string :", InvertedBinaryString)
+            print("[DEBUG]    Inverted binary string :", InvertedBinaryString)
         
         
         return InvertedBinaryString
