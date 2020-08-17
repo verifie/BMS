@@ -23,6 +23,7 @@
 # 2020/06/11 2020 v0.07 PME - Adding binary decoding and enconding to read and write to the remote GPIO chips.
 # 2020/06/28 2153 v0.08 PME - Develop code to address each Device ID and replace early dev code.
 # 2020/08/17 2136 v0.09 PME - Invert GPIO input read status to write outputs to GPIO Relay logic controllers. (GPIO require LOW to sink current to light LED and Opto Isolator to engage LED).
+# 2020/08/17 2230 v0.10 PME - Add second level of debug to reduce screen clutter on alpha and beta testing after debug.
 
 # Simple print screen introduction
 print("")
@@ -118,7 +119,7 @@ class bmsl(object):
         # DEBUG - Verbose announcer.
         if v.debug_basic:
             print ("\n\n[ACTION]  A lighting state change was acknowledged.")
-            
+
         print ("[LOG]     Current date and time : ", now.strftime("%Y-%m-%d %H:%M:%S"))
 
         # Increment the action tally

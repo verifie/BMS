@@ -15,7 +15,7 @@
 # Version History
 
 # 2020/06/06 1523 v0.06 PME - Separate functions in to modules.
-
+# 2020/08/17 2230 v0.07 PME - Add second level of debug to reduce screen clutter on alpha and beta testing after debug. This library holds the variable.
 
 #########################################################################################################################################    
 # Create class.
