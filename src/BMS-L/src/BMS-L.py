@@ -244,7 +244,7 @@ class bmsl(object):
                 # End of RunProgram Loop. 
 
                 if i == 2:
-                    print("=========================")
+                    print(" -- \n=========================")
                 
                 time.sleep(v.RunProgramPause)
                 # 
