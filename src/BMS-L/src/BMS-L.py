@@ -238,6 +238,9 @@ class bmsl(object):
                     self.actionTrigger(self.selectedDevice)
 
                 # End of RunProgram Loop. 
+
+                if i == 2:
+                    print("/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n")
                 
                 time.sleep(v.RunProgramPause)
                 # 
