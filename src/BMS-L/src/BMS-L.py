@@ -120,7 +120,6 @@ class bmsl(object):
         if v.debug_verbose:
             print ("\n\n[ACTION]  A lighting state change was acknowledged.")
 
-        print (" -- ")
         print ("[LOG]     Current date and time : ", now.strftime("%Y-%m-%d %H:%M:%S"))
 
         # Increment the action tally
@@ -210,6 +209,11 @@ class bmsl(object):
 
             # Loop for each device
             for i in range(v.deviceTally):
+
+                
+                # Device debug separator.
+                if v.debug_basic:
+                    print (" -- ")
 
                 # Select the switch device.
                 self.selectedDevice = v.DeviceIdArray[i]
