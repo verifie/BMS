@@ -117,7 +117,7 @@ class bmsl(object):
         now = datetime.datetime.now()
         
         # DEBUG - Verbose announcer.
-        if v.debug_basic:
+        if v.debug_verbose:
             print ("\n\n[ACTION]  A lighting state change was acknowledged.")
 
         print ("[LOG]     Current date and time : ", now.strftime("%Y-%m-%d %H:%M:%S"))
