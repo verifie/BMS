@@ -30,6 +30,7 @@ print ("[BOOT]    Variables")
 
 # Debug verbose screen print
 debug_verbose = False
+debug_basic = True
 
 # Switch types and settings.
 print ("[BOOT]    Setup Switch types and settings.")

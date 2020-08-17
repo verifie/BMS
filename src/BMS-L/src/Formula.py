@@ -155,7 +155,10 @@ class Formula(object):
         decimalCount = 0
 
         for i in range(9, 1, -1):
-            print("[LOG]     Index i : ", i, "Bit ", bitCount," Bus Read Status : ", binaryConverted[i])
+    
+            # DEBUG - Verbose announcer.
+            if v.debug_verbose:
+                print("[LOG]     Index i : ", i, "Bit ", bitCount," Bus Read Status : ", binaryConverted[i])
 
 
             # If true, add the bitcount to the decimal count.
@@ -167,12 +170,20 @@ class Formula(object):
             # Increment bitcount by binary position.
             bitCount = bitCount * 2
 
-        # Report the hex output
-        print("[LOG]     Decimal Count Final :", decimalCount)
+        
+        
+        # DEBUG - Verbose announcer.
+        if v.debug_verbose:
+            # Report the hex output
+            print("[LOG]     Decimal Count Final :", decimalCount)
         
         # Convert decimal to hex, ready to write to GPIO chip.
         hexToWrite = hex(decimalCount)
-        print("[LOG]     Hex Count Final :", hexToWrite)
+
+        # DEBUG - Verbose announcer.
+        if v.debug_verbose:
+            # Report the hex output
+            print("[LOG]     Hex Count Final :", hexToWrite)
 
         return decimalCount
 

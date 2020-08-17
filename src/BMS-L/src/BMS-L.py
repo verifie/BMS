@@ -114,14 +114,18 @@ class bmsl(object):
 
         # Log the request
         now = datetime.datetime.now()
-        print ("\n\n[ACTION]  A lighting state change was acknowledged.")
+        
+        # DEBUG - Verbose announcer.
+        if v.debug_basic:
+            print ("\n\n[ACTION]  A lighting state change was acknowledged.")
+            
         print ("[LOG]     Current date and time : ", now.strftime("%Y-%m-%d %H:%M:%S"))
 
         # Increment the action tally
         v.actionTally = v.actionTally + 1
 
         # DEBUG - Verbose announcer.
-        if v.debug_verbose:
+        if v.debug_basic:
             print("[LOG]     Action Tally : ", v.actionTally, ", Triggers that did not pass the debounce test :", v.debounceFail, "and I2C Comms Errors: ", v.I2CFault) # Shoe triggers - successful and unsuccessful.
         # DEBUG end
 
