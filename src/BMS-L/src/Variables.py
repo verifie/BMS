@@ -47,6 +47,9 @@ surgeDelay = 0.25
 RunProgramPause = 1
 # Device and Switch / sensor
 
+# PIR sensor times
+pirSensorTimer = 50
+
 # Device 001
 Network = 0
 Device001 = 0x20 # I2C Device address (A0-A2)

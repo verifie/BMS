@@ -103,7 +103,30 @@ class bmsl(object):
     def __init__(self):
         print ("[INIT]    BMS-L")
 
-    
+                
+    #########################################################################################################################################   
+    # sensorTimer
+    #
+    # IN DEVELOPMENT. NOT USED YET. NOT TESTED.
+    #
+    # Creates a future time to trigger a timed action.  Intended for PIR sensor timeouts. When the PIR sensor triggers an input at the GPIO, the program
+    # turns the light on, calls this function which sets a date in the future and stores it under the variable Device[xxx]OutputTimeout[0].  When the program
+    # next loops, it reads the inputs, adds new or superceeds existing timeouts if a trigger is detected.  If no trigger is found, (logic zero on designated input),
+    # then we check the variable Device[xxx]OutputTimeout[0] for a future time.  If the time is lesser than the current time, turn the light out.
+    #
+    # Reference: https://stackoverflow.com/questions/100210/what-is-the-standard-way-to-add-n-seconds-to-datetime-time-in-python
+
+    def sensorTimer(self, v.DeviceID, v.pirSensorTimer):
+        
+        # Get the current time
+        currentTime = datetime.datetime.now().time()
+        fulldate = datetime.datetime(100, 1, 1, currentTime.hour, currentTime.minute, currentTime.second)
+
+        # Add the defined time (v.pirSensorTimer) to current time to determine future time to switch off.
+        fulldate = fulldate + datetime.timedelta(seconds=v.pirSensorTimer)
+
+        return fulldate.time()
+
             
     #########################################################################################################################################   
     # actionTrigger
