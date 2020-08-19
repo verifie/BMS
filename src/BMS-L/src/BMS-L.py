@@ -116,7 +116,7 @@ class bmsl(object):
     #
     # Reference: https://stackoverflow.com/questions/100210/what-is-the-standard-way-to-add-n-seconds-to-datetime-time-in-python
 
-    def sensorTimer(self, v.DeviceID, v.pirSensorTimer):
+    def sensorTimer(self):
         
         # Get the current time
         currentTime = datetime.datetime.now().time()
